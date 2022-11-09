@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Image, StyleSheet,Alert, Text, View, Button, TouchableOpacity} from 'react-native';
+import { Image, StyleSheet,Alert, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 
 export default function Profil({navigation}) {
 
@@ -7,7 +7,7 @@ export default function Profil({navigation}) {
 
 
     return (
-       
+    <ScrollView> 
     <View style={styles.container}>
         <Image
           style={styles.profileImage}
@@ -44,7 +44,7 @@ export default function Profil({navigation}) {
             }}/>
         
         </View>
-        
+        </ScrollView>
 
  );
   

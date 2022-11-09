@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TouchableOpacity} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
+import ModifierImage from './../../../ProfileManagement/ProfileImg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SingIn({navigation}) {
 const [inputs, setInputs] = React.useState({  //etat pour la validation
@@ -35,11 +37,11 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (!inputs.phone){
-        handleError('Entrer votre numéro télephone svp!', 'phone')
+        handleError('Entrer votre numéro téléphone svp!', 'phone')
         valid = false
     };
     if (!inputs.adresse){
-        handleError('Entrer votre prénom svp!', 'adresse')
+        handleError('Entrer votre adresse svp!', 'adresse')
         valid = false
     };
     if (!inputs.password){
@@ -56,10 +58,18 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        register = () => {
-            Alert.alert("Vous êtes inscrit à l'application. Veuillez-vous connecter")
-            navigation.navigate('Profil')
-        }
+            Alert.alert("Vous êtes inscrit à l'application. Veuillez-vous connecter");
+            navigation.navigate('LogIn');
+            prevState => ({...prevState, [inputs]: ''});
+
+            storeData = async (inputs) => {
+                try {
+                  const jsonValue = JSON.stringify(inputs)
+                  await AsyncStorage.setItem('email', jsonValue)
+                } catch (e) {
+                  // saving error
+                }
+              };
     }
 };
 
@@ -76,23 +86,24 @@ return(
                 <Text style={styles.title}>S'inscrire</Text>
                 <Text style={styles.description}>Entrer votre information</Text>
                 
+                <ModifierImage/>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre Nom' 
+                    placeholder='Nom' 
                     error={errors.nom} 
                     onChangeText={text => handleOnChange(text, 'nom')}
                     onFocus={() => {
                         handleError(null, 'nom')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre Prénom' 
+                    placeholder='Prénom' 
                     error={errors.prenom}
                     onChangeText={text => handleOnChange(text, 'prenom')}
                     onFocus={() => {
                         handleError(null, 'prenom')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre Numéro télephone'
+                    placeholder='Numéro Téléphone'
                     error={errors.phone}
                     keyboardType = 'numeric' 
                     onChangeText={text => handleOnChange(text, 'phone')}
@@ -100,7 +111,7 @@ return(
                         handleError(null, 'phone')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre adresse' 
+                    placeholder='Adresse' 
                     error={errors.adresse}
                     onChangeText={text => handleOnChange(text, 'adresse')}
                     onFocus={() => {
@@ -114,7 +125,7 @@ return(
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre Mot de passe'
+                    placeholder='Mot de passe'
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -122,7 +133,7 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='confirmer votre Mot de passe'
+                    placeholder='Confirmation de mot de passe'
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
@@ -142,24 +153,26 @@ return(
 const styles = StyleSheet.create({
     container : {
         backgroundColor:'white',
-        flex:1
+        flex:1,
     },
     scroll_view : {
         paddingTop: 50,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     },
     title : {
         color:'black',
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 38,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     viewContain : {
         marginVertical:20
     },
     description : {
         color:'black',
-        fontSize: 18,
-        marginVertical: 10
+        fontSize: 16,
+        marginVertical: 10,
+        textAlign: 'center'
     },
     other : {
         fontSize: 18,

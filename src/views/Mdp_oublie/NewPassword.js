@@ -33,7 +33,6 @@ const validate = () => { //fonction de validation des information
 
 const register = () => {
         Alert.alert("Récupération réussi")
-        navigation.navigate('Profil')
 };
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input

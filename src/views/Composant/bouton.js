@@ -13,16 +13,18 @@ const Button = ({title, onPress = () => {}}) => {
 
 const styles = StyleSheet.create({
     champBouton :{
-        height:55,
+        height: 45,
         width:'100%',
         backgroundColor:'dodgerblue',
         justifyContent:'center',
         alignItems:'center',
+        alignSelf:'center',
+        width:'90%',
         marginVertical:20
     },
     textBouton : {
         fontWeight:'bold',
-        fontSize:18,
+        fontSize:20,
         color:'white'
     }
 })

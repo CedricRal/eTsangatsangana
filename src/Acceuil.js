@@ -1,34 +1,35 @@
 import { StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import AppStyles from '../styles/App_style';
 
 const MyData = [
   { 
     "id": "1",
-    "name": "Nom du produit",
-    "title": "produit 1",
-    "image": require('../assets/MyImages/img2.jpg'),
-    "resume": "résumé du produit",
+    "name": "Nuggets",
+    "title": "Promo 10%",
+    "image": require('../assets/MyImages/nuggets.png'),
+    "resume": "03256452",
   },
   { 
     "id": "2",
-    "name": "Nom du produit",
-    "title": "produit 2",
-    "image": require('../assets/MyImages/img2.jpg'),
-    "resume": "résumé du produit",
+    "name": "Pizza GM",
+    "title": "acheté = 1 PM offert",
+    "image": require('../assets/MyImages/pizza.png'),
+    "resume": "032564684",
   },
   { 
     "id": "3",
-    "name": "Nom du produit",
-    "title": "produit 3",
-    "image": require('../assets/MyImages/img2.jpg'),
-    "resume": "résumé du produit",
+    "name": "chez hotel Mercury",
+    "title": "chambre à 280 000 ariary",
+    "image": require('../assets/MyImages/hotel.png'),
+    "resume": "Hotelerie",
   },
   { 
     "id": "4",
-    "name": "Nom du produit",
-    "title": "produit 4",
-    "image": require('../assets/MyImages/img2.jpg'),
-    "resume": "résumé du produit",
+    "name": "Tana à Antsirabe à 10 000 ariary",
+    "title": "transporteur",
+    "image": require('../assets/MyImages/transport.png'),
+    "resume": "0345579879",
   },
   { 
     "id": "5",
@@ -41,7 +42,7 @@ const MyData = [
      "id": "6",
      "name": "Nom du produit",
      "title": "produit 6",
-     "image": require('../assets/MyImages/img2.jpg'),
+     "image": require('../assets/MyImages/img1.jpg'),
      "resume": "résumé du produit",
   },
 ];    
@@ -64,7 +65,7 @@ const MyData = [
       
       if (textTypedByTheUser) {
       const filteredData = fullData.filter((itemTofilter) => { // fullData dia mis an'ny Donnée rehetra
-        const itemData = itemTofilter.title ? itemTofilter.title.toUpperCase() : ''.toUpperCase();
+        const itemData = itemTofilter.name ? itemTofilter.name.toUpperCase() : ''.toUpperCase();
         const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
         return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
         // ra tsis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
@@ -79,91 +80,49 @@ const MyData = [
   }  
     const numColumn = 2
     
-    const renderHeader = () => { // Barre de recherche 
-      
-        return (
-            <View
-        style={styles.headView}
-      >
-        <TextInput
-          value={query}
-          onChangeText={handleSearch}
-          placeholder="Search"
-          style={styles.inputTextView}
-        />
-      </View>
-        )
-    }
-
     const renderItem = ({ item }) => (
-      <View style={styles.listItem}>
-        <TouchableOpacity onPress={() => navigation.navigate('Hotel')}>
+      <View style={AppStyles.listItem}>
+        <TouchableOpacity onPress={() => 
+          {if(item.id=='3' || item.id=='5') {
+            navigation.navigate('Hotel')}
+          else if(item.id=='1' || item.id=='2'){
+            navigation.navigate('Restaurant')}
+          else if(item.id=='4' || item.id=='6'){
+            navigation.navigate('Transport')
+          }}}>
           <Image
             source={ item.image }
-            style={styles.coverImage}
+            style={AppStyles.coverImage}
           />
         </TouchableOpacity>
-        <View style={styles.textImage}>
-          <Text style={styles.listItemText}>{item.title}</Text>
+        <View style={AppStyles.textImage}>
+          <Text style={AppStyles.listItemText}>{item.name}</Text>
+          <Text style={AppStyles.listItemText}>{item.title}</Text>
+          <Text style={AppStyles.listItemText}>{item.resume}</Text>
         </View>
       </View>
     ) 
+    const empty_list = () => {
+      return(<Text>Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight:'bold'}}>{query}</Text></Text>)
+    }
 
     return (
-      <View style={styles.container}>
+      <View style={AppStyles.container}>
         <FlatList
-          ListHeaderComponent={renderHeader}
+          ListHeaderComponent={ 
+          <TextInput
+          inlineImageLeft='search'
+          value={query}
+          onChangeText={handleSearch}
+          placeholder="recherche par produit"
+          style={AppStyles.inputTextView}
+        />
+      }
+          ListEmptyComponent={empty_list}
           data={dataS}
-          keyExtractor={item => item.id}
           numColumns={numColumn}
           renderItem={renderItem}
         />
       </View>
     );
   }
-
-  const styles = StyleSheet.create({
-    
-    inputTextView: { 
-        backgroundColor: '#fff',
-        paddingHorizontal: 20 
-      },
-
-    headView: {
-        backgroundColor: '#fff',
-        padding: 10,
-        marginVertical: 10,
-        borderRadius: 20
-      },
-
-    container: {
-      flex: 1,
-      backgroundColor: '#f8f8f8',
-      alignItems: 'center'
-    },
-    text: {
-      fontSize: 20,
-      color: '#101010',
-      marginTop: 60,
-      fontWeight: '700'
-    },
-    listItem: {
-      marginTop: 10,
-      padding: 20,
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      width: '50%'
-    },
-    coverImage: {
-        width: 150,
-        height: 250,
-        borderRadius: 8,
-        opacity: 0.8,
-      },
-      textImage: {
-        paddingTop: 135,
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-  });

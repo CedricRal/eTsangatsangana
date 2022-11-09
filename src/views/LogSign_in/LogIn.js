@@ -29,9 +29,18 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        navigation.navigate('Profil')
+        navigation.navigate('DetailsCommand')
     }
 };
+
+const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('email')
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+      // error reading value
+    }
+  };
 
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
@@ -47,26 +56,26 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <Text style={styles.description}>Entrer votre information</Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre Email' 
+                    placeholder='Email' 
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre Mot de passe' 
+                    placeholder='Mot de passe' 
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
                     onFocus={() => {
                         handleError(null, 'password')
                     }}/>
-                <Button title="Se connecter" onPress={validate}/>
-                <Text style={styles.other} onPress={() => navigation.navigate('SingIn')}>
-                    Vous n'avez pas de compte?
-                </Text>
-                <Text style={styles.other} onPress={ () => navigation.navigate('Recup')}>
+                <Text style={styles.other} onPress={() => navigation.navigate('Recup')}>
                     Mot de passe oublié?
+                </Text>
+                <Button title="Se connecter" onPress={validate}/>
+                <Text style={styles.other} onPress={ () => navigation.navigate('SingIn')}>
+                    Créer un compte?
                 </Text>
                 </View>
             </ScrollView>
@@ -85,22 +94,24 @@ const styles = StyleSheet.create({
     },
     title : {
         color:'black',
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 38,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     viewContain : {
         marginVertical:20
     },
     description : {
         color:'black',
-        fontSize: 18,
-        marginVertical: 10
+        fontSize: 16,
+        marginVertical: 10,
+        textAlign: 'center'
     },
     other : {
         fontSize: 18,
         fontWeight:'bold',
         textAlign:'center',
-        marginBottom:100
+        marginBottom:10
     }
 })
 
