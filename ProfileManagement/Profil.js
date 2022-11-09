@@ -1,18 +1,27 @@
-import { Image, Text, View , StyleSheet, TouchableOpacity} from 'react-native';
+import { Image, Text, View , StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import React from 'react';
-import ModifierImage from './ProfileImg';
+import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default UserProfile = ({navigation}) => {
 
     const route = useRoute();
 
+    const [value, setValue] = useState('');
+    const getValue = () => {
+        AsyncStorage.getItem('anarana_nomen_cedric').then((value) => {
+            setValue(value)
+        })
+    }
+    
 
     return (
     <View>  
         <Text style={styles.headerText}> Profil </Text>
 
-        <ModifierImage/> 
+        <Image source={route.params.photo}
+        style={styles.image}
+        /> 
 
 
         <TouchableOpacity onPress={() => {
@@ -26,11 +35,11 @@ export default UserProfile = ({navigation}) => {
           />      
         </TouchableOpacity>
         <View>
-            <Text style={styles.afficheModif}> {route.params.nom}</Text>
-            <Text style={styles.afficheModif}> {route.params.prenom}</Text>
-            <Text style={styles.afficheModif}> {route.params.adresse}</Text>
-            <Text style={styles.afficheModif}> {route.params.email}</Text>
-            <Text style={styles.afficheModif}> {route.params.phone}</Text>
+            <TextInput editable={false} style={styles.textInput}> {route.params.nom}</TextInput>
+            <TextInput editable={false} style={styles.textInput}> {route.params.prenom}</TextInput>
+            <TextInput editable={false} style={styles.textInput}> {route.params.adresse}</TextInput>
+            <TextInput editable={false} style={styles.textInput}> {route.params.email}</TextInput>
+            <TextInput editable={false} style={styles.textInput}> {route.params.phone}</TextInput>
         </View>
     </View>
     )
@@ -40,30 +49,33 @@ export default UserProfile = ({navigation}) => {
 const styles = StyleSheet.create({
    
     headerText: {
-        marginTop: 50,
-        marginLeft: 180,
-        marginBottom: 5,
+        marginTop: '5%',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 
     image: {
-        marginTop: 0,
+        alignSelf: 'center',
         width: 150,
-        height: 150,
-        alignSelf:'center',
-        borderRadius: 35
+        height: 150, 
+        borderRadius: 90,
+        marginLeft: '50%',
+        marginRight: '50%'
       },
    
-    afficheModif: {
+      textInput: {
         borderWidth: 1,
-        marginBottom: 15,
-        marginLeft: 55,
         width: '75%',
-        padding: 15
+        marginBottom: '2%',
+        alignSelf: 'center',
+        padding: '4%'
     },
+    
     editingIcon: {
         height: 25,
         width:25,
-        marginTop: -40,
+        marginTop: '-10%',
         marginBottom: 50,
         marginLeft: 290
     }

@@ -6,7 +6,6 @@ import { useRoute } from '@react-navigation/native';
 
 export default Searchbar = ({navigation}) => {
 
-const route = useRoute();
 const [query, setQuery] = useState('');
 const handleSearch = () => {}
 
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderWidth: 0.5,
         borderColor:'grey',
+        borderRadius:10,
         alignItems: 'center',
         width:'95%',
         alignSelf:'center'

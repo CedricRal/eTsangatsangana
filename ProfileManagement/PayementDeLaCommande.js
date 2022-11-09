@@ -1,57 +1,86 @@
-import RadioForm from 'react-native-simple-radio-button';
-import { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native'; 
+import { RadioButton } from 'react-native-paper';
 
-export default function PayementDeLaCommande({navigation}) {
-  const [chosenOption, setChosenOption] = useState('apple');
-  const options = [
-    { label: 'Payement par carte', value: 'carte' },
-    { label: 'Payement par mobile money', value: 'mobile' },
-    { label: 'Payement sur place ou à la livraison', value: 'livraison' },
-  ];
+export default function PayementDeLaCommande() {
+  const [checked, setChecked] = React.useState('');
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}> Mode de payement</Text>
-      <RadioForm
-        radio_props={options}
-        initial={0} //initial value of this group
-        
-        onPress={(value) => {
-          setChosenOption(value);
-        }} //if the user changes options, set the new value
-        style={styles.radioButton}
+    <View >
+      <Text style={styles.headerText}>Mode de paiement</Text>
+      
+      <View style={styles.centerRadio}>
+      <TouchableOpacity
+        style={styles.radioView}
+        onPress={() => setChecked('Paiement par Carte')}
+      >
+      <RadioButton
+        value="Paiement par Carte" 
+        status={ checked === 'Paiement par Carte' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement par Carte')}
       />
-    <View style={styles.button}>
-        <Button title='valider' onPress={() => {
-          alert('Valider')
-        }}/>
-    </View>
+      <Text style={styles.labelStyle}> Paiement par Carte </Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={styles.radioView}
+        onPress={() => setChecked('Paiement par mobile money')}
+      >
+      <RadioButton
+        value="Paiement par mobile money"
+        status={ checked === 'Paiement par mobile money' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement par mobile money')}
+      />
+      <Text style={styles.labelStyle}> Paiement par mobile money </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.radioView}
+        onPress={() => setChecked('Paiement sur place ou à la livraison')}
+      >
+      <RadioButton
+        value="Paiement sur place ou à la livraison"
+        status={ checked === 'Paiement sur place ou à la livraison' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement sur place ou à la livraison')}
+      />
+      <Text style={styles.labelStyle}> Paiement sur place ou à la livraison </Text>
+      </TouchableOpacity>
+      <View style={styles.buttonStyle}>
+        <Button title='Valider'/>
+      </View>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        textAlign: 'right'
-    },
-    text: {
-        marginTop: 150,
-        textAlign: 'center',
-        fontSize: 25,
-        marginBottom: 50
-    },
+  radioView: {
+    width: '100%',
+    flexDirection:'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+    marginTop: '7%',
+    marginBottom: '7%'
+  },
 
-    radioButton: {
-        alignSelf: 'center',
-        marginTop: 25,
-    },
+  centerRadio: {
+    alignSelf: 'center'
+  },
 
-    button: {
-        marginTop: 40,
-        alignSelf: 'center',
-        width: '30%',
-    }
+  headerText: {
+    fontSize: 32,
+    textAlign: 'center',
+    marginTop: '10%',
+    marginBottom: '10%',
+  },
+
+  labelStyle: {
+    fontSize: 18
+  },
+
+  buttonStyle: {
+    width: '100%',
+    alignSelf: 'center',
+    marginBottom: '20%',
+    marginTop: '5%'
+  },
 })
-
-// npm i react-native-simple-radio-button 

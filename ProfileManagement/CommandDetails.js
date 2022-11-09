@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native';
 export default CommandDetails = ({navigation}) => {
 
     return (
-        <ScrollView>
+        <ScrollView >
         <View style={styles.container}>
             <Text style={styles.text}>Votre commande</Text>
             
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex:1,
-        textAlign: 'right'
+        textAlign: 'right',
     },
     text: {
         marginTop: 80,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         alignSelf: 'center',
         width: '45%',
+        marginBottom: '10%'
     },
 
     field_command : {

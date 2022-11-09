@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, Alert, TouchableOpacity} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 function SingIn({navigation}) {
+
+const [fileData, setFileData] = useState(null);
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     nom:'',
@@ -79,14 +82,54 @@ const handleOnChange = (text, input) => {       //prend les valeurs saisi aux in
 const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
     setErrors(prevState => ({...prevState, [input]: errorMessage}));
 }
+const renderFileData = () => {
+    if (fileData) {
+      return <Image source={fileData}
+      style={styles.image}
+      />
+    } else {
+      return <Image source={require('../../../assets/MyImages/profil.jpg')}
+      style={styles.image}
+      />
+    }
+  }
+
+  const launchNativeImageLibrary = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, (response) => {
+      console.log('HERE IS THE RESPONSE = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ERROR !!!!!!!: ', response.error);
+      } else {
+        const source = { uri: response.assets.uri };
+        console.log('SUCCESS !!!!!', JSON.stringify(response));
+        setFileData(response.assets[0]);
+      }
+    })}
+
 
 return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
                 <Text style={styles.title}>S'inscrire</Text>
                 <Text style={styles.description}>Entrer votre information</Text>
-                
-                <ModifierImage/>
+                {renderFileData()}
+                <View>
+                <TouchableOpacity onPress={() => {
+                launchNativeImageLibrary()}} >
+                <Image style={styles.plusIcon}
+                  source={require('../../../assets/MyImages/plus.jpg')}
+                />
+            </TouchableOpacity>
+            </View>
                 <View style={styles.viewContain}>
                 <Input 
                     placeholder='Nom' 
@@ -179,6 +222,21 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         textAlign:'center',
         marginBottom:100
+    },
+    image: {
+        width: 150,
+        height: 150, 
+        alignSelf: 'center',
+        borderRadius: 90,
+        marginBottom: 10
+      },
+    plusIcon: {
+      width: 30,
+      height: 30,
+      marginLeft: '60%',
+      marginTop: '-12%',
+      marginBottom: '10%',
+      borderRadius: 30
     }
 })
 

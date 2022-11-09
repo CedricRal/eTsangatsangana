@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import AppStyles from '../styles/App_style';
 
@@ -46,8 +46,7 @@ const MyData = [
      "resume": "résumé du produit",
   },
 ];    
-
-  export default function Home({navigation}) {
+  export default function App({navigation}) {
 
     const [dataS, setDataS] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
@@ -68,19 +67,23 @@ const MyData = [
         const itemData = itemTofilter.name ? itemTofilter.name.toUpperCase() : ''.toUpperCase();
         const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
         return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
-        // ra tsis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
+        // ra mis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
         // ra tsis kosa dia X.indexOf(Y) = -1 dia mi-return FALSE satria -1 > -1 dia DISO
       });
       setDataS(filteredData);
       setQuery(textTypedByTheUser)
     } else {
       setDataS(fullData);
-      setQuery(textTypedByTheUser)
+      setQuery(textTypedByTheUser);
     }
   }  
     const numColumn = 2
-    
-    const renderItem = ({ item }) => (
+
+
+   
+    const renderItem = ({ item }) => { 
+      
+    return (
       <View style={AppStyles.listItem}>
         <TouchableOpacity onPress={() => 
           {if(item.id=='3' || item.id=='5') {
@@ -89,34 +92,43 @@ const MyData = [
             navigation.navigate('Restaurant')}
           else if(item.id=='4' || item.id=='6'){
             navigation.navigate('Transport')
-          }}}>
+          }}}
+          style={AppStyles.touchableStyle}>
+        
           <Image
             source={ item.image }
             style={AppStyles.coverImage}
           />
-        </TouchableOpacity>
-        <View style={AppStyles.textImage}>
-          <Text style={AppStyles.listItemText}>{item.name}</Text>
-          <Text style={AppStyles.listItemText}>{item.title}</Text>
-          <Text style={AppStyles.listItemText}>{item.resume}</Text>
+          <View style={AppStyles.textImage}>
+            <Text style={AppStyles.listItemText}>{item.name}</Text>
+            <Text style={AppStyles.listItemText}>{item.title}</Text>
+            <Text style={AppStyles.listItemText}>{item.resume}</Text>
+          </View>
+          </TouchableOpacity>
         </View>
-      </View>
-    ) 
+    )}
+
     const empty_list = () => {
-      return(<Text>Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight:'bold'}}>{query}</Text></Text>)
-    }
+      return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+    } 
 
     return (
       <View style={AppStyles.container}>
         <FlatList
           ListHeaderComponent={ 
-          <TextInput
-          inlineImageLeft='search'
-          value={query}
-          onChangeText={handleSearch}
-          placeholder="recherche par produit"
-          style={AppStyles.inputTextView}
-        />
+          <View style={AppStyles.searchImageAndTextinput}>
+
+            <Image source={require('./assets/icon/search.png')}
+              style={AppStyles.searchImageStyle}
+              />
+            <TextInput
+              value={query}
+              onChangeText={handleSearch}
+              placeholder="Rechercher un produit"
+              style={AppStyles.inputTextView}
+            />
+
+        </View>
       }
           ListEmptyComponent={empty_list}
           data={dataS}
