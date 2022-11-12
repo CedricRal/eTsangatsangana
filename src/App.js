@@ -17,8 +17,14 @@ import Offre from './views/Produits/Offre';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
 import UserProfile from './../ProfileManagement/Profil';
-import CommandDetails from '../ProfileManagement/CommandDetails';
+import CommandDetails from '../details_des_commandes/transport';
 import PayementDeLaCommande from '../ProfileManagement/PayementDeLaCommande';
+import CommandList from '../liste_des_commandes/CommandList';
+import hotel from '../details_des_commandes/hotel';
+import transport from '../details_des_commandes/transport';
+import food from '../details_des_commandes/food';
+import Carte from '../paiement/Paiement_carte';
+import Mobile from '../paiement/Paiement_mobile';
 import SplashScreen from 'react-native-splash-screen';
 
 const HomeStack = createNativeStackNavigator();
@@ -36,11 +42,12 @@ function HomeStackScreen(){
         <HomeStack.Screen name='Transport' component={Transport}/>
         <HomeStack.Screen name='LogIn' component={LogIn} options={{title: 'Se connecter'}}/>
         <HomeStack.Screen name='SingIn' component={SingIn} options={{title: 'S\'inscrire'}}/>
-        <HomeStack.Screen name='Recup' component={Recup}/>
-        <HomeStack.Screen name='CodeRecup' component={CodeRecup}/>
-        <HomeStack.Screen name='NewPass' component={NewPass}/>
-        <HomeStack.Screen name='DetailsCommand' component={ CommandDetails } options={{title: ''}}/> 
-        <HomeStack.Screen name='Payment de la commande'  component={ PayementDeLaCommande } options={{title: ''}}/>
+        <HomeStack.Screen name='Recup' component={Recup} options={{title: 'Récupération'}}/>
+        <HomeStack.Screen name='CodeRecup' component={CodeRecup} options={{title: 'Code de récupération'}}/>
+        <HomeStack.Screen name='NewPass' component={NewPass} options={{title: 'Nouveau mot de passe'}}/>
+        <HomeStack.Screen name='PaymentCommand'  component={ PayementDeLaCommande }  options={{title: 'Mode de paiement'}}/>
+        <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: 'Paiement par mobile'}}/>
+        <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: 'paiement par carte'}}/>
       </HomeStack.Navigator>
     </>
   )
@@ -57,9 +64,12 @@ function OffreStackScreen(){
 function CommandesStackScreen(){
   return(
     <>
-      <CommandesStack.Navigator initialRouteName='DetailsCommand'>
-      <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails } options={{title: ''}}/> 
-      <CommandesStack.Screen name='Payment de la commande'  component={ PayementDeLaCommande } options={{title: ''}}/>
+      <CommandesStack.Navigator initialRouteName='Liste_commande'>
+      <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande'}}/> 
+      <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
+      <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Hotel'}}/>
+      <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Transport'}}/>
+      <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: 'Restaurant'}}/>
       </CommandesStack.Navigator>
     </>
   )

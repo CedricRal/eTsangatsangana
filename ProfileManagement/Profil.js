@@ -1,4 +1,4 @@
-import { Image, Text, View , StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import { Image, Text, View , StyleSheet, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,7 @@ export default UserProfile = ({navigation}) => {
     
 
     return (
+    <ScrollView>
     <View>  
         <Text style={styles.headerText}> Profil </Text>
 
@@ -42,6 +43,7 @@ export default UserProfile = ({navigation}) => {
             <TextInput editable={false} style={styles.textInput}> {route.params.phone}</TextInput>
         </View>
     </View>
+    </ScrollView>
     )
 }
 

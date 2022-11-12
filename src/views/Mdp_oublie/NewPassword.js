@@ -18,10 +18,11 @@ const validate = () => { //fonction de validation des information
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
         handleError('Le mot de passe doit comporté 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        valid = false
     };
     if (!inputs.password){
-        
-        valid =handleError('Entrer votre mot de passe svp!', 'password')
+        handleError('Entrer votre mot de passe svp!', 'password')
+        valid = false
     } else if (inputs.confirm != inputs.password){
         handleError('Mot de passe ne correspond pas', 'confirm')
         valid = false
@@ -32,7 +33,7 @@ const validate = () => { //fonction de validation des information
 };
 
 const register = () => {
-        Alert.alert("Récupération réussi")
+        Alert.alert("Récupération de mot de passe réussie")
 };
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
@@ -45,7 +46,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>Mot de passe oublié</Text>
+                <Text style={styles.title}>Changement de mot de passe</Text>
                 <Text style={styles.description}>Entrer un nouveau Mot de passe pour terminer la récupération</Text>                
                 <View style={styles.viewContain}>
                 <Input 
@@ -57,7 +58,7 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='confirmer votre Mot de passe'
+                    placeholder='Confirmer votre Mot de passe'
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
@@ -82,8 +83,9 @@ const styles = StyleSheet.create({
     },
     title : {
         color:'black',
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 38,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     viewContain : {
         marginVertical:20
@@ -91,7 +93,8 @@ const styles = StyleSheet.create({
     description : {
         color:'black',
         fontSize: 18,
-        marginVertical: 10
+        marginVertical: 10,
+        textAlign:'center'
     }
 })
 

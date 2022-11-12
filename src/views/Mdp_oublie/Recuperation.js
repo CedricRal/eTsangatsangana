@@ -64,8 +64,9 @@ const styles = StyleSheet.create({
     },
     title : {
         color:'black',
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 38,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     viewContain : {
         marginVertical:20
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
     description : {
         color:'black',
         fontSize: 18,
-        marginVertical: 10
+        marginVertical: 10,
+        textAlign:'center'
     }
 })
 

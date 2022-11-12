@@ -29,7 +29,7 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        navigation.navigate('DetailsCommand')
+        navigation.navigate('PaymentCommand')
     }
 };
 

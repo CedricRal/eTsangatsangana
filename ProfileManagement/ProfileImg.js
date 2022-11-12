@@ -48,7 +48,8 @@ export default ModifierImage = () => {
               {renderFileData()}
             </View>
           <View>
-            <TouchableOpacity onPress={() => {launchNativeImageLibrary()}} >
+            <TouchableOpacity onPress={() => {
+              launchNativeImageLibrary()}} >
                 <Image style={styles.plusIcon}
                   source={require('../assets/MyImages/plus.jpg')}
                 />
@@ -65,16 +66,16 @@ const styles = StyleSheet.create ( {
   image: {
     width: 150,
     height: 150, 
-    marginLeft: 80,
+    alignSelf: 'center',
     borderRadius: 35,
     marginBottom: 10
   },
   plusIcon: {
     width: 30,
     height: 30,
-    marginLeft: 190,
-    marginTop: -50,
-    marginBottom: 20,
+    marginLeft: '60%',
+    marginTop: '-12%',
+    marginBottom: '10%',
     borderRadius: 30
   }
 }  

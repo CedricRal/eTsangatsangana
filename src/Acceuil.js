@@ -1,6 +1,9 @@
 import { Text, View, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import AppStyles from '../styles/App_style';
+import { Modal } from 'react-native';
+import FiltrePub from './views/Composant/SearchBar';
+import Button from './views/Composant/bouton';
 
 const MyData = [
   { 
@@ -110,12 +113,14 @@ const MyData = [
 
     const empty_list = () => {
       return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
-    } 
+    }
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
       <View style={AppStyles.container}>
         <FlatList
-          ListHeaderComponent={ 
+          ListHeaderComponent={
+          <>
           <View style={AppStyles.searchImageAndTextinput}>
 
             <Image source={require('./assets/icon/search.png')}
@@ -127,8 +132,26 @@ const MyData = [
               placeholder="Rechercher un produit"
               style={AppStyles.inputTextView}
             />
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                <Image 
+                source={require('./assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
+                style={{width:30, height:30, marginLeft:1, marginVertical:7}}/> 
+            </TouchableOpacity>
 
         </View>
+        <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+          <View style={{backgroundColor:'whitesmoke'}}>
+            <FiltrePub/>
+            <Button title='Appliquer' onPress={() => setModalVisible(!modalVisible)}/>
+          </View>
+        </Modal>
+        </>
       }
           ListEmptyComponent={empty_list}
           data={dataS}

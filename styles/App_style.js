@@ -8,7 +8,7 @@ const AppStyles = StyleSheet.create({
         borderColor: 'black',
         padding: '1%',
         alignSelf: 'center',
-        width: '96%',
+        width: '80%',
       },
 
     headView: {
@@ -62,15 +62,15 @@ const AppStyles = StyleSheet.create({
     searchImageAndTextinput: {
       flexDirection: 'row',
       marginTop: '5%',
-      borderWidth: 1,
-      borderWidth: 0.5,
+      borderWidth: 0.2,
       borderColor: 'grey',
-      width: '95%',
+      width: '100%',
       alignSelf: 'center'
     },
     searchImageStyle: {
-        padding: '3.8%',
-        padddingTop:'3.7%',
+        width:25,
+        height:25,
+        marginTop:8
     },
     touchableStyle: {
       alignSelf: 'center'
