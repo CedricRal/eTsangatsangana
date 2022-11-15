@@ -146,7 +146,7 @@ const [fin, setFin] = useState('dd/mm/yy');
                 Filtrer
             </Text>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de début</Text>
+                <Text style={styles.DebutFin}>Date début</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -156,7 +156,7 @@ const [fin, setFin] = useState('dd/mm/yy');
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de fin</Text>
+                <Text style={styles.DebutFin}>Date fin</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
