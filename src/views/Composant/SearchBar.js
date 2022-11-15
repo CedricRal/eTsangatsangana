@@ -15,6 +15,13 @@ export default FiltrePub = () => {
   const [open2, setOpen2] = useState(false);
   const [debut, setDebut] = useState('dd/mm/yy');
   const [fin, setFin] = useState('dd/mm/yy');
+  const datePicker = {
+    mode:'date',
+    locale:'fr',
+    title:'Selectionner une date',
+    confirmText:'Confirmer',
+    cancelText:'Annuler'
+  }
 
   const types = [
     {key:'hotel', value:'Hotelerie'},
@@ -56,11 +63,11 @@ export default FiltrePub = () => {
   const hotel = JSON.stringify(type)==JSON.stringify('Hotelerie')
   const transport = JSON.stringify(type)==JSON.stringify('Transport')
   const restaurant = JSON.stringify(type)==JSON.stringify('Restauration')
-  console.log(hotel, transport, restaurant)
+  console.log(checked)
 
   return (
     <ScrollView>
-    <View style={{marginTop:50, marginHorizontal:20}}>
+    <View style={styles.dropdown}>
       <SelectList
       save='value'
       setSelected={(val) => setType(val)}
@@ -73,7 +80,7 @@ export default FiltrePub = () => {
 
     <View style={styles.dateContainer}>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de début</Text>
+                <Text style={styles.DebutFin}>Date début</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -83,7 +90,7 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de fin</Text>
+                <Text style={styles.DebutFin}>Date fin</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
@@ -93,8 +100,12 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <DatePicker //Prend la date entrée par l'utilisateur
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open}   //ouvre fenetre pour choisir la date dans user's phone
               date={date1}   //declare la ppté date comme le state date
               onConfirm={value => {         //quand user confirme 
@@ -107,8 +118,12 @@ export default FiltrePub = () => {
               }}
             />
             <DatePicker
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open2}
               date={date2}
               onConfirm={value => {
@@ -223,15 +238,42 @@ export default FiltrePub = () => {
 
 
     <View style={[{display: transport? 'flex': 'none'}]}>
-    <View style={styles.voyage}>
-      <SelectList
-      save='value'
-      setSelected={()=>{}}
-      data={voyage}
-      placeholder={'Type de voyage'}
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <TouchableOpacity
+        style={[styles.horizontalList, {backgroundColor: checked === 'classique' ? 'lightskyblue' : 'lightsteelblue'}]}
+        onPress={() => setChecked('classique')}        
+      >
+      <RadioButton
+        value="Classique" 
+        status={ checked === 'classique' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('classique')}
       />
-    </View>
-    <View style={styles.departArrivee}>
+      <Text style={styles.labelStyle}> Classique </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.horizontalList, {backgroundColor: checked === 'premium' ? 'lightskyblue' : 'lightsteelblue'}]}
+        onPress={() => setChecked('premium')}        
+      >
+      <RadioButton
+        value="premium" 
+        status={ checked === 'premium' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('premium')}
+      />
+      <Text style={styles.labelStyle}> Premium </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.horizontalList, {backgroundColor: checked === 'economic' ? 'lightskyblue' : 'lightsteelblue'}]}
+        onPress={() => setChecked('economic')}        
+      >
+      <RadioButton
+        value="economic" 
+        status={ checked === 'economic' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('economic')}
+      />
+      <Text style={styles.labelStyle}> Economic </Text>
+      </TouchableOpacity>
+    </ScrollView>
+    <View style={styles.dropdown}>
     <SelectList
       save='value'
       setSelected={()=>{}}
@@ -239,6 +281,8 @@ export default FiltrePub = () => {
       placeholder={'Départ'}
       boxStyles={{marginHorizontal:20}}
       />
+      </View>
+      <View style={styles.dropdown}>
       <SelectList
       save='value'
       setSelected={()=>{}}
@@ -285,9 +329,9 @@ const styles = StyleSheet.create({
       color:'black'
   },
   departArrivee : {
-    flexDirection : 'row',
+    flexDirection : 'column',
     alignSelf : 'center',
-    marginVertical:20
+    marginVertical:50
   },
   voyage : {
     marginTop:50,
@@ -317,5 +361,18 @@ const styles = StyleSheet.create({
     width:20,
     height:20,
     borderRadius:20
-  }
+  },
+  horizontalList: {
+    flexDirection: 'row',
+    borderWidth:1,
+    marginHorizontal:10,
+    borderRadius: 40,
+    borderColor:'cadetblue',
+    paddingRight:20,
+    alignItems:'center'
+  },
+  dropdown: {
+    marginTop:50,
+    marginHorizontal:20
+  },
 })

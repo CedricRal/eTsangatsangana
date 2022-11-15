@@ -12,7 +12,14 @@ import Button from '../src/views/Composant/bouton';
   const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
   
   const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donnée rehetra (MyData)
-  
+  const datePicker = {
+    mode:'date',
+    locale:'fr',
+    title:'Selectionner une date',
+    confirmText:'Confirmer',
+    cancelText:'Annuler'
+  }
+
   const [date1, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [date2, setDate2] = useState(new Date());
@@ -85,11 +92,11 @@ import Button from '../src/views/Composant/bouton';
       <FlatList
         ListHeaderComponent={
         <View style={styles.headStyle}>
-          <View style={{flexDirection:'row', marginHorizontal:5}}>
+          <View style={styles.searchView}>
             <View style={styles.inputContainer}>
             <Image 
             source={require('../src/assets/icon/search.png')}    //tout le composant bar de recherche ici
-            style={{height:20, width:20}}/>
+            style={styles.searchIcon}/>
             <TextInput
             value={query}
             onChangeText={handleSearch}
@@ -100,7 +107,7 @@ import Button from '../src/views/Composant/bouton';
             <TouchableOpacity onPress={() => {setShowFilter(!showFilter)}}>
                 <Image 
                 source={require('../src/assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={{width:30, height:40, marginLeft:1, marginVertical:7}}/> 
+                style={styles.filterIcon}/> 
             </TouchableOpacity>
             </View>
 
@@ -109,7 +116,7 @@ import Button from '../src/views/Composant/bouton';
                 Filtrer
             </Text>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de début</Text>
+                <Text style={styles.DebutFin}>Date début</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -119,7 +126,7 @@ import Button from '../src/views/Composant/bouton';
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de fin</Text>
+                <Text style={styles.DebutFin}>Date fin</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
@@ -129,8 +136,12 @@ import Button from '../src/views/Composant/bouton';
                 style={styles.img}/>
             </View>
             <DatePicker //Prend la date entrée par l'utilisateur
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open}   //ouvre fenetre pour choisir la date dans user's phone
               date={date1}   //declare la ppté date comme le state date
               onConfirm={value => {         //quand user confirme 
@@ -143,8 +154,12 @@ import Button from '../src/views/Composant/bouton';
               }}
             />
             <DatePicker
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open2}
               date={date2}
               onConfirm={value => {
@@ -287,5 +302,19 @@ const styles = StyleSheet.create({
       width:100,
       fontSize:16,
       color:'black'
-  }
+  },
+    searchView : {
+      flexDirection:'row',
+      marginHorizontal:5
+    },
+    searchIcon : {
+      height:20,
+      width:20
+    },
+    filterIcon : {
+      width:30,
+      height:40,
+      marginLeft:1,
+      marginVertical:7
+    }
 })

@@ -4,6 +4,7 @@ import AppStyles from '../styles/App_style';
 import { Modal } from 'react-native';
 import FiltrePub from './views/Composant/SearchBar';
 import Button from './views/Composant/bouton';
+import { ScrollView } from 'react-native';
 
 const MyData = [
   { 
@@ -146,10 +147,10 @@ const MyData = [
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-          <View style={{backgroundColor:'whitesmoke'}}>
+          <ScrollView style={{backgroundColor:'whitesmoke'}}>
             <FiltrePub/>
             <Button title='Appliquer' onPress={() => setModalVisible(!modalVisible)}/>
-          </View>
+          </ScrollView>
         </Modal>
         </>
       }
