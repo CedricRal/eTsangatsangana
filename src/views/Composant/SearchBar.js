@@ -15,6 +15,13 @@ export default FiltrePub = () => {
   const [open2, setOpen2] = useState(false);
   const [debut, setDebut] = useState('dd/mm/yy');
   const [fin, setFin] = useState('dd/mm/yy');
+  const datePicker = {
+    mode:'date',
+    locale:'fr',
+    title:'Selectionner une date',
+    confirmText:'Confirmer',
+    cancelText:'Annuler'
+  }
 
   const types = [
     {key:'hotel', value:'Hotelerie'},
@@ -73,7 +80,7 @@ export default FiltrePub = () => {
 
     <View style={styles.dateContainer}>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de début</Text>
+                <Text style={styles.DebutFin}>Date début</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -83,7 +90,7 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date de fin</Text>
+                <Text style={styles.DebutFin}>Date fin</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
@@ -93,12 +100,12 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <DatePicker //Prend la date entrée par l'utilisateur
-              mode='date'
+              mode={datePicker.mode}
               modal
-              locale="fr"
-              title='Selectionner une date'
-              confirmText='Confirmer'
-              cancelText='Annuler'
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open}   //ouvre fenetre pour choisir la date dans user's phone
               date={date1}   //declare la ppté date comme le state date
               onConfirm={value => {         //quand user confirme 
@@ -111,12 +118,12 @@ export default FiltrePub = () => {
               }}
             />
             <DatePicker
-              mode='date'
+              mode={datePicker.mode}
               modal
-              locale="fr"
-              title='Selectionner une date'
-              confirmText='Confirmer'
-              cancelText='Annuler'
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open2}
               date={date2}
               onConfirm={value => {

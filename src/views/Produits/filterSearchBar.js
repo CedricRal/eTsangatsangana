@@ -16,6 +16,13 @@ const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donn
 const empty_list = () => {
     return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
   } 
+  const datePicker = {
+    mode:'date',
+    locale:'fr',
+    title:'Selectionner une date',
+    confirmText:'Confirmer',
+    cancelText:'Annuler'
+  }
 
 useEffect(() => {
   setDataS(MyData);
@@ -113,11 +120,11 @@ const [fin, setFin] = useState('dd/mm/yy');
         <View>
             <Text style={styles.description}>Mes Commandes</Text>
 
-            <View style={{flexDirection:'row', marginHorizontal:5}}>
+            <View style={styles.searchView}>
             <View style={styles.inputContainer}>
             <Image 
             source={require('../../assets/icon/search.png')}    //tout le composant bar de recherche ici
-            style={{height:20, width:20}}/>
+            style={styles.searchIcon}/>
             <TextInput
             value={query}
             onChangeText={handleSearch}
@@ -128,7 +135,7 @@ const [fin, setFin] = useState('dd/mm/yy');
             <TouchableOpacity onPress={() => {setShowFilter(!showFilter)}}>
                 <Image 
                 source={require('../../assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={{width:30, height:40, marginLeft:1, marginVertical:7}}/> 
+                style={styles.filterIcon}/> 
             </TouchableOpacity>
             </View>
 
@@ -159,8 +166,12 @@ const [fin, setFin] = useState('dd/mm/yy');
                 style={styles.img}/>
             </View>
             <DatePicker //Prend la date entrée par l'utilisateur
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open}   //ouvre fenetre pour choisir la date dans user's phone
               date={date1}   //declare la ppté date comme le state date
               onConfirm={value => {         //quand user confirme 
@@ -173,8 +184,12 @@ const [fin, setFin] = useState('dd/mm/yy');
               }}
             />
             <DatePicker
-              mode='date'
+              mode={datePicker.mode}
               modal
+              locale={datePicker.locale}
+              title={datePicker.title}
+              confirmText={datePicker.confirmText}
+              cancelText={datePicker.cancelText}
               open={open2}
               date={date2}
               onConfirm={value => {
@@ -263,6 +278,20 @@ const styles = StyleSheet.create({
         width:100,
         fontSize:16,
         color:'black'
+    },
+    searchView : {
+      flexDirection:'row',
+      marginHorizontal:5
+    },
+    searchIcon : {
+      height:20,
+      width:20
+    },
+    filterIcon : {
+      width:30,
+      height:40,
+      marginLeft:1,
+      marginVertical:7
     }
 })
 
