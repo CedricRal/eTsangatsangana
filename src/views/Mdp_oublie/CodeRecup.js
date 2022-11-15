@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TextInput} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
@@ -11,6 +11,11 @@ const [inputs, setInputs] = React.useState({  //etat pour la validation
     case3:''
 });
 const [errors, setErrors] = React.useState({})    //etat pour l'erreur
+
+const firstInput = useRef();
+const secondInput = useRef();
+const thirdInput = useRef();
+
 const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
     let valid = true;
@@ -46,8 +51,11 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                     autoFocus
                     style={styles.inputBox}
                     maxLength={2}
+                    ref={firstInput}
                     error={errors.case1}
-                    onChangeText={text => handleOnChange(text, 'case1')}
+                    onChangeText={text => {
+                        handleOnChange(text, 'case1');
+                        text.length==2 && secondInput.current.focus()}}
                     onFocus={()=>{
                         handleError(null, 'code');
                         setIsFocused(true);
@@ -59,10 +67,15 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
                 <TextInput 
                     keyboardType = 'numeric'
+                    autoFocus
                     style={styles.inputBox}
                     maxLength={2}
+                    ref={secondInput}
                     error={errors.code}
-                    onChangeText={text => handleOnChange(text, 'case2')}
+                    onChangeText={text => {
+                        handleOnChange(text, 'case2');
+                        if(text.length==2){thirdInput.current.focus()}
+                        else if(!text){firstInput.current.focus()}}}
                     onFocus={()=>{
                         handleError(null, 'code');
                         setIsFocused(true);
@@ -74,10 +87,14 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
                 <TextInput
                     keyboardType = 'numeric'
+                    autoFocus
                     style={styles.inputBox}
                     maxLength={2}
+                    ref={thirdInput}
                     error={errors.code}
-                    onChangeText={text => handleOnChange(text, 'case3')}
+                    onChangeText={text => {
+                        handleOnChange(text, 'case2');
+                        !text && secondInput.current.focus()}}
                     onFocus={()=>{
                         handleError(null, 'code');
                         setIsFocused(true);
@@ -88,6 +105,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 </View>
                 </View>
                 <Text style={styles.erreur}>{errors.code}</Text>
+                <Text style={styles.resend} onPress= {() => {Alert.alert('Code de récupération envoyé')}}>Renvoyer le code</Text>
                 <Button title="Continuer" onPress={validate}/>
                 </View>
             </ScrollView>
@@ -106,8 +124,9 @@ const styles = StyleSheet.create({
     },
     title : {
         color:'black',
-        fontSize: 40,
-        fontWeight:'bold'
+        fontSize: 38,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     viewContain : {
         marginVertical:20
@@ -116,7 +135,8 @@ const styles = StyleSheet.create({
         color:'black',
         fontSize: 18,
         marginVertical: 10,
-        paddingTop:40
+        paddingTop:40,
+        textAlign:'center'
     },
     boxContainer : {
         flexDirection:'row',
@@ -135,6 +155,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 15,
         borderWidth: 1,
+        borderRadius:10,
         alignItems: 'center',
         marginHorizontal:20
     },
@@ -143,6 +164,13 @@ const styles = StyleSheet.create({
         fontSize:12,
         marginTop:7,
         textAlign:'center'
+    },
+    resend : {
+        fontSize:16,
+        color:'dodgerblue',
+        marginVertical:20,
+        marginLeft:'20%',
+        textDecorationLine:'underline'
     }
 })
 

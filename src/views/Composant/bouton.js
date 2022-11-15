@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     textBouton : {
         fontWeight:'bold',
-        fontSize:20,
+        fontSize:18,
         color:'white'
     }
 })
