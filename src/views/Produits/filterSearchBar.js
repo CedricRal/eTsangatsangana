@@ -266,27 +266,3 @@ const styles = StyleSheet.create({
     }
 })
 
-/*  return (
-    <TextInputMask
-      refInput={(ref) => this.myDateText = ref;}
-      type={'datetime'}
-      options={{
-        format: 'DD-MM-YYYY HH:mm:ss'
-      }}
-    />
-  ) 
-  
-  <Text>Date: {date?.toLocaleDateString}</Text>
-            <DatePicker
-              mode='date'
-              modal
-              open={open}
-              date={date}
-              onConfirm={value => {
-                setOpen(false);
-                setDate(value);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />*/

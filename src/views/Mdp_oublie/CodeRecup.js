@@ -29,6 +29,7 @@ const validate = () => { //fonction de validation des information
     if (valid == true) {
         navigation.navigate('NewPass')
     }
+    console.log(inputs.case3)
 };
 
 
@@ -38,10 +39,11 @@ const handleOnChange = (text, input) => {       //prend les valeurs saisi aux in
 const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
     setErrors(prevState => ({...prevState, [input]: errorMessage}));
 }
+
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>Mot de passe oublié</Text>
+                <Text style={styles.title}>Nouveau mot de passe</Text>
                 <Text style={styles.description}>Veuillez saisir le code reçu par Email</Text>
                 <View style={styles.viewContain}>
                 <View style={styles.boxContainer}>
@@ -67,7 +69,6 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
                 <TextInput 
                     keyboardType = 'numeric'
-                    autoFocus
                     style={styles.inputBox}
                     maxLength={2}
                     ref={secondInput}
@@ -87,14 +88,13 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
                 <TextInput
                     keyboardType = 'numeric'
-                    autoFocus
                     style={styles.inputBox}
                     maxLength={2}
                     ref={thirdInput}
                     error={errors.code}
                     onChangeText={text => {
-                        handleOnChange(text, 'case2');
-                        !text && secondInput.current.focus()}}
+                        handleOnChange(text, 'case3');
+                        (!text) && secondInput.current.focus()}}
                     onFocus={()=>{
                         handleError(null, 'code');
                         setIsFocused(true);

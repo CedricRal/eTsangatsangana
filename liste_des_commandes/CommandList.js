@@ -131,6 +131,10 @@ import Button from '../src/views/Composant/bouton';
             <DatePicker //Prend la date entrée par l'utilisateur
               mode='date'
               modal
+              locale="fr"
+              title='Selectionner une date'
+              confirmText='Confirmer'
+              cancelText='Annuler'
               open={open}   //ouvre fenetre pour choisir la date dans user's phone
               date={date1}   //declare la ppté date comme le state date
               onConfirm={value => {         //quand user confirme 
@@ -145,6 +149,10 @@ import Button from '../src/views/Composant/bouton';
             <DatePicker
               mode='date'
               modal
+              locale="fr"
+              title='Selectionner une date'
+              confirmText='Confirmer'
+              cancelText='Annuler'
               open={open2}
               date={date2}
               onConfirm={value => {

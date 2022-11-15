@@ -90,7 +90,9 @@ function ProfilStackScreen(){
   export default function App() {
 
   useEffect(() => {
-      SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide()
+    }, 500);
     }, [])
 
     return (
