@@ -1,8 +1,6 @@
 import { Text, View, StyleSheet, TextInput, ScrollView, Image, Button, Alert} from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
-import { red100 } from 'react-native-paper/lib/typescript/styles/colors';
-
 
 export default function Mobile({navigation}) {
 
@@ -61,14 +59,6 @@ const champ = () => {
         handleMobileError('Veuillez choisir un type mobile')      // l'utilisateur doit choisir un pays
       }
 
-      if (!inputDestinataire) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
-        valid = false
-        handleDestinataireError('Veuillez entrer le nom du destinataire')
-    } else if (reg_phone_number.test(inputDestinataire)===false){
-        valid = false
-        handleDestinataireError('Veuillez entrer un email valide')
-    }
-
     if (!inputEnvoyeur) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
         valid = false
         handleEnvoyeurError("Entrer le numero de l'envoyeur")
@@ -96,7 +86,7 @@ const champ = () => {
         
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-
+          iconStyle={{marginRight: '1%', width: '10%'}}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
@@ -123,14 +113,12 @@ const champ = () => {
           style={styles.input}
           keyboardType={'decimal-pad'}
           onChangeText={handleOnChangeDestinataire}
+          editable={false}
           placeholder='numero du destinataire'
           onFocus={() => {
             handleDestinataireError(null)
         }}
         >+261 34 04 259 36</TextInput>
-        {errDestinataireMess && (
-                <Text style={styles.error}>{errDestinataireMess}</Text>//affiche l'erreur s'il y en a
-            )}
 
         <View style={styles.rowName}>
             <Text style={styles.label}>Nom</Text><Text style={styles.inputMontant}>Rakoto Francis</Text>
