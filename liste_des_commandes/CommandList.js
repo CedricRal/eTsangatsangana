@@ -190,8 +190,6 @@ import Button from '../src/views/Composant/bouton';
 
 const styles = StyleSheet.create({
     headStyle: {
-      height: 150,
-      backgroundColor: 'blue',
       borderBottomLeftRadius: 15,
       borderBottomRightRadius: 15,
       marginBottom: 10
