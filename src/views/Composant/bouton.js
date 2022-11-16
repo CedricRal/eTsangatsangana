@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import design from './couleur';
 
 const Button = ({title, onPress = () => {}}) => {
     return(
@@ -14,18 +15,18 @@ const Button = ({title, onPress = () => {}}) => {
 const styles = StyleSheet.create({
     champBouton :{
         height: 45,
-        width:'100%',
-        backgroundColor:'dodgerblue',
+        backgroundColor:design.Marron,
         justifyContent:'center',
         alignItems:'center',
         alignSelf:'center',
         width:'90%',
-        marginVertical:20
+        marginBottom:'10%',
+        borderRadius: 20
     },
     textBouton : {
         fontWeight:'bold',
         fontSize:18,
-        color:'white'
+        color:design.Blanc
     }
 })
 
