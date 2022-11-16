@@ -131,7 +131,7 @@ export default function PayementDeLaCommande({navigation}) {
   },
 
   centerRadio: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 
   headerText: {
