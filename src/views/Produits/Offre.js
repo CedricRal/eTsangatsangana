@@ -1,8 +1,5 @@
 import React from 'react';
 import {View, Text, ScrollView, } from 'react-native'
-import Hotel from '../Detail_produit/hotel';
-import Restaurant from '../Detail_produit/restauration';
-import Transport from '../Detail_produit/transport';
 
 export default function Offre({navigation}){
     return(
