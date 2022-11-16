@@ -26,16 +26,31 @@ import food from '../details_des_commandes/food';
 import Carte from '../paiement/Paiement_carte';
 import Mobile from '../paiement/Paiement_mobile';
 import SplashScreen from 'react-native-splash-screen';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import design from './views/Composant/couleur';
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
 const CommandesStack = createNativeStackNavigator();
 const ProfilStack = createNativeStackNavigator();
+const myHeader = {
+  headerStyle:{backgroundColor:design.Marron},
+  headerTintColor:design.Blanc,
+  headerTitleStyle:{fontWeight:'bold'},
+  headerTitleAlign:'center'
+}
+const tabBarStyles = {
+  backgroundColor:design.Marron,
+  paddingVertical: 5,
+  borderTopLeftRadius: 20,
+  borderTopRightRadius: 20,
+  marginTop:-20
+}
 
 function HomeStackScreen(){
   return(
     <>
-      <HomeStack.Navigator initialRouteName='Accueil'>
+      <HomeStack.Navigator initialRouteName='Accueil'  screenOptions={myHeader}>
         <HomeStack.Screen name='Accueil ' component={Home}/>
         <HomeStack.Screen name='Hotel' component={Hotel}/>
         <HomeStack.Screen name='Restaurant' component={Restaurant}/>
@@ -55,7 +70,7 @@ function HomeStackScreen(){
 function OffreStackScreen(){
   return(
     <>
-      <OffreStack.Navigator initialRouteName='Offre'>
+      <OffreStack.Navigator initialRouteName='Offre' screenOptions={myHeader}>
         <OffreStack.Screen name='Les Offres' component={Offre}/>
       </OffreStack.Navigator>
     </>
@@ -64,7 +79,7 @@ function OffreStackScreen(){
 function CommandesStackScreen(){
   return(
     <>
-      <CommandesStack.Navigator initialRouteName='Liste_commande'>
+      <CommandesStack.Navigator initialRouteName='Liste_commande' screenOptions={myHeader}>
       <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande'}}/> 
       <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
       <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Hotel'}}/>
@@ -77,7 +92,7 @@ function CommandesStackScreen(){
 function ProfilStackScreen(){
   return(
     <> 
-      <ProfilStack.Navigator initialRouteName='ModificationProfile'>
+      <ProfilStack.Navigator initialRouteName='ModificationProfile' screenOptions={myHeader}>
         <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modifier profile'}}/>
         <ProfilStack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profile'}}/>
       </ProfilStack.Navigator>
@@ -102,19 +117,19 @@ function ProfilStackScreen(){
             let iconName;
 
             if (route.name == 'Accueil') {
-                iconName = require('./assets/icon/home.png')
+                iconName = 'home'
             }else if (route.name == 'Profile'){
-                iconName = require('./assets/icon/profile.png')
+                iconName = 'user-circle'
             }else if (route.name == 'Offres'){
-              iconName = require('./assets/icon/offre.png')
+              iconName = 'gift'
             }else if (route.name == 'Commandes'){
-              iconName = require('./assets/icon/reserve.png')
+              iconName = 'scroll'
           }
-        return <Image source={iconName} style={{width: 20, height: 20}} />
+        return <Icon name={iconName} size={30} color={focused? design.Vert : design.Blanc} />
         },
-        tabBarStyle: {backgroundColor:'lightsteelblue'},
-        tabBarLabelStyle: {color:'black', fontWeight:'bold'},
-        tabBarActiveBackgroundColor: "lightskyblue",
+        tabBarStyle: tabBarStyles,
+        tabBarActiveTintColor : design.Vert,
+        tabBarInactiveTintColor : design.Blanc,
         headerShown : false,
         tabBarHideOnKeyboard: true,
        })}>
