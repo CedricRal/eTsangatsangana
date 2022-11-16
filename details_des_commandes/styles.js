@@ -5,6 +5,8 @@ export default styles = StyleSheet.create({
     label: {
         fontWeight: 'bold',
         fontSize: 18,
+        marginRight: '5%'
+
     },
 
     text: {

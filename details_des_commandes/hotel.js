@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+
 import styles from './styles';
 
 export default Hotel = ({navigation}) => {
@@ -13,6 +14,7 @@ export default Hotel = ({navigation}) => {
 
     return (
         <ScrollView>
+
         <View style={styles.container}>
             
             <Text style={styles.text}>Votre commande</Text>

@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     headerText: {
         marginTop: '5%',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
     },
 
@@ -145,13 +145,16 @@ const styles = StyleSheet.create({
         marginBottom: '2%',
         alignSelf: 'center',
         padding: '4%',
-        backgroundColor: 'whitesmoke'
+        backgroundColor: 'whitesmoke',
+        borderColor: 'gray',
+        borderRadius: 8,
     },
 
     buttonModifier : {
         alignSelf: 'center',
-        width: '50%',
-        marginBottom: '10%'
+        width: '40%',
+        marginBottom: '10%',
+        borderWidth: .2,
     },
 
     image: {

@@ -28,7 +28,8 @@ export default CommandDetails = ({navigation}) => {
 
 const styles = StyleSheet.create({
     label: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 18
     },
     container: {
         flex:1,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     text: {
         marginTop: 80,
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 38,
         marginBottom: 50
     },
 
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
 
     field_command : {
         marginLeft: 90,
-        marginBottom: 40
+        marginBottom: 40,
+        fontSize: 18
     },
 })

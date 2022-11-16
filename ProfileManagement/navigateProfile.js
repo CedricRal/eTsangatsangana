@@ -19,7 +19,7 @@ export default function NavigateProfile() {
         <NavigationContainer>
             <stack.Navigator initialRouteName='DetailsCommand'>
                 <stack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profile'}}/>
-                <stack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modifier profile'}}/>
+                <stack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profile'}}/>
                 <stack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
                 <stack.Screen name='PaymentCommand'  component={ PayementDeLaCommande }  options={{title: 'Mode de paiement'}}/>
                 <stack.Screen name='MobilePayement'  component={ Mobile }  options={{title: 'Paiement par mobile'}}/>

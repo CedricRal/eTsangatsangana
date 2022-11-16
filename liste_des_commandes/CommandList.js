@@ -57,7 +57,6 @@ import Button from '../src/views/Composant/bouton';
     }
   }
 
-
   const renderItem = ({item}) => {
     return (
     <View style={styles.bodyContainer}>
@@ -191,7 +190,8 @@ import Button from '../src/views/Composant/bouton';
 
 const styles = StyleSheet.create({
     headStyle: {
-      backgroundColor: 'skyblue',
+      height: 150,
+      backgroundColor: 'blue',
       borderBottomLeftRadius: 15,
       borderBottomRightRadius: 15,
       marginBottom: 10
@@ -242,7 +242,10 @@ const styles = StyleSheet.create({
 
     fontTextDetails: {
       fontSize: 16,
-    },description : {
+
+    },
+    
+    description : {
       color:'black',
       fontSize: 38,
       marginTop:50,
@@ -317,4 +320,5 @@ const styles = StyleSheet.create({
       marginLeft:1,
       marginVertical:7
     }
+
 })
