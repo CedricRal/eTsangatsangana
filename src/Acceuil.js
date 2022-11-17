@@ -100,6 +100,7 @@ const MyData = [
         
           <Image
             source={ item.image }
+            resizeMode={'cover'}
             style={AppStyles.coverImage}
           />
           <View style={AppStyles.textImage}>

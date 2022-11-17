@@ -28,7 +28,7 @@ const AppStyles = StyleSheet.create({
     },
   
     coverImage: {
-        width: 185,
+        width: '100%',
         height: 300,
         borderRadius: 8,
         borderWidth: 5,
@@ -69,6 +69,7 @@ const AppStyles = StyleSheet.create({
       alignSelf: 'center',
     },
     touchableStyle: {
+      width: '45%',
       alignSelf: 'center',
       marginLeft:'2%',
       marginRight: '3%',
@@ -79,7 +80,7 @@ const AppStyles = StyleSheet.create({
       alignSelf: 'center',
       alignContent: 'center',
       justifyContent: 'center',
-      textAlign: 'center',
+      alignSelf: 'center',
       width: '80%'
     },
 
