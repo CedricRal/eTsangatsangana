@@ -21,7 +21,7 @@ export default styles = StyleSheet.create({
         marginTop: '5%',
         marginBottom: '10%',
         alignSelf: 'center',
-        width: '50%',
+        width: '51%',
     },
 
     field_command : {
