@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
+import design from './../Composant/couleur';
 
 function LogIn({navigation}) {
 const [inputs, setInputs] = React.useState({  //etat pour la validation
@@ -52,8 +53,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>Se connecter</Text>
-                <Text style={styles.description}>Entrer votre information</Text>
+                <Text style={styles.title}>Connexion</Text>
                 <View style={styles.viewContain}>
                 <Input 
                     placeholder='Email' 
@@ -70,7 +70,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                     onFocus={() => {
                         handleError(null, 'password')
                     }}/>
-                <Text style={styles.other} onPress={() => navigation.navigate('Recup')}>
+                <Text style={styles.other2} onPress={() => navigation.navigate('Recup')}>
                     Mot de passe oublié?
                 </Text>
                 <Button title="Se connecter" onPress={validate}/>
@@ -93,25 +93,30 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     title : {
-        color:'black',
+        color:design.Marron,
         fontSize: 38,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily: design.police
     },
     viewContain : {
         marginVertical:20
-    },
-    description : {
-        color:'black',
-        fontSize: 16,
-        marginVertical: 10,
-        textAlign: 'center'
     },
     other : {
         fontSize: 18,
         fontWeight:'bold',
         textAlign:'center',
-        marginBottom:10
+        marginVertical: '10%',
+        fontFamily: design.police
+    },
+    other2 : {
+        fontSize: 18,
+        fontWeight:'bold',
+        textAlign:'center',
+        marginVertical: '5%',
+        color : design.Marron,
+        textDecorationLine:'underline',
+        fontFamily: design.police
     }
 })
 
