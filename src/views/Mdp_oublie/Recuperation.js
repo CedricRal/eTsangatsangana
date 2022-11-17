@@ -1,7 +1,9 @@
-import React from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert} from 'react-native';
+import React, {useState} from 'react';
+import { Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert } from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
+import design from './../Composant/couleur';
+
 
 function Recup({navigation}) {
 const [inputs, setInputs] = React.useState({  //etat pour la validation
@@ -21,11 +23,9 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        Alert.alert('Code de confirmation envoyé')
-        navigation.navigate('CodeRecup')
+        navigation.navigate('CodeRecup');
     }
 };
-
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
     setInputs(prevState => ({...prevState, [input]: text}));
@@ -36,11 +36,11 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
+
                 <Text style={styles.title}>Mot de passe oublié</Text>
-                <Text style={styles.description}>Entrer votre Email pour envoyer le code de récupération </Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre Email'
+                    placeholder='Entrer votre e-mail'
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
@@ -55,7 +55,6 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 
 const styles = StyleSheet.create({
     container : {
-        backgroundColor:'white',
         flex:1
     },
     scroll_view : {
@@ -63,20 +62,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     title : {
-        color:'black',
+        color:design.Marron,
         fontSize: 38,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:design.police
     },
     viewContain : {
         marginVertical:20
     },
-    description : {
-        color:'black',
-        fontSize: 18,
-        marginVertical: 10,
-        textAlign:'center'
-    }
 })
 
 export default Recup;

@@ -1,7 +1,10 @@
-import React, {useRef} from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TextInput} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TextInput, Modal} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
+import { TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import design from './../Composant/couleur';
 
 function CodeRecup({navigation, error}) {
 const [isFocused, setIsFocused] = React.useState(false);
@@ -15,6 +18,8 @@ const [errors, setErrors] = React.useState({})    //etat pour l'erreur
 const firstInput = useRef();
 const secondInput = useRef();
 const thirdInput = useRef();
+
+const [modalVisible, setModalVisible] = useState(true);
 
 const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
@@ -43,11 +48,33 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Icon name='check' size={40} color={design.Marron}/>
+                        <Text style={styles.modalText}>Code de récupération envoyé</Text>
+                        <TouchableOpacity
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        >
+                        <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
+
+
+
                 <Text style={styles.title}>Nouveau mot de passe</Text>
                 <Text style={styles.description}>Veuillez saisir le code reçu par Email</Text>
                 <View style={styles.viewContain}>
                 <View style={styles.boxContainer}>
-                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
+                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
                 <TextInput 
                     keyboardType = 'numeric'
                     autoFocus
@@ -66,7 +93,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                         setIsFocused(false);
                     }}/>
                 </View>
-                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
+                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
                 <TextInput 
                     keyboardType = 'numeric'
                     style={styles.inputBox}
@@ -85,7 +112,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                         setIsFocused(false);
                     }}/>
                 </View>
-                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
+                <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
                 <TextInput
                     keyboardType = 'numeric'
                     style={styles.inputBox}
@@ -105,7 +132,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 </View>
                 </View>
                 <Text style={styles.erreur}>{errors.code}</Text>
-                <Text style={styles.resend} onPress= {() => {Alert.alert('Code de récupération envoyé')}}>Renvoyer le code</Text>
+                <Text style={styles.resend} onPress= {() => setModalVisible(!modalVisible)}>Renvoyer le code</Text>
                 <Button title="Continuer" onPress={validate}/>
                 </View>
             </ScrollView>
@@ -123,10 +150,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     title : {
-        color:'black',
+        color:design.Marron,
         fontSize: 38,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:design.police
     },
     viewContain : {
         marginVertical:20
@@ -136,7 +164,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginVertical: 10,
         paddingTop:40,
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:design.police
     },
     boxContainer : {
         flexDirection:'row',
@@ -167,11 +196,57 @@ const styles = StyleSheet.create({
     },
     resend : {
         fontSize:16,
-        color:'dodgerblue',
+        color:design.Marron,
         marginVertical:20,
-        marginLeft:'20%',
+        textAlign: 'center',
         textDecorationLine:'underline'
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      button: {
+        width: 50,
+        borderRadius: 10,
+        padding: 10,
+        elevation: 2
+      },
+      buttonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      buttonClose: {
+        backgroundColor: design.Marron,
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontFamily:design.police
+      },
+      modalText: {
+        color:'black',
+        marginBottom: 15,
+        fontSize:16,
+        textAlign: "center",
+        fontFamily:design.police
+      }
 })
 
 export default CodeRecup;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert, TouchableOpacity} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
+import design from './../Composant/couleur';
 
 function NewPass({navigation}) {
 const [inputs, setInputs] = React.useState({  //etat pour la validation
@@ -82,10 +83,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     title : {
-        color:'black',
+        color:design.Marron,
         fontSize: 38,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:design.police
     },
     viewContain : {
         marginVertical:20
