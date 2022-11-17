@@ -88,7 +88,6 @@ const MyData = [
     const renderItem = ({ item }) => { 
       
     return (
-      <View style={AppStyles.listItem}>
         <TouchableOpacity onPress={() => 
           {if(item.id=='3' || item.id=='5') {
             navigation.navigate('Hotel')}
@@ -109,7 +108,6 @@ const MyData = [
             <Text style={AppStyles.listItemText}>{item.resume}</Text>
           </View>
           </TouchableOpacity>
-        </View>
     )}
 
     const empty_list = () => {
@@ -136,7 +134,7 @@ const MyData = [
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                 <Image 
                 source={require('./assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={{width:30, height:30, marginLeft:1, marginVertical:7}}/> 
+                style={AppStyles.modalStyle}/> 
             </TouchableOpacity>
 
         </View>
