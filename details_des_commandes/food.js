@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+
 import styles from './styles';
 
 export default Food = ({navigation}) => {
@@ -30,5 +31,6 @@ export default Food = ({navigation}) => {
             </View>
         </View>
         </ScrollView>
+
     )
 }

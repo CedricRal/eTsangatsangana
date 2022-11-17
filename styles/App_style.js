@@ -5,7 +5,7 @@ const AppStyles = StyleSheet.create({
 
     inputTextView: { 
         fontSize: 16,
-        borderColor: 'black',
+        borderColor: 'gray',
         padding: '1%',
         alignSelf: 'center',
         width: '80%',
@@ -17,11 +17,6 @@ const AppStyles = StyleSheet.create({
         borderRadius: 20
       },
 
-    container: {
-      flex: 1,
-      backgroundColor: '#f8f8f8',
-      alignItems: 'center'
-    },
     text: {
       fontSize: 20,
       color: '#101010',
@@ -29,51 +24,56 @@ const AppStyles = StyleSheet.create({
       fontWeight: '600',
       textShadowColor: 'gold'
     },
-    listItem: {
-      marginTop: '3%',
-      padding: '2%',
-      alignSelf: 'center',
-      backgroundColor: '#fff',
-      width: '50%'
-    },
+  
     coverImage: {
-        width: 180,
-        height: 260,
+        width: 200,
+        height: 300,
         borderRadius: 5,
         borderBottomEndRadius: 5,
         borderWidth: 5,
-        borderColor: 'whitesmoke',
-        opacity: 0.7,
+        borderColor: 'gray',
+        opacity: .6,
         marginBottom: '4%',
       },
     textImage: {
-        width: '90%',
-        paddingTop: '50%',
+        width: '100%',
+        height: '80%',
+        paddingVertical: '30%',
         position: 'absolute',
-        textAlign: 'center',
-        paddingLeft: '2%'
+        alignSelf: 'center',
       },
     listItemText: {
-        fontWeight: 'bold',
-        fontSize: 18,
+        width:'90%',
+        fontWeight: '900',
+        fontSize: 30,
+        fontFamily: 'Calibri',
         color: 'black',
+        alignSelf: 'center',
         textAlign: 'center',
     },
     searchImageAndTextinput: {
       flexDirection: 'row',
       marginTop: '5%',
-      borderWidth: 0.2,
+      marginBottom: '5%',
+      borderWidth: 1,
+      borderWidth: 0.3,
       borderColor: 'grey',
-      width: '100%',
-      alignSelf: 'center'
+      width: '95%',
+      alignSelf: 'center',
+      borderRadius: 8
     },
     searchImageStyle: {
-        width:25,
-        height:25,
-        marginTop:8
+      width: 20,
+      height: 20,
+      marginTop: '1.5%'
     },
     touchableStyle: {
-      alignSelf: 'center'
+      alignSelf: 'center',
+      marginLeft:'2%',
+      marginRight:'-2%',
+      paddingBottom:'1%',
+      display: 'flex',
+      background: 'black',
     },
   });
 

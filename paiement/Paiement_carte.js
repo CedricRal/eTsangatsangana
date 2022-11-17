@@ -14,7 +14,10 @@ export default function Carte({navigation}) {
     { label: 'Australie', value: '6' },
     { label: 'Tunisie', value: '7' },
     { label: 'Russie', value: '8' },
-    { label: 'Japon', value: '9' },
+    { label: 'Maroc', value: '9' },
+    { label: 'Australie', value: '9' },
+    { label: 'France', value: '9' },
+    { label: 'Egypte', value: '9' },
   ]);
 
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
@@ -164,7 +167,8 @@ if (!value){                                                // l'utilisateur ne 
       <View style={styles.inputCardContainer}>
         <TextInput
           style={styles.inputCard}
-          placeholder='1234  1234  1234  1234'
+          placeholder='xxxx xxxx xxxx xxxx'
+          maxLength={19}
           keyboardType={'decimal-pad'}
           onChangeText={handleOnChangeCard}
           onFocus={() => {
@@ -172,10 +176,10 @@ if (!value){                                                // l'utilisateur ne 
         }}
         />
         <View style={styles.imageCardJustified}>
-          <Image source={require('../assets/MyImages/credit_card.png')} style={styles.cardImage}/>
+          <Image source={require('../assets/MyImages/card.png')} style={styles.cardImage}/>
           <Image source={require('../assets/MyImages/visa.png')} style={styles.cardImage}/>
-          <Image source={require('../assets/MyImages/creditcard.png')} style={styles.cardImage}/>
-          <Image source={require('../assets/MyImages/creditcard2.png')} style={styles.cardImage}/>
+          <Image source={require('../assets/MyImages/magnetic-card.png')} style={styles.cardImage}/>
+          <Image source={require('../assets/MyImages/cardA.png')} style={styles.cardImage}/>
         </View>
       </View>
 
@@ -183,6 +187,8 @@ if (!value){                                                // l'utilisateur ne 
         <TextInput
           style={styles.expiration_de_la_carte}
           placeholder='MM/AA'
+          maxLength={5}
+          keyboardType={'phone-pad'}
           onChangeText={handleOnChangeExp}
           onFocus={() => {
             handleExpError(null)
@@ -194,6 +200,7 @@ if (!value){                                                // l'utilisateur ne 
           placeholder='CVC'
           onChangeText={handleOnChangeCvc}
           keyboardType={'decimal-pad'}
+          maxLength={3}
           onFocus={() => {
             handleCvcError(null)
         }}
@@ -229,8 +236,9 @@ if (!value){                                                // l'utilisateur ne 
         <Text style={styles.label}>Pays ou région</Text>
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-          containerStyle={{top:'50%', marginBottom: '30%', backgroundColor: 'whitesmoke', height: '20%'}}
+          containerStyle={{top:'45%', marginBottom: '30%', backgroundColor: 'whitesmoke', height: '20%'}}
 
+          iconStyle={{marginRight: '1%', width: '10%'}}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
@@ -287,7 +295,8 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 8,
-    paddingLeft: '2%'
+    paddingLeft: '2%',
+    overflow: 'hidden',
   },
 
   inputCardContainer: {
@@ -301,6 +310,7 @@ const styles = StyleSheet.create({
 
   inputCard: {
     fontSize: 16,
+    width: '60%'
   },
 
   cardImage: {
@@ -309,7 +319,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    margin: '2%',
+    margin: '3%',
   },
 
   cvcImage: {
@@ -331,9 +341,8 @@ const styles = StyleSheet.create({
 
   imageCardJustified: {
     flexDirection: 'row',
-    width: '50%',
+    width: '40%',
     alignSelf: 'center',
-    marginLeft: 5,
   },
 
   coteAcote: {
