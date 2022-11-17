@@ -3,14 +3,6 @@ import { StyleSheet } from "react-native";
 
 const AppStyles = StyleSheet.create({
 
-    container: {
-      paddingBottom: '5%',
-      alignSelf: 'center',
-      alignItems: 'center',
-      width: '100%',
-      height: '100%',
-    },
-
     inputTextView: { 
         fontSize: 16,
         borderColor: 'gray',

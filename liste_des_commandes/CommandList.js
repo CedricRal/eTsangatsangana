@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
+import design from '../src/views/Composant/couleur';
 
  export default CommandList = ({navigation}) => { 
 
@@ -77,7 +78,11 @@ import Button from '../src/views/Composant/bouton';
         style={styles.imageStyle}
      />
      <View style={styles.nameAndDetailStyle}>
+      <View style={styles.nameAndPriceStyle}>
         <Text style={styles.fontTextName}>{item.name}</Text>
+        <Text style={styles.fontTextPrice}>{item.prix}</Text>
+      </View>
+        <Text style={styles.fontTextDetails}>{item.date}</Text>
         <Text style={styles.fontTextDetails}>{item.details}</Text>
       </View>
       </TouchableOpacity>
@@ -207,7 +212,6 @@ const styles = StyleSheet.create({
     bodyContainer: {
       backgroundColor: '#f8f8f8',
       marginTop: 5,
-      borderWidth: 1,
       borderRadius: 20,
       borderColor: 'gray',
       marginBottom: '2%',
@@ -227,6 +231,11 @@ const styles = StyleSheet.create({
       opacity: 0.8,
     },
 
+    nameAndPriceStyle: {
+      flexDirection: 'row',
+      width: '97%'
+    },
+
     nameAndDetailStyle : {
       flexDirection: 'column',
       width: '65%',
@@ -234,8 +243,21 @@ const styles = StyleSheet.create({
     },
 
     fontTextName: {
+      width: '40%',
       fontSize: 18,
       fontWeight: 'bold',
+    },
+
+    fontTextPrice: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      width: '60%',
+      height: 30,
+      paddingLeft: '7%',
+      borderTopRightRadius: 18,
+      borderBottomLeftRadius: 18,
+      backgroundColor: design.Marron,
+      color: 'white',
     },
 
     fontTextDetails: {
