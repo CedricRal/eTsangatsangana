@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View, Button, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import { Image, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-
+import { TextInput } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ProfilEdit = () => {
 
@@ -15,6 +16,9 @@ const ProfilEdit = () => {
     const [userPhone, setuserPhone] = useState("+26134855656")
     const [userPassword, setUserPassword] = useState("")
     const [userNewPassword, setUserNewPassword] = useState("")
+
+    const [passwordVisible, setPasswordVisible] = useState(true);
+    const [passwordVisibleVerif, setPasswordVisibleVerif] = useState(true);
 
     const navigation = useNavigation();
 
@@ -70,13 +74,10 @@ const ProfilEdit = () => {
         <View style={styles.mainContainer}>
             <Text style={styles.headerText}> Profil </Text> 
             
-            {renderFileData()}
             <View>
             <TouchableOpacity onPress={() => {
               launchNativeImageLibrary()}} >
-                <Image style={styles.plusIcon}
-                  source={require('../assets/MyImages/plus.jpg')}
-                />
+              {renderFileData()}
             </TouchableOpacity>
             </View>
 
@@ -107,19 +108,29 @@ const ProfilEdit = () => {
             style={styles.textInput}
             onChangeText={(text) => setuserPhone(text)}/>
 
+          <View style={styles.viewIconPass}>
             <TextInput 
             value={userPassword}
-            style={styles.textInput}
+            style={styles.textInputPwd}
             placeholder='saisir ancien mot de passe'
             onChangeText={(text) => setUserPassword(text)}
-            secureTextEntry/>
+            secureTextEntry={passwordVisible}
+            />
+            <Icon name={passwordVisible ? "eye" : "eye"}
+             onPress={() => setPasswordVisible(!passwordVisible)} size={20} style={styles.eyeIconStyle}/>
+        </View>
 
+          <View style={styles.viewIconPass}>
             <TextInput 
             value={userNewPassword}
-            style={styles.textInput}
+            style={styles.textInputPwd}
             placeholder='saisir nouveau mot de passe'
             onChangeText={(text) => setUserNewPassword(text)}
-            secureTextEntry/>
+            secureTextEntry={passwordVisibleVerif}
+            />
+            <Icon name={passwordVisibleVerif ? "eye" : "eye"}
+             onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20} style={styles.eyeIconStyle}/>
+          </View>
 
             <View style={styles.buttonModifier}>
                 <Button title='Modifier' onPress={modifier}/> 
@@ -144,11 +155,35 @@ const styles = StyleSheet.create({
         width: '75%',
         marginBottom: '2%',
         alignSelf: 'center',
-        padding: '4%',
         backgroundColor: 'whitesmoke',
         borderColor: 'gray',
         borderRadius: 8,
     },
+
+    textInputPwd : {
+        width: '80%',      
+        alignSelf: 'center',
+        marginLeft: '1%',
+        backgroundColor: 'whitesmoke',
+    },
+
+    eyeIconStyle: {
+    marginLeft: '5%',
+    height: '80%', 
+    paddingTop: '7%'
+    },
+
+    viewIconPass: {
+      flexDirection: 'row',
+      alignSelf: 'center',
+      borderWidth: 1,
+      width: '75%',
+      marginBottom: '2%',
+      alignSelf: 'center',
+      backgroundColor: 'whitesmoke',
+      borderColor: 'gray',
+      borderRadius: 8,
+    },  
 
     buttonModifier : {
         alignSelf: 'center',
