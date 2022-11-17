@@ -55,8 +55,8 @@ function HomeStackScreen(){
         <HomeStack.Screen name='Hotel' component={Hotel}/>
         <HomeStack.Screen name='Restaurant' component={Restaurant}/>
         <HomeStack.Screen name='Transport' component={Transport}/>
-        <HomeStack.Screen name='LogIn' component={LogIn} options={{title: 'Se connecter'}}/>
-        <HomeStack.Screen name='SingIn' component={SingIn} options={{title: 'S\'inscrire'}}/>
+        <HomeStack.Screen name='LogIn' component={LogIn} options={{title: ' Authentification'}}/>
+        <HomeStack.Screen name='SingIn' component={SingIn} options={{title: 'Inscription'}}/>
         <HomeStack.Screen name='Recup' component={Recup} options={{title: 'Récupération'}}/>
         <HomeStack.Screen name='CodeRecup' component={CodeRecup} options={{title: 'Code de récupération'}}/>
         <HomeStack.Screen name='NewPass' component={NewPass} options={{title: 'Nouveau mot de passe'}}/>

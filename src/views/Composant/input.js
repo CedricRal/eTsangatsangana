@@ -1,5 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import design from './couleur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 function Input ({label, error, password, onFocus = () => {}, ...props}) {
     const [isFocused, setIsFocused] = React.useState(false);
@@ -7,7 +9,7 @@ function Input ({label, error, password, onFocus = () => {}, ...props}) {
 
     return(
         <View style={styles.inputView}>
-            <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? 'blue': 'black'}]}>
+            <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert : design.Marron}]}>
                 <TextInput 
                 secureTextEntry={hidePassword}  //cache le mot de passe
                 style={{flex:1}}
@@ -22,9 +24,8 @@ function Input ({label, error, password, onFocus = () => {}, ...props}) {
                 }}/>
                 {password && (
                     <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
-                    <Image 
-                    source={hidePassword? require('../../assets/icon/hide.png') : require('../../assets/icon/open.png')}
-                    style={{width:20, height:20}}/>
+                    <Icon 
+                    name={hidePassword? 'eye-slash' : 'eye'} size={20} color={design.Marron}/>
                     </TouchableOpacity>
                 )}
             </View>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         borderWidth: 1,
         alignItems: 'center',
+        borderRadius: 10
     },
     errorText : {
         color:'red',

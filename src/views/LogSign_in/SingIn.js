@@ -5,10 +5,10 @@ import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
+import design from './../Composant/couleur';
 
 function SingIn({navigation}) {
 
-const [fileData, setFileData] = useState(null);
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     nom:'',
@@ -25,10 +25,10 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre email svp!', 'email')
+        handleError('Entrer votre e-mail svp!', 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un email correct svp!', 'email')
+        handleError('Entrer un e-mail correct svp!', 'email')
         valid = false
     };
     if (!inputs.nom){
@@ -40,7 +40,7 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (!inputs.phone){
-        handleError('Entrer votre numéro téléphone svp!', 'phone')
+        handleError('Entrer votre numéro de téléphone svp!', 'phone')
         valid = false
     };
     if (!inputs.adresse){
@@ -64,16 +64,6 @@ const validate = () => { //fonction de validation des information
     if (valid == true) {
             Alert.alert("Vous êtes inscrit à l'application. Veuillez-vous connecter");
             navigation.navigate('LogIn');
-            prevState => ({...prevState, [inputs]: ''});
-
-            storeData = async (inputs) => {
-                try {
-                  const jsonValue = JSON.stringify(inputs)
-                  await AsyncStorage.setItem('email', jsonValue)
-                } catch (e) {
-                  // saving error
-                }
-              };
     }
 };
 
@@ -121,16 +111,7 @@ return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
                 <Text style={styles.title}>S'inscrire</Text>
-                <Text style={styles.description}>Entrer votre information</Text>
-                {renderFileData()}
-                <View>
-                <TouchableOpacity onPress={() => {
-                launchNativeImageLibrary()}} >
-                <Image style={styles.plusIcon}
-                  source={require('../../../assets/MyImages/plus.jpg')}
-                />
-            </TouchableOpacity>
-            </View>
+                
                 <View style={styles.viewContain}>
                 <Input 
                     placeholder='Nom' 
@@ -147,7 +128,7 @@ return(
                         handleError(null, 'prenom')
                     }}/>
                 <Input 
-                    placeholder='Numéro Téléphone'
+                    placeholder='Numéro de téléphone'
                     error={errors.phone}
                     keyboardType = 'numeric' 
                     onChangeText={text => handleOnChange(text, 'phone')}
@@ -162,7 +143,7 @@ return(
                         handleError(null, 'adresse')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre Email'
+                    placeholder='Entrer votre e-mail'
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
@@ -204,25 +185,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title : {
-        color:'black',
+        color:design.Marron,
         fontSize: 38,
         fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily: design.police
     },
     viewContain : {
         marginVertical:20
     },
-    description : {
-        color:'black',
-        fontSize: 16,
-        marginVertical: 10,
-        textAlign: 'center'
-    },
     other : {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight:'bold',
         textAlign:'center',
-        marginBottom:100
+        marginTop: '10%',
+        marginBottom:100,
+        color : design.Marron,
+        textDecorationLine:'underline',
+        fontFamily: design.police
     },
     image: {
         width: 150,
