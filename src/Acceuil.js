@@ -111,12 +111,12 @@ const MyData = [
     )}
 
     const empty_list = () => {
-      return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+      return (<Text style={AppStyles.emptyList}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-      <View style={AppStyles.container}>
+      <View>
         <FlatList
           ListHeaderComponent={
           <>

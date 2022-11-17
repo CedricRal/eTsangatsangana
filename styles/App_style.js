@@ -4,17 +4,16 @@ import { StyleSheet } from "react-native";
 const AppStyles = StyleSheet.create({
 
     container: {
-      marginBottom: '10%',
+      paddingBottom: '5%',
       alignSelf: 'center',
-      alignContent: 'center',
       alignItems: 'center',
       width: '100%',
+      height: '100%',
     },
 
     inputTextView: { 
         fontSize: 16,
         borderColor: 'gray',
-        padding: '1%',
         alignSelf: 'center',
         width: '80%',
       },
@@ -60,7 +59,7 @@ const AppStyles = StyleSheet.create({
       marginBottom: '5%',
       borderWidth: 0.5,
       borderColor: 'grey',
-      width: '90%',
+      width: '80%',
       alignSelf: 'center',
       borderRadius: 8
     },
@@ -71,8 +70,19 @@ const AppStyles = StyleSheet.create({
     },
     touchableStyle: {
       alignSelf: 'center',
-      margin: '0.5%',
+      marginLeft:'2%',
+      marginRight: '3%',
+      marginBottom: '6%',
     },
+
+    emptyList : {
+      alignSelf: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      width: '80%'
+    },
+
     modalStyle: {
       width:30,
       height:30,
