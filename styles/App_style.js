@@ -6,16 +6,10 @@ const AppStyles = StyleSheet.create({
     inputTextView: { 
         fontSize: 16,
         borderColor: 'gray',
-        padding: '1%',
         alignSelf: 'center',
         width: '80%',
       },
 
-    headView: {
-        backgroundColor: '#fff',
-        padding: '10%',
-        borderRadius: 20
-      },
 
     text: {
       fontSize: 20,
@@ -26,27 +20,27 @@ const AppStyles = StyleSheet.create({
     },
   
     coverImage: {
-        width: 200,
+        width: '100%',
         height: 300,
-        borderRadius: 5,
-        borderBottomEndRadius: 5,
+        borderRadius: 8,
         borderWidth: 5,
         borderColor: 'gray',
         opacity: .6,
-        marginBottom: '4%',
       },
+
     textImage: {
         width: '100%',
-        height: '80%',
-        paddingVertical: '30%',
+        height: '100%',
         position: 'absolute',
         alignSelf: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
       },
+
     listItemText: {
-        width:'90%',
+        width:'100%',
         fontWeight: '900',
         fontSize: 30,
-        fontFamily: 'Calibri',
         color: 'black',
         alignSelf: 'center',
         textAlign: 'center',
@@ -55,26 +49,39 @@ const AppStyles = StyleSheet.create({
       flexDirection: 'row',
       marginTop: '5%',
       marginBottom: '5%',
-      borderWidth: 1,
-      borderWidth: 0.3,
+      borderWidth: 0.5,
       borderColor: 'grey',
-      width: '95%',
+      width: '80%',
       alignSelf: 'center',
       borderRadius: 8
     },
     searchImageStyle: {
       width: 20,
       height: 20,
-      marginTop: '1.5%'
+      alignSelf: 'center',
     },
     touchableStyle: {
+      width: '45%',
       alignSelf: 'center',
       marginLeft:'2%',
-      marginRight:'-2%',
-      paddingBottom:'1%',
-      display: 'flex',
-      background: 'black',
+      marginRight: '3%',
+      marginBottom: '6%',
     },
+
+    emptyList : {
+      alignSelf: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center',
+      width: '80%'
+    },
+
+    modalStyle: {
+      width:30,
+      height:30,
+      marginLeft:1, 
+      marginVertical:7
+    }
   });
 
 export default AppStyles;

@@ -88,7 +88,6 @@ const MyData = [
     const renderItem = ({ item }) => { 
       
     return (
-      <View style={AppStyles.listItem}>
         <TouchableOpacity onPress={() => 
           {if(item.id=='3' || item.id=='5') {
             navigation.navigate('Hotel')}
@@ -101,6 +100,7 @@ const MyData = [
         
           <Image
             source={ item.image }
+            resizeMode={'cover'}
             style={AppStyles.coverImage}
           />
           <View style={AppStyles.textImage}>
@@ -109,16 +109,15 @@ const MyData = [
             <Text style={AppStyles.listItemText}>{item.resume}</Text>
           </View>
           </TouchableOpacity>
-        </View>
     )}
 
     const empty_list = () => {
-      return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+      return (<Text style={AppStyles.emptyList}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-      <View style={AppStyles.container}>
+      <View>
         <FlatList
           ListHeaderComponent={
           <>
@@ -136,7 +135,7 @@ const MyData = [
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                 <Image 
                 source={require('./assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={{width:30, height:30, marginLeft:1, marginVertical:7}}/> 
+                style={AppStyles.modalStyle}/> 
             </TouchableOpacity>
 
         </View>

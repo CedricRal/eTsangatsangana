@@ -116,7 +116,7 @@ const ProfilEdit = () => {
             onChangeText={(text) => setUserPassword(text)}
             secureTextEntry={passwordVisible}
             />
-            <Icon name={passwordVisible ? "eye" : "eye"}
+            <Icon name={passwordVisible ? "eye" : "eye-slash"}
              onPress={() => setPasswordVisible(!passwordVisible)} size={20} style={styles.eyeIconStyle}/>
         </View>
 
@@ -128,7 +128,7 @@ const ProfilEdit = () => {
             onChangeText={(text) => setUserNewPassword(text)}
             secureTextEntry={passwordVisibleVerif}
             />
-            <Icon name={passwordVisibleVerif ? "eye" : "eye"}
+            <Icon name={passwordVisibleVerif ? "eye" : "eye-slash"}
              onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20} style={styles.eyeIconStyle}/>
           </View>
 
