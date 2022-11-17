@@ -82,9 +82,9 @@ function CommandesStackScreen(){
       <CommandesStack.Navigator initialRouteName='Liste_commande' screenOptions={myHeader}>
       <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande'}}/> 
       <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
-      <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Hotel'}}/>
-      <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Transport'}}/>
-      <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: 'Restaurant'}}/>
+      <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Mes commandes'}}/>
+      <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Mes commandes'}}/>
+      <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: 'Mes commandes'}}/>
       </CommandesStack.Navigator>
     </>
   )

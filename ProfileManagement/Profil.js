@@ -1,7 +1,8 @@
-import { Image, Text, View , StyleSheet, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import { Image, Text, View , StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextInput } from 'react-native-paper';
 
 export default UserProfile = ({navigation}) => {
 
@@ -20,7 +21,7 @@ export default UserProfile = ({navigation}) => {
     <View>  
         <Text style={styles.headerText}> Profil </Text>
 
-        <Image source={route.params.photo}
+        <Image source={route.params.photo ? route.params.photo : require('../assets/MyImages/profil.jpg')}
         style={styles.image}
         /> 
 
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     headerText: {
         marginTop: '5%',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
     },
 
@@ -71,7 +72,9 @@ const styles = StyleSheet.create({
         width: '75%',
         marginBottom: '2%',
         alignSelf: 'center',
-        padding: '4%'
+        backgroundColor: 'whitesmoke',
+        borderColor: 'gray',
+        borderRadius: 8,
     },
     
     editingIcon: {
