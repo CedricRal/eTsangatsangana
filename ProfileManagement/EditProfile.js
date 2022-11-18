@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import design from '../src/views/Composant/couleur';
 
 const ProfilEdit = () => {
 
@@ -24,7 +24,6 @@ const ProfilEdit = () => {
 
     const modifier = () => {
         navigation.navigate('AffichageProfile', {
-            photo: fileData,
             nom: username,
             prenom: userFirstName,
             adresse: userLocation,
@@ -34,89 +33,56 @@ const ProfilEdit = () => {
         })
     }
 
-    const renderFileData = () => {
-        if (fileData) {
-          return <Image source={fileData}
-          style={styles.image}
-          />
-        } else {
-          return <Image source={require('../assets/MyImages/profil.jpg')}
-          style={styles.image}
-          />
-        }
-      }
-
-      const launchNativeImageLibrary = () => {
-        let options = {
-          storageOptions: {
-            skipBackup: true,
-            path: 'images',
-          },
-        };
-        launchImageLibrary(options, (response) => {
-          console.log('HERE IS THE RESPONSE = ', response);
-    
-          if (response.didCancel) {
-            console.log('User cancelled image picker');
-          } else if (response.errorCode) {
-            console.log('ERROR !!!!!!!: ', response.error);
-          } else {
-            const source = { uri: response.assets.uri };
-            console.log('SUCCESS !!!!!', JSON.stringify(response));
-            setFileData(response.assets[0]);
-          }
-        });
-    
-      }
-
     return (
-        <ScrollView>
         <View style={styles.mainContainer}>
-            <Text style={styles.headerText}> Profil </Text> 
-            
-            <View>
-            <TouchableOpacity onPress={() => {
-              launchNativeImageLibrary()}} >
-              {renderFileData()}
-            </TouchableOpacity>
-            </View>
 
-        <View>
             <TextInput 
             value={username}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             style={styles.textInput}
             onChangeText={(text) => setUsername(text)}/>
 
             <TextInput 
             value={userFirstName}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             style={styles.textInput}
             onChangeText={(text) => setUserFirstName(text)}/>
 
             <TextInput 
             value={userLocation}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             style={styles.textInput}
             onChangeText={(text) => setUserLocation(text)}/>
 
             <TextInput 
             value={userEmail}
             style={styles.textInput}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             onChangeText={(text) => setUserEmail(text)}
             type="email"/>
 
             <TextInput 
             value={userPhone}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             style={styles.textInput}
             onChangeText={(text) => setuserPhone(text)}/>
 
           <View style={styles.viewIconPass}>
             <TextInput 
             value={userPassword}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             style={styles.textInputPwd}
             placeholder='saisir ancien mot de passe'
             onChangeText={(text) => setUserPassword(text)}
             secureTextEntry={passwordVisible}
             />
-            <Icon name={passwordVisible ? "eye" : "eye-slash"}
+            <Icon name={passwordVisible ? "eye-slash" : "eye"}
              onPress={() => setPasswordVisible(!passwordVisible)} size={20} style={styles.eyeIconStyle}/>
         </View>
 
@@ -124,30 +90,28 @@ const ProfilEdit = () => {
             <TextInput 
             value={userNewPassword}
             style={styles.textInputPwd}
+            activeUnderlineColor='transparent'
+            underlineColor='disabled'
             placeholder='saisir nouveau mot de passe'
             onChangeText={(text) => setUserNewPassword(text)}
             secureTextEntry={passwordVisibleVerif}
             />
-            <Icon name={passwordVisibleVerif ? "eye" : "eye-slash"}
+            <Icon name={passwordVisibleVerif ? "eye-slash" : "eye"}
              onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20} style={styles.eyeIconStyle}/>
           </View>
 
             <View style={styles.buttonModifier}>
                 <Button title='Modifier' onPress={modifier}/> 
-            </View>               
-        </View>  
+            </View>                 
         </View>
-        </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create({
-    headerText: {
-        marginTop: '5%',
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
+
+    mainContainer: {
+
     },
 
     textInput: {
@@ -156,8 +120,10 @@ const styles = StyleSheet.create({
         marginBottom: '2%',
         alignSelf: 'center',
         backgroundColor: 'whitesmoke',
-        borderColor: 'gray',
-        borderRadius: 8,
+        borderColor: design.Marron,
+        borderRadius: 10,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
     },
 
     textInputPwd : {
@@ -165,6 +131,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: '1%',
         backgroundColor: 'whitesmoke',
+        borderRadius: 10,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
     },
 
     eyeIconStyle: {
@@ -183,6 +152,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'whitesmoke',
       borderColor: 'gray',
       borderRadius: 8,
+      borderRadius: 10,
     },  
 
     buttonModifier : {
@@ -191,22 +161,6 @@ const styles = StyleSheet.create({
         marginBottom: '10%',
         borderWidth: .2,
     },
-
-    image: {
-        width: 150,
-        height: 150, 
-        alignSelf: 'center',
-        borderRadius: 90,
-        marginBottom: 10
-      },
-      plusIcon: {
-        width: 30,
-        height: 30,
-        marginLeft: '60%',
-        marginTop: '-12%',
-        marginBottom: '10%',
-        borderRadius: 30
-      }
 });
 
 export default ProfilEdit;
