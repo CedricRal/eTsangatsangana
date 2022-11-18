@@ -56,7 +56,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 >
                     <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Icon name='check' size={40} color={design.Marron}/>
+                        <Icon name='check' size={40} color={design.Vert}/>
                         <Text style={styles.modalText}>Code de récupération envoyé</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     },
     title : {
         color:design.Marron,
-        fontSize: 38,
+        fontSize: 30,
         fontWeight:'bold',
         textAlign:'center',
         fontFamily:design.police

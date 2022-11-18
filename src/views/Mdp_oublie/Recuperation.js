@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
     title : {
         color:design.Marron,
-        fontSize: 38,
+        fontSize: 30,
         fontWeight:'bold',
         textAlign:'center',
         fontFamily:design.police
