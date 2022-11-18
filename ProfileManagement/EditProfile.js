@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from '../src/views/Composant/couleur';
@@ -35,7 +35,7 @@ const ProfilEdit = () => {
 
     return (
         <View style={styles.mainContainer}>
-
+          <ScrollView>
             <TextInput 
             value={username}
             activeUnderlineColor='transparent'
@@ -100,9 +100,10 @@ const ProfilEdit = () => {
              onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20} style={styles.eyeIconStyle}/>
           </View>
 
-            <View style={styles.buttonModifier}>
-                <Button title='Modifier' onPress={modifier}/> 
-            </View>                 
+          <Pressable style={styles.button} onPress={modifier}>
+            <Text style={styles.text}>Modifier</Text>
+          </Pressable> 
+          </ScrollView>              
         </View>
     )
 }
@@ -111,7 +112,10 @@ const ProfilEdit = () => {
 const styles = StyleSheet.create({
 
     mainContainer: {
-
+        paddingTop: '20%',
+        backgroundColor: design.Blanc,
+        width: '100%',
+        height: '100%',
     },
 
     textInput: {
@@ -150,16 +154,25 @@ const styles = StyleSheet.create({
       marginBottom: '2%',
       alignSelf: 'center',
       backgroundColor: 'whitesmoke',
-      borderColor: 'gray',
+      borderColor: design.Marron,
       borderRadius: 8,
       borderRadius: 10,
     },  
 
-    buttonModifier : {
-        alignSelf: 'center',
-        width: '40%',
-        marginBottom: '10%',
-        borderWidth: .2,
+    button: {
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 10,
+      borderRadius: 20,
+      width: '40%',
+      backgroundColor: design.Marron,
+    },
+    text: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
+      color: design.Blanc,
     },
 });
 
