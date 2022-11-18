@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   
   text_title : {
     fontSize:28,
-    color:'black',
+    color:design.Marron,
     textAlign:'center',
     textAlignVertical:'center',
     fontFamily:design.police
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   prix : {
     fontSize:28,
     fontWeight:'bold',
-    color:design.Marron,
+    color:design.Vert,
     textAlign:'center',
     textAlignVertical:'center',
     fontFamily:design.police

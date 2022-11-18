@@ -96,6 +96,7 @@ import design from '../src/views/Composant/couleur';
       <FlatList
         ListHeaderComponent={
         <View style={styles.headStyle}>
+          
           <View style={styles.searchView}>
             <View style={styles.inputContainer}>
             <Image 
@@ -113,7 +114,7 @@ import design from '../src/views/Composant/couleur';
                 source={require('../src/assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
                 style={styles.filterIcon}/> 
             </TouchableOpacity>
-            </View>
+          </View>
 
             <View style={[{display: showFilter? 'flex': 'none'}]}>
             <Text style={styles.other}>

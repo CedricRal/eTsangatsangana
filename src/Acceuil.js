@@ -5,49 +5,52 @@ import { Modal } from 'react-native';
 import FiltrePub from './views/Composant/SearchBar';
 import Button from './views/Composant/bouton';
 import { ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import design from './views/Composant/couleur';
+
 
 const MyData = [
   { 
     "id": "1",
     "name": "Nuggets",
-    "title": "Promo 10%",
+    "title": "Chicky",
     "image": require('../assets/MyImages/nuggets.png'),
-    "resume": "03256452",
+    "prix": "21 000 Ar",
   },
   { 
     "id": "2",
     "name": "Pizza GM",
-    "title": "acheté = 1 PM offert",
+    "title": "Gastro Pizza",
     "image": require('../assets/MyImages/pizza.png'),
-    "resume": "032564684",
+    "prix": "24 000 Ar",
   },
   { 
     "id": "3",
-    "name": "chez hotel Mercury",
-    "title": "chambre à 280 000 ariary",
+    "name": "Chambre comfort",
+    "title": "Mercury",
     "image": require('../assets/MyImages/hotel.png'),
-    "resume": "Hotelerie",
+    "prix": "180 000 Ar",
   },
   { 
     "id": "4",
-    "name": "Tana à Antsirabe à 10 000 ariary",
-    "title": "transporteur",
+    "name": "Tana à Antsirabe",
+    "title": "Soa Trans",
     "image": require('../assets/MyImages/transport.png'),
-    "resume": "0345579879",
+    "prix": "10 000 Ar",
   },
   { 
     "id": "5",
     "name": "Nom du produit",
-    "title": "produit 5",
+    "title": "Entreprise",
     "image": require('../assets/MyImages/img2.jpg'),
-    "resume": "résumé du produit",
+    "prix": "50 000 Ar",
   },
   { 
      "id": "6",
      "name": "Nom du produit",
-     "title": "produit 6",
+     "title": "Entreprise",
      "image": require('../assets/MyImages/img1.jpg'),
-     "resume": "résumé du produit",
+     "prix": "50 000 Ar",
   },
 ];    
   export default function App({navigation}) {
@@ -97,16 +100,17 @@ const MyData = [
             navigation.navigate('Transport')
           }}}
           style={AppStyles.touchableStyle}>
-        
+          <View>
           <Image
             source={ item.image }
             resizeMode={'cover'}
             style={AppStyles.coverImage}
           />
           <View style={AppStyles.textImage}>
-            <Text style={AppStyles.listItemText}>{item.name}</Text>
-            <Text style={AppStyles.listItemText}>{item.title}</Text>
-            <Text style={AppStyles.listItemText}>{item.resume}</Text>
+            <Text style={AppStyles.produit}>{item.name}</Text>
+            <Text style={AppStyles.entreprise}>{item.title}</Text>
+            <Text style={AppStyles.prix}>{item.prix}</Text>
+          </View>
           </View>
           </TouchableOpacity>
     )}
@@ -121,24 +125,27 @@ const MyData = [
         <FlatList
           ListHeaderComponent={
           <>
-          <View style={AppStyles.searchImageAndTextinput}>
 
-            <Image source={require('./assets/icon/search.png')}
-              style={AppStyles.searchImageStyle}
-              />
+
+          <View style={AppStyles.searchView}>
+            <View style={AppStyles.inputContainer}>
+            <Icon 
+            name='search'    //tout le composant bar de recherche ici
+            size={20} color={design.Marron}/>
             <TextInput
-              value={query}
-              onChangeText={handleSearch}
-              placeholder="Rechercher un produit"
-              style={AppStyles.inputTextView}
+            value={query}
+            onChangeText={handleSearch}
+            placeholder="Rechercher une commande"
+            style={AppStyles.placeholders}
             />
+            </View>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <Image 
-                source={require('./assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={AppStyles.modalStyle}/> 
+                <Icon 
+                name='sliders-h'   //touchableOpacity ici cache ou montre l'option de filtre de recherche
+                size={30} color={design.Marron} style={{marginVertical:'20%'}}/> 
             </TouchableOpacity>
+          </View>
 
-        </View>
         <Modal
         animationType="slide"
         transparent={false}
@@ -157,6 +164,7 @@ const MyData = [
           data={dataS}
           numColumns={numColumn}
           renderItem={renderItem}
+          style={AppStyles.flatList}
         />
       </View>
     );
