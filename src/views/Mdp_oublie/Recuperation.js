@@ -16,10 +16,10 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre email svp!', 'email')
+        handleError('Entrer votre e-mail svp!', 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un email correct svp!', 'email')
+        handleError('Entrer un e-mail correct svp!', 'email')
         valid = false
     };
     if (valid == true) {

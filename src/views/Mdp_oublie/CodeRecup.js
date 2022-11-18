@@ -71,7 +71,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 
 
                 <Text style={styles.title}>Nouveau mot de passe</Text>
-                <Text style={styles.description}>Veuillez saisir le code reçu par Email</Text>
+                <Text style={styles.description}>Veuillez saisir le code reçu par e-mail</Text>
                 <View style={styles.viewContain}>
                 <View style={styles.boxContainer}>
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
