@@ -24,48 +24,45 @@ const AppStyles = StyleSheet.create({
         height: 300,
         borderRadius: 8,
         borderWidth: 5,
-        borderColor: 'gray',
-        opacity: .6,
+        borderColor: '#6b3b1e',
+        opacity: .8,
       },
 
     textImage: {
-        width: '100%',
-        height: '100%',
+        marginTop:210,
+        width: '96%',
+        height: 86,
         position: 'absolute',
         alignSelf: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
 
-    listItemText: {
+    produit: {
+        paddingHorizontal:10,
         width:'100%',
-        fontWeight: '900',
-        fontSize: 30,
-        color: 'black',
-        alignSelf: 'center',
-        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'white',
     },
-    searchImageAndTextinput: {
-      flexDirection: 'row',
-      marginTop: '5%',
-      marginBottom: '5%',
-      borderWidth: 0.5,
-      borderColor: 'grey',
-      width: '80%',
-      alignSelf: 'center',
-      borderRadius: 8
+    entreprise: {
+        paddingHorizontal:10,
+        width:'100%',
+        fontSize: 16,
+        color: 'white',
     },
-    searchImageStyle: {
-      width: 20,
-      height: 20,
-      alignSelf: 'center',
+    prix: {
+        paddingHorizontal:10,
+        width:'100%',
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'white',
     },
     touchableStyle: {
-      width: '45%',
+      width: '50%',
       alignSelf: 'center',
-      marginLeft:'2%',
-      marginRight: '3%',
-      marginBottom: '6%',
+      marginLeft:0,
+      marginRight: 1,
+      marginBottom: 2,
     },
 
     emptyList : {
@@ -81,6 +78,42 @@ const AppStyles = StyleSheet.create({
       height:30,
       marginLeft:1, 
       marginVertical:7
+    },
+    searchView : {
+      flexDirection:'row',
+      marginHorizontal:5,
+      marginVertical:5
+    },
+    searchIcon : {
+      height:20,
+      width:20
+    },
+    filterIcon : {
+      width:30,
+      height:40,
+      marginLeft:1,
+      marginVertical:7
+    },
+    inputContainer: {
+        height: 45,
+        backgroundColor: 'whitesmoke',
+        marginRight:10,
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        borderWidth: 1,
+        borderColor:design.Marron,
+        borderRadius:10,
+        alignItems: 'center',
+        width:'87%',
+        alignSelf:'center'
+    },
+    placeholders: {
+        marginLeft:18,
+        fontSize:16,
+    },
+    flatList: {
+      backgroundColor:'silver',
+      marginHorizontal:2
     }
   });
 
