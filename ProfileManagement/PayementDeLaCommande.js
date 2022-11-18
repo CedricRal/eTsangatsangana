@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native'; 
+import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native'; 
 import { RadioButton } from 'react-native-paper';
 
 export default function PayementDeLaCommande({navigation}) {
@@ -8,7 +8,7 @@ export default function PayementDeLaCommande({navigation}) {
   const styles = getStyles(checked);
 
   const buttonValider = () => {
-    if(checked === 'Paiement par Carte') {
+    if(checked === 'Paiement par carte') {
       navigation.navigate('CardPayement')
     } else if(checked === 'Paiement par mobile money') {
       navigation.navigate('MobilePayement')
@@ -18,23 +18,23 @@ export default function PayementDeLaCommande({navigation}) {
 
 
   return (
-    <View>
-      <Text style={styles.headerText}>Mode de paiement</Text>
+    <View style={styles.arrierPlanBlanc}>
+      <Text style={styles.headerText}>Voulez-vous payer votre commande par: </Text>
       
     <View style={styles.centerRadio}>
       
       <View style={styles.cadre}>
       <TouchableOpacity
         style={styles.radioView1}
-        onPress={() => setChecked('Paiement par Carte')}
+        onPress={() => setChecked('Paiement par carte')}
         
       >
       <RadioButton
-        value="Paiement par Carte" 
-        status={ checked === 'Paiement par Carte' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('Paiement par Carte')}
+        value="Paiement par carte" 
+        status={ checked === 'Paiement par carte' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement par carte')}
       />
-      <Text style={styles.labelStyle1}> Paiement par Carte </Text>
+      <Text style={styles.labelStyle1}> Paiement par carte </Text>
       </TouchableOpacity>
       </View>
 
@@ -69,51 +69,59 @@ export default function PayementDeLaCommande({navigation}) {
       </TouchableOpacity>
       </View>
 
-      <View style={styles.buttonStyle}>
-        <Button title='Valider'
-        onPress={buttonValider}/>
-      </View>
+      <Pressable style={styles.button} onPress={buttonValider}>
+            <Text style={styles.text}>Valider</Text>
+          </Pressable>
     </View>
     </View>
   );
 };
 
   const getStyles = (checked) =>StyleSheet.create({
+  arrierPlanBlanc:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
+  },
   radioView1: {
     width: '100%',
     flexDirection:'row',
     alignItems: 'center',
-    paddingVertical: 15,
+    paddingVertical: '4%',
     borderRadius: 8,
-    backgroundColor: checked === 'Paiement par Carte' ? 'blue': 'white'
+    backgroundColor: checked === 'Paiement par carte' ? design.Marron: 'white'
   },
 
   radioView2: {
     width: '100%',
     flexDirection:'row',
     alignItems: 'center',
-    paddingVertical: 15,
+    paddingVertical: '4%',
     borderRadius: 8,
-    backgroundColor: checked === 'Paiement par mobile money' ? 'blue': 'white'
+    backgroundColor: checked === 'Paiement par mobile money' ? design.Marron: 'white'
   },
 
   radioView3: {
     width: '100%',
     flexDirection:'row',
     alignItems: 'center',
-    paddingVertical: 15,
+    paddingVertical: '4%',
     borderRadius: 8,
-    backgroundColor: checked === 'Paiement sur place ou à la livraison' ? 'blue': 'white'
+    backgroundColor: checked === 'Paiement sur place ou à la livraison' ? design.Marron: 'white'
   },
 
   labelStyle1: {
     fontSize: 18,
+    marginLeft: '8%',
     width: '75%',
-    color: checked === 'Paiement par Carte' ? 'white': 'black'
+    color: checked === 'Paiement par carte' ? 'white': 'black'
   },
 
   labelStyle2: {
     fontSize: 18,
+    marginLeft: '8%',
     width: '75%',
     color: checked === 'Paiement par mobile money' ? 'white': 'black'
   },
@@ -121,6 +129,7 @@ export default function PayementDeLaCommande({navigation}) {
   labelStyle3: {
     fontSize: 18,
     width: '75%',
+    marginLeft: '8%',
     color: checked === 'Paiement sur place ou à la livraison' ? 'white': 'black'
   },
 
@@ -135,20 +144,28 @@ export default function PayementDeLaCommande({navigation}) {
   },
 
   headerText: {
-    fontSize: 38,
+    fontSize: 21,
     textAlign: 'center',
-    marginTop: '10%',
-    marginBottom: '25%',
+    marginBottom: '20%',
+    fontWeight: 'bold',
   },
 
   labelStyle: {
     fontSize: 18
   },
 
-  buttonStyle: {
-    width: 100,
+  button: {
     alignSelf: 'center',
-    marginBottom: '10%',
-    marginTop: '5%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: '3%',
+    paddingHorizontal: '10%',
+    borderRadius: 25,
+    backgroundColor: design.Marron,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: design.Blanc,
   },
 })
