@@ -15,9 +15,9 @@ export default function Carte({navigation}) {
     { label: 'Tunisie', value: '7' },
     { label: 'Russie', value: '8' },
     { label: 'Maroc', value: '9' },
-    { label: 'Australie', value: '9' },
-    { label: 'France', value: '9' },
-    { label: 'Egypte', value: '9' },
+    { label: 'Australie', value: '10' },
+    { label: 'France', value: '11' },
+    { label: 'Egypte', value: '12' },
   ]);
 
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
@@ -137,7 +137,11 @@ if (!value){                                                // l'utilisateur ne 
 }
   
   if (valid == true) {
-    Alert.alert('Félicitation !!! Vôtre paiement a été effectué avec succès')
+    navigation.navigate('resum_commande',
+    {
+      carte: 'paiement par carte',
+      nom: inputTitulaire,
+    })
   };
 
 }
@@ -168,7 +172,7 @@ if (!value){                                                // l'utilisateur ne 
         <TextInput
           style={styles.inputCard}
           placeholder='xxxx xxxx xxxx xxxx'
-          maxLength={19}
+          maxLength={16}
           keyboardType={'decimal-pad'}
           onChangeText={handleOnChangeCard}
           onFocus={() => {

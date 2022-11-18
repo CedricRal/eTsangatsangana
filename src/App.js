@@ -25,6 +25,7 @@ import transport from '../details_des_commandes/transport';
 import food from '../details_des_commandes/food';
 import Carte from '../paiement/Paiement_carte';
 import Mobile from '../paiement/Paiement_mobile';
+import ResumeCommande from '../resume_de_la_commande/resume_commande';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
@@ -85,6 +86,7 @@ function CommandesStackScreen(){
       <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Mes commandes'}}/>
       <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Mes commandes'}}/>
       <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: 'Mes commandes'}}/>
+      <CommandesStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: 'Les commandes'}}/>
       </CommandesStack.Navigator>
     </>
   )
