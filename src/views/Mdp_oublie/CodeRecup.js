@@ -56,7 +56,9 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 >
                     <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Icon name='check' size={40} color={design.Marron}/>
+                        <View style={styles.circle}>
+                        <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
+                        </View>
                         <Text style={styles.modalText}>Code de récupération envoyé</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
@@ -71,7 +73,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 
 
                 <Text style={styles.title}>Nouveau mot de passe</Text>
-                <Text style={styles.description}>Veuillez saisir le code reçu par Email</Text>
+                <Text style={styles.description}>Veuillez saisir le code reçu par e-mail</Text>
                 <View style={styles.viewContain}>
                 <View style={styles.boxContainer}>
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
     },
     title : {
         color:design.Marron,
-        fontSize: 38,
+        fontSize: 30,
         fontWeight:'bold',
         textAlign:'center',
         fontFamily:design.police
@@ -246,7 +248,18 @@ const styles = StyleSheet.create({
         fontSize:16,
         textAlign: "center",
         fontFamily:design.police
-      }
+      },
+      circle: {
+        width:52,
+        height:52,
+        borderWidth:4,
+        borderRadius:45,
+        borderColor:design.Vert
+    },
+    check:{
+        alignSelf:'center',
+        marginTop:'10%'
+    }
 })
 
 export default CodeRecup;
