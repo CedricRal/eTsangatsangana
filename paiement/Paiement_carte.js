@@ -182,8 +182,8 @@ if (!value){                                                // l'utilisateur ne 
         <View style={styles.imageCardJustified}>
           <Image source={require('../assets/MyImages/card.png')} style={styles.cardImage}/>
           <Image source={require('../assets/MyImages/visa.png')} style={styles.cardImage}/>
-          <Image source={require('../assets/MyImages/magnetic-card.png')} style={styles.cardImage}/>
-          <Image source={require('../assets/MyImages/cardA.png')} style={styles.cardImage}/>
+          <Image source={require('../assets/MyImages/paypal.png')} style={styles.cardImage}/>
+          <Image source={require('../assets/MyImages/unionpay.png')} style={styles.cardImage}/>
         </View>
       </View>
 
