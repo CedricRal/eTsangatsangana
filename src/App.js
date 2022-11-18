@@ -95,7 +95,7 @@ function ProfilStackScreen(){
   return(
     <> 
       <ProfilStack.Navigator initialRouteName='ModificationProfile' screenOptions={myHeader}>
-        <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modifier profile'}}/>
+        <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profile'}}/>
         <ProfilStack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profile'}}/>
       </ProfilStack.Navigator>
     </>
