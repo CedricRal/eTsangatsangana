@@ -5,26 +5,20 @@ import { Dropdown } from 'react-native-element-dropdown';
 export default function Mobile({navigation}) {
 
   const [data, setData] = useState([
-    { label: 'Mvola', value: '1' },
-    { label: 'Orange Money', value: '2' },
-    { label: 'Airtel Money', value: '3' },
+    { label: 'Mvola', value: 'Mvola' },
+    { label: 'Orange Money', value: 'Orange Money' },
+    { label: 'Airtel Money', value: 'Airtel Money' },
   ]);
 
   const [isFocus, setIsFocus] = useState(false);
   
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
-  const [inputDestinataire, setInputDestinataire] = useState("");
   const [inputNom, setInputNom] = useState("");
   const [inputEnvoyeur, setInputEnvoyeur] = useState("");
 
   const [errMobileMess,setErrMobileMess] = useState(); // state pour l'erreur mobile
-  const [errDestinataireMess, setErrDestinataireMess] = useState();
   const [errEnvoyeurMess, setErrEnvoyeurMess] = useState();
   const [errNomMess, setErrNomMess] = useState();
-
-  const handleOnChangeDestinataire = (text) => {       //prend les valeurs saisi dans le champ destinataire
-    setInputDestinataire(text);
-  }
 
   const handleOnChangeEnvoyeur = (text) => {       //prend les valeurs saisi dans le champ destinataire
     setInputEnvoyeur(text);
@@ -38,10 +32,6 @@ export default function Mobile({navigation}) {
     setErrMobileMess(errorMessage);
   }
 
-  const handleDestinataireError = (errorMessage) => {       //prend les etat de l'erreur l'email
-    setErrDestinataireMess(errorMessage);
-  }
-
   const handleEnvoyeurError = (errorMessage) => {       //prend les etat de l'erreur l'email
     setErrEnvoyeurMess(errorMessage);
   }
@@ -52,7 +42,7 @@ export default function Mobile({navigation}) {
 
 const champ = () => {
     let valid = true;
-    let reg_phone_number = /^(?:\+1)?\(?([2-9]{0,1}[0-9]{2})\)?[. -]?([0-9]{3})[.-]?([0-9]{4})$/
+    let reg_phone_number = /^(\+|00)[0-9]*$/
 
     if (!value){   // l'utilisateur ne complète pas le champ de la CARTE
         valid = false
@@ -72,7 +62,12 @@ const champ = () => {
         handleNomError("Entrer le nom de l'envoyeur")
     }
       if (valid == true) {
-        Alert.alert('Félicitation !!! Vôtre paiement a été effectué avec succès')
+        navigation.navigate('resum_commande',
+    {
+      carte: value,
+      nom: 'Rakoto Francis'
+
+    })
       };
 }
 
@@ -112,13 +107,8 @@ const champ = () => {
         <TextInput
           style={styles.input}
           keyboardType={'decimal-pad'}
-          onChangeText={handleOnChangeDestinataire}
           editable={false}
-          placeholder='numero du destinataire'
-          onFocus={() => {
-            handleDestinataireError(null)
-        }}
-        >+261 34 04 259 36</TextInput>
+        >+261340425936</TextInput>
 
         <View style={styles.rowName}>
             <Text style={styles.label}>Nom</Text><Text style={styles.inputMontant}>Rakoto Francis</Text>
@@ -127,13 +117,13 @@ const champ = () => {
         <Text style={styles.label}>Envoyeur</Text>
         <TextInput
           style={styles.input}
-          keyboardType={'decimal-pad'}
-          placeholder="numero de l'envoyeur"
+          keyboardType={'phone-pad'}
+          placeholder="numero de l'envoyeur (sans espace)"
           onChangeText={handleOnChangeEnvoyeur}
           onFocus={() => {
             handleEnvoyeurError(null)
         }}
-        >+261 34 04 259 36</TextInput>
+        >+261</TextInput>
         {errEnvoyeurMess && (
                 <Text style={styles.error}>{errEnvoyeurMess}</Text>//affiche l'erreur s'il y en a
             )}
@@ -149,6 +139,9 @@ const champ = () => {
         }}
         />
     </View>
+    {errNomMess && (
+                <Text style={styles.errorNom}>{errNomMess}</Text>//affiche l'erreur s'il y en a
+            )}
     <View style={styles.rowName}>
         <Text style={styles.label}>Montant</Text><Text style={styles.inputMontant}>Ar 80 000</Text>
    </View>  
@@ -184,6 +177,10 @@ const styles = StyleSheet.create({
       error: {
         color: 'red',
         marginLeft: '10%'
+      },
+      errorNom: {
+        color: 'red',
+        marginLeft: '25%'
       },
 
       placeholderStyle: {
