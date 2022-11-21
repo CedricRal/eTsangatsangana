@@ -47,12 +47,16 @@ const tabBarStyles = {
   borderTopRightRadius: 20,
   marginTop:-20
 }
+const firstScreen = {
+  headerTitleAlign:'left',
+  headerTitleStyle:{fontSize:26}
+}
 
 function HomeStackScreen(){
   return(
     <>
       <HomeStack.Navigator initialRouteName='Accueil'  screenOptions={myHeader}>
-        <HomeStack.Screen name='Accueil ' component={Home}/>
+        <HomeStack.Screen name='Accueil ' component={Home} options={firstScreen}/>
         <HomeStack.Screen name='Hotel' component={Hotel}/>
         <HomeStack.Screen name='Restaurant' component={Restaurant}/>
         <HomeStack.Screen name='Transport' component={Transport}/>
@@ -72,7 +76,7 @@ function OffreStackScreen(){
   return(
     <>
       <OffreStack.Navigator initialRouteName='Offre' screenOptions={myHeader}>
-        <OffreStack.Screen name='Les Offres' component={Offre}/>
+        <OffreStack.Screen name='Les Offres' component={Offre} options={firstScreen}/>
       </OffreStack.Navigator>
     </>
   )
@@ -81,7 +85,7 @@ function CommandesStackScreen(){
   return(
     <>
       <CommandesStack.Navigator initialRouteName='Liste_commande' screenOptions={myHeader}>
-      <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande'}}/> 
+      <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande', headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/> 
       <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
       <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Mes commandes'}}/>
       <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Mes commandes'}}/>
@@ -95,8 +99,8 @@ function ProfilStackScreen(){
   return(
     <> 
       <ProfilStack.Navigator initialRouteName='ModificationProfile' screenOptions={myHeader}>
-        <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profile'}}/>
-        <ProfilStack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profile'}}/>
+        <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profil', headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <ProfilStack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profil'}}/>
       </ProfilStack.Navigator>
     </>
   )
@@ -120,14 +124,14 @@ function ProfilStackScreen(){
 
             if (route.name == 'Accueil') {
                 iconName = 'home'
-            }else if (route.name == 'Profile'){
+            }else if (route.name == 'Profil'){
                 iconName = 'user-circle'
             }else if (route.name == 'Offres'){
               iconName = 'gift'
             }else if (route.name == 'Commandes'){
               iconName = 'scroll'
           }
-        return <Icon name={iconName} size={30} color={focused? design.Vert : design.Blanc} />
+        return <Icon name={iconName} size={25} color={focused? design.Vert : design.Blanc} />
         },
         tabBarStyle: tabBarStyles,
         tabBarActiveTintColor : design.Vert,
@@ -136,7 +140,7 @@ function ProfilStackScreen(){
         tabBarHideOnKeyboard: true,
        })}>
           <Tab.Screen name="Accueil" component={HomeStackScreen} />
-          <Tab.Screen name="Profile" component={ProfilStackScreen} />
+          <Tab.Screen name="Profil" component={ProfilStackScreen} />
           <Tab.Screen name="Offres" component={OffreStackScreen} />
           <Tab.Screen name="Commandes" component={CommandesStackScreen} />
         </Tab.Navigator>
