@@ -6,7 +6,6 @@ module.exports = {
     add_users: {
             type: user_type,
             args : {
-                id: {type : GraphQLID},
                 nom: {type : GraphQLString},
                 prenom: {type : GraphQLString},
                 num_tel: {type : GraphQLString},
@@ -16,7 +15,7 @@ module.exports = {
                 mdp: {type : GraphQLString},
                 adr_fb : {type : GraphQLString},
                 adr_gmail: {type : GraphQLString},
-                id_apple : {type : GraphQLID}
+                id_apple : {type : GraphQLString}
             },
             resolve
     }

@@ -15,7 +15,7 @@ const users = new GraphQLObjectType({
         mdp: {type : GraphQLString},
         adr_fb : {type : GraphQLString},
         adr_gmail: {type : GraphQLString},
-        id_apple : {type : GraphQLID}
+        id_apple : {type : GraphQLString}
     })
 })
 
