@@ -6,32 +6,68 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  Dimensions,
   Image,
   View,
   TouchableOpacity
 } from 'react-native'; 
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 function Restaurant({navigation}) {
+
+  const [index, setIndex] = React.useState(0)
+
+  renderItem = ({item,index}) => {
+    return (
+      <View style={styles.img_container}>
+      <Image source={item} style={styles.images}/>
+      </View>
+    )
+  };
 
   return (  
     <>
     <ScrollView>
     <View>
       
-      <ScrollView horizontal>
-        <View style={styles.img_container}>
-        <Image source={restaurant.img1} style={styles.images}/>
-        </View>
-        <View style={styles.img_container}>
-        <Image source={restaurant.img2} style={styles.images}/>
-        </View>
-        <View style={styles.img_container}>
-        <Image source={restaurant.img3} style={styles.images}/>
-        </View>
-      </ScrollView>
+    <Carousel
+      layout={"default"}
+      ref={ref => carousel = ref}
+      data={images}
+      sliderWidth={Width}
+      itemWidth={Width}
+      onSnapToItem={(index) => setIndex(index)}
+      renderItem={renderItem}
+      />
+      <View style={styles.Nextprev_container}>
+        <TouchableOpacity onPress={() => { carousel.snapToPrev(); }}>
+        <Icon name='chevron-left' size={50} color='rgba(0, 0, 0, 0.75)'/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { carousel.snapToNext(); }} style={styles.nextIcon}>
+        <Icon name='chevron-right' size={50} color='rgba(0, 0, 0, 0.75)'/>
+        </TouchableOpacity>
+      </View>
+      <Pagination
+          dotsLength={images.length}
+          activeDotIndex={index}
+          containerStyle={styles.pagination}
+          dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 20,
+              backgroundColor: 'rgba(255, 255, 255, 0.92)'
+          }}
+          inactiveDotStyle={{
+              // Define styles for inactive dots here
+          }}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+
       <View style={styles.body_container}>
       <Text style={styles.title_details}>{restaurant.produit}</Text>
         <Text style={styles.text_title}>{restaurant.name}</Text>
@@ -62,20 +98,34 @@ const restaurant = {
   horaire : 'Lundi au Vendredi',
   promo : 'Nuggets  -15% soit 21 000ar',
   cat_srv : 'hdtd',
-  img : require('../../assets/images/KFC.jpg'),
-  img1: require('../../assets/images/Burger/IMG_5765.jpg'),
-  img2: require('../../assets/images/Burger/IMG_5781.jpg'),
-  img3: require('../../assets/images/Burger/IMG_5782.jpg'),
   boutton : 'Passer une commande' 
 } 
+
+const images = [
+  require('../../assets/images/Burger/IMG_5765.jpg'),
+  require('../../assets/images/Burger/IMG_5781.jpg'),
+  require('../../assets/images/Burger/IMG_5782.jpg'),
+]
+
 export default Restaurant;
 
+const Width = Dimensions.get('screen').width;
+const Height = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
-  images:{width:'100%', height:200},
-  title_details:{color:design.Marron ,fontSize:28, fontWeight:'bold', textAlign:'center', marginVertical: '4%', fontFamily:design.police},
-  texte_center:{textAlign: 'center', marginVertical: '2%', fontFamily:design.police},
-  
+  images:{
+    width:Width,
+    height:Height * 0.30,
+    resizeMode:'cover',
+  },
+  title_details:{color:design.Marron ,
+    fontSize:28, fontWeight:'bold', 
+    textAlign:'center', 
+    marginVertical: '4%', 
+    fontFamily:design.police},
+  texte_center:{textAlign: 'center', 
+    marginVertical: '2%', 
+    fontFamily:design.police},
   text_title : {
     fontSize:28,
     color:design.Marron,
@@ -84,8 +134,8 @@ const styles = StyleSheet.create({
     fontFamily:design.police
   },
   img_container : {
-    width:340,
-    height:'100%'
+    width:Width,
+    height: Height * 0.30
   },
   body_container : {
     backgroundColor : 'white',
@@ -116,5 +166,16 @@ const styles = StyleSheet.create({
     textAlign:'center',
     textAlignVertical:'center',
     fontFamily:design.police
+  },
+  Nextprev_container : {
+    flexDirection:'row',
+    position:'absolute',
+    marginVertical:Height * 0.12,
+    marginHorizontal:Width*0.1
+  },
+  nextIcon : {marginLeft:Width*0.62},
+  pagination : {
+    backgroundColor: 'rgba(0, 0, 0, 0.25)',
+    marginTop:-60
   }
   });
