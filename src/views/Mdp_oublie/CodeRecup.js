@@ -34,7 +34,6 @@ const validate = () => { //fonction de validation des information
     if (valid == true) {
         navigation.navigate('NewPass')
     }
-    console.log(inputs.case3)
 };
 
 
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     },
     title : {
         color:design.Marron,
-        fontSize: 30,
+        fontSize: 28,
         fontWeight:'bold',
         textAlign:'center',
         fontFamily:design.police
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     },
     description : {
         color:'black',
-        fontSize: 18,
+        fontSize: 16,
         marginVertical: 10,
         paddingTop:40,
         textAlign:'center',

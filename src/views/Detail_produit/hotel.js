@@ -66,7 +66,6 @@ function Hotel({navigation}) {
         />
       
       <View style={styles.body_container}>
-        <Button title='next' onPress={() => { carousel.snapToNext(); }}/>
         <Text style={styles.title_details}>{hotel.produit}</Text>
         <Text style={styles.text_title}>{hotel.name}</Text>
         <Text style={styles.prix}>{hotel.prix}</Text>
