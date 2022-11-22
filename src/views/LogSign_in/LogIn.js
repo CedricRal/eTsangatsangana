@@ -16,10 +16,10 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre email svp!', 'email')
+        handleError('Entrer votre e-mail svp!', 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un email correct svp!', 'email')
+        handleError('Entrer un e-mail correct svp!', 'email')
         valid = false
     };
     if (!inputs.password){
@@ -56,7 +56,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <Text style={styles.title}>Connexion</Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Email' 
+                    placeholder='E-mail' 
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
@@ -107,10 +107,11 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         textAlign:'center',
         marginVertical: '10%',
+        color:'black',
         fontFamily: design.police
     },
     other2 : {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight:'bold',
         textAlign:'center',
         marginVertical: '5%',
