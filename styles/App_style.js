@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import design from './../src/views/Composant/couleur';
 
 
 const AppStyles = StyleSheet.create({
@@ -21,40 +22,39 @@ const AppStyles = StyleSheet.create({
   
     coverImage: {
         width: '100%',
-        height: 300,
-        borderRadius: 8,
-        borderWidth: 5,
-        borderColor: '#6b3b1e',
+        height: 200,
         opacity: .8,
+        borderRadius: 4
       },
 
     textImage: {
-        marginTop:210,
-        width: '96%',
-        height: 86,
+        marginTop:128,
+        width: '100%',
+        height: 70,
         position: 'absolute',
         alignSelf: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius:4
       },
 
     produit: {
         paddingHorizontal:10,
         width:'100%',
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 16,
         color: 'white',
     },
     entreprise: {
         paddingHorizontal:10,
         width:'100%',
-        fontSize: 16,
+        fontSize: 14,
         color: 'white',
     },
     prix: {
         paddingHorizontal:10,
         width:'100%',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
     },
     touchableStyle: {
@@ -82,7 +82,7 @@ const AppStyles = StyleSheet.create({
     searchView : {
       flexDirection:'row',
       marginHorizontal:5,
-      marginVertical:5
+      marginVertical:20,
     },
     searchIcon : {
       height:20,
@@ -112,8 +112,8 @@ const AppStyles = StyleSheet.create({
         fontSize:16,
     },
     flatList: {
-      backgroundColor:'silver',
-      marginHorizontal:2
+      backgroundColor:design.Blanc,
+      marginHorizontal:2,
     }
   });
 

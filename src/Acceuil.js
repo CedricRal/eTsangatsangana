@@ -86,7 +86,6 @@ const MyData = [
   }  
     const numColumn = 2
 
-
    
     const renderItem = ({ item }) => { 
       
@@ -165,6 +164,7 @@ const MyData = [
           numColumns={numColumn}
           renderItem={renderItem}
           style={AppStyles.flatList}
+          ListFooterComponent={<Text style={{height:20, backgroundColor:design.Blanc}}/>}
         />
       </View>
     );
