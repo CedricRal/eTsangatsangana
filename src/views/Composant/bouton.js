@@ -19,13 +19,14 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         alignSelf:'center',
-        width:'90%',
         marginBottom:'10%',
         borderRadius: 20
     },
     textBouton : {
         fontWeight:'bold',
         fontSize:18,
+        paddingHorizontal: 20,
+        textAlignVertical:'center',
         color:design.Blanc
     }
 })
