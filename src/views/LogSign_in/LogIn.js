@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard } from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
@@ -34,16 +34,6 @@ const validate = () => { //fonction de validation des information
     }
 };
 
-const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('email')
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch(e) {
-      // error reading value
-    }
-  };
-
-
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
     setInputs(prevState => ({...prevState, [input]: text}));
 }
@@ -52,6 +42,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 }
     return(
         <SafeAreaView style={styles.container}>
+
             <ScrollView style={styles.scroll_view}>
                 <Text style={styles.title}>Connexion</Text>
                 <View style={styles.viewContain}>

@@ -52,7 +52,7 @@ const validate = () => { //fonction de validation des information
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
         valid = false
-        handleError('Le mot de passe doit comporté 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        handleError('Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
     };
     if (!inputs.password){
         valid = false

@@ -20,7 +20,7 @@ const validate = () => { //fonction de validation des information
         handleError('Entrer votre mot de passe svp!', 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
-        handleError('Le mot de passe doit comporté 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        handleError('Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
         valid = false
     };
     if (!inputs.password){
@@ -36,7 +36,7 @@ const validate = () => { //fonction de validation des information
 };
 
 const register = () => {
-    setModalVisible(!modalVisible)
+    setModalVisible(!modalVisible);
 };
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
@@ -62,7 +62,9 @@ return(
                         <Text style={styles.modalText}>Récupération de mot de passe réussie</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}
+                        onPress={() => {
+                            setModalVisible(!modalVisible);
+                            navigation.navigate('LogIn')}}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
@@ -76,7 +78,7 @@ return(
                 <Text style={styles.description}>Entrer un nouveau mot de passe pour terminer la récupération</Text>                
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre nouveau Mot de passe'
+                    placeholder='Entrer votre nouveau mot de passe'
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -84,7 +86,7 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='Confirmer votre Mot de passe'
+                    placeholder='Confirmer votre mot de passe'
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     },
     title : {
         color:design.Marron,
-        fontSize: 30,
+        fontSize: 28,
         fontWeight:'bold',
         textAlign:'center',
         fontFamily:design.police
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     },
     description : {
         color:'black',
-        fontSize: 18,
+        fontSize: 16,
         marginVertical: 10,
         textAlign:'center'
     },
