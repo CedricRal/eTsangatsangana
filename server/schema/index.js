@@ -6,7 +6,8 @@ const {get_user} = require('./query/get_user')
 const queryAll = new GraphQLObjectType({
     name : 'query',
     fields : () => ({
-        get_user
+        get_user,
+        auth_user
     })
 })
 
@@ -14,7 +15,7 @@ const mutationAll = new GraphQLObjectType({
     name: 'mutation',
     fields: () => ({
         add_users,
-        auth_user
+        
     })
 })
 
