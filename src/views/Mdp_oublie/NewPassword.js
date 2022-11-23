@@ -36,7 +36,7 @@ const validate = () => { //fonction de validation des information
 };
 
 const register = () => {
-    setModalVisible(!modalVisible)
+    setModalVisible(!modalVisible);
 };
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
@@ -62,7 +62,9 @@ return(
                         <Text style={styles.modalText}>Récupération de mot de passe réussie</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
-                        onPress={() => setModalVisible(!modalVisible)}
+                        onPress={() => {
+                            setModalVisible(!modalVisible);
+                            navigation.navigate('LogIn')}}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
