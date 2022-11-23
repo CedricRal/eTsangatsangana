@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
 import design from '../src/views/Composant/couleur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
  export default CommandList = ({navigation}) => { 
 
   const [showFilter, setShowFilter] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(false);
   const [dataS, setDataS] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
   
   const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
@@ -25,9 +27,11 @@ import design from '../src/views/Composant/couleur';
   const [open, setOpen] = useState(false);
   const [date2, setDate2] = useState(new Date());
   const [open2, setOpen2] = useState(false);
-  const [debut, setDebut] = useState('dd/mm/yy');
-  const [fin, setFin] = useState('dd/mm/yy');
+  const [debut, setDebut] = useState('Date début');
+  const [fin, setFin] = useState('Date fin');
   
+  const [modalVisible, setModalVisible] = useState(false);
+
   const empty_list = () => {
       return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     } 
@@ -93,53 +97,78 @@ import design from '../src/views/Composant/couleur';
 
   return (
     <View>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.circle}>
+                        <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
+                        </View>
+                        <Text style={styles.modalText}>Filtre appliqué</Text>
+                        <TouchableOpacity
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        >
+                        <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
+
       <FlatList
         ListHeaderComponent={
         <View style={styles.headStyle}>
-          
+
           <View style={styles.searchView}>
-            <View style={styles.inputContainer}>
-            <Image 
-            source={require('../src/assets/icon/search.png')}    //tout le composant bar de recherche ici
-            style={styles.searchIcon}/>
+            <View style={[styles.inputContainer, {borderColor : isFocused? design.Vert : design.Marron}]}>
+            <Icon 
+            name='search'    //tout le composant bar de recherche ici
+            size={20} color={design.Marron}/>
             <TextInput
             value={query}
             onChangeText={handleSearch}
             placeholder="Rechercher une commande"
+            onFocus={()=>{
+              setIsFocused(true);
+              }}
+              onBlur={()=>{
+              setIsFocused(false);
+              }}
             style={styles.placeholders}
             />
             </View>
-            <TouchableOpacity onPress={() => {setShowFilter(!showFilter)}}>
-                <Image 
-                source={require('../src/assets/icon/filter-icon.png')}   //touchableOpacity ici cache ou montre l'option de filtre de recherche
-                style={styles.filterIcon}/> 
+            <TouchableOpacity onPress={() => setShowFilter(!showFilter)}>
+                <Icon 
+                name='sliders-h'   //touchableOpacity ici cache ou montre l'option de filtre de recherche
+                size={30} color={design.Marron} style={{marginVertical:'20%'}}/> 
             </TouchableOpacity>
           </View>
 
-            <View style={[{display: showFilter? 'flex': 'none'}]}>
+          <View style={[{display: showFilter? 'flex': 'none'}]}>
             <Text style={styles.other}>
                 Filtrer
             </Text>
-            <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date début</Text>
-                <TouchableOpacity onPress={() => setOpen(true)}>
+              <View style={styles.dateInputContainer}>
+                <TouchableOpacity onPress={() => setOpen(true)} style={styles.dateInput}>
+                <Icon name='calendar-alt' size={30} color={design.Marron}/>
                 <Text style={styles.textDateInput}>
                   {debut}
                 </Text>
+                <Icon name='chevron-down' size={20} color={design.Marron}/>
                 </TouchableOpacity>
-                <Image source={require('../src/assets/icon/calendar.png')}
-                style={styles.img}/>
-            </View>
-            <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date fin</Text>
-                <TouchableOpacity onPress={() => setOpen2(true)}>
+                <TouchableOpacity onPress={() => setOpen2(true)} style={styles.dateInput}>
+                <Icon name='calendar-alt' size={30} color={design.Marron}/>
                 <Text style={styles.textDateInput}>
                   {fin}
                 </Text>
+                <Icon name='chevron-down' size={20} color={design.Marron}/>
                 </TouchableOpacity>
-                <Image source={require('../src/assets/icon/calendar.png')}
-                style={styles.img}/>
-            </View>
+              </View>
+
             <DatePicker //Prend la date entrée par l'utilisateur
               mode={datePicker.mode}
               modal
@@ -176,13 +205,13 @@ import design from '../src/views/Composant/couleur';
                 else{            //condition que si user entre une date inferieur a celle du debut
                   Alert.alert('entrer une date de fin');
                   setOpen2(false);
-                  setFin('dd/mm/yy');
+                  setFin('Date fin');
               }}}
               onCancel={() => {
                 setOpen2(false);
               }}
-            />            
-            <Button title='Appliquer' onPress={() => {Alert.alert('Filtre appliqué'); setShowFilter(!showFilter)}}/>
+            /> 
+            <Button title='Appliquer' onPress={() => {setModalVisible(!modalVisible); setShowFilter(!showFilter)}}/>
             </View>
         </View>  
         }
@@ -194,6 +223,8 @@ import design from '../src/views/Composant/couleur';
     );
   }
 
+  const Width = Dimensions.get('screen').width;
+  const Height = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
     headStyle: {
       borderBottomLeftRadius: 15,
@@ -212,7 +243,6 @@ const styles = StyleSheet.create({
 
     bodyContainer: {
       backgroundColor: '#f8f8f8',
-      marginTop: 5,
       borderRadius: 20,
       borderColor: 'gray',
       marginBottom: '2%',
@@ -279,8 +309,7 @@ const styles = StyleSheet.create({
       marginRight:10,
       flexDirection: 'row',
       paddingHorizontal: 15,
-      borderWidth: 0.5,
-      borderColor:'grey',
+      borderWidth: 1,
       borderRadius:10,
       alignItems: 'center',
       width:'87%',
@@ -291,10 +320,10 @@ const styles = StyleSheet.create({
       fontSize:16,
   },
   other: {
-      marginTop:30,
-      marginBottom:10,
+      marginVertical:Height*0.01,
+      fontWeight:'bold',
       textAlign:'center',
-      fontSize: 24,
+      fontSize: 22,
       display:'flex',
       color:'black'
   },
@@ -304,33 +333,36 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       alignSelf: 'center',
       marginVertical:10,
-      width:260,
-  },
-  textDateInput: {
       backgroundColor:'whitesmoke',
       borderRadius:5,
-      borderWidth:1, 
-      marginHorizontal:20, 
-      borderColor:'grey', 
-      width:90,
-      height:30,
+      borderWidth:1,
+      borderColor: design.Marron,
+      textAlignVertical:'center',
+      marginHorizontal:Width * 0.02,
+      paddingHorizontal:5,
+  },
+  textDateInput: {
+      width: 100,
+      height:40,
       fontSize:16,
       textAlignVertical:'center',
       textAlign:'center'
   },
-  img : {
-      height:30, 
-      width:30
+  dateInputContainer : {
+      flexDirection:'row',
+      alignSelf:'center',
+      marginVertical:Height*0.02,
   },
   DebutFin : {
       width:100,
       fontSize:16,
       color:'black'
   },
-    searchView : {
-      flexDirection:'row',
-      marginHorizontal:5
-    },
+  searchView : {
+    flexDirection:'row',
+    marginHorizontal:5,
+    marginVertical:20,
+  },
     searchIcon : {
       height:20,
       width:20
@@ -340,6 +372,64 @@ const styles = StyleSheet.create({
       height:40,
       marginLeft:1,
       marginVertical:7
-    }
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22,
+    },
+    modalView: {
+      width:Width*0.7,
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    button: {
+      width: 50,
+      borderRadius: 10,
+      padding: 10,
+      elevation: 2
+    },
+    buttonOpen: {
+      backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+      backgroundColor: design.Marron,
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+      fontFamily:design.police
+    },
+    modalText: {
+      color:'black',
+      marginBottom: 15,
+      fontSize:16,
+      textAlign: "center",
+      fontFamily:design.police
+    },
+    circle: {
+      width:52,
+      height:52,
+      borderWidth:4,
+      borderRadius:45,
+      borderColor:design.Vert
+  },
+  check:{
+      alignSelf:'center',
+      marginTop:'10%'
+  }
 
 })
