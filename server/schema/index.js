@@ -14,7 +14,8 @@ const queryAll = new GraphQLObjectType({
 const mutationAll = new GraphQLObjectType({
     name: 'mutation',
     fields: () => ({
-        add_users
+        add_users,
+        
     })
 })
 
