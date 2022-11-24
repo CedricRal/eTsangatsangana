@@ -5,7 +5,7 @@ const { GraphQLID,
 const users = new GraphQLObjectType({
     name: 'user',
     fields: () => ({
-        id: {type : GraphQLID},
+        id: {type : GraphQLString},
         nom: {type : GraphQLString},
         prenom: {type : GraphQLString},
         num_tel: {type : GraphQLString},

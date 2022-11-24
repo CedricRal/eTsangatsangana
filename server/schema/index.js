@@ -1,11 +1,13 @@
 const {GraphQLSchema, GraphQLObjectType,GraphQLID,GraphQLString} = require('graphql')
 const { add_users } = require('./mutation/inscription_user')
-const {get_user} = require('./query/get_user')
+const {profil_user} = require('./query/profil_user')
+const {auth_user} = require('./query/authentification_user')
 
 const queryAll = new GraphQLObjectType({
     name : 'query',
     fields : () => ({
-        get_user
+        profil_user,
+        auth_user
     })
 })
 
