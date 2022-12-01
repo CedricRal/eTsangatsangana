@@ -5,6 +5,7 @@ const { createClient } = require('redis')
 const client_redis = createClient()
 
 
+
 module.exports = {
     resolve(parent,args){
         try{
@@ -20,6 +21,8 @@ module.exports = {
                                         }
                                 else{
                                     resolve(new Promise((resolve,reject)=>{
+                                        console.log(args.mail);
+                                        console.log(result.rows[0].mdp);
                                         if (bcrypt.compareSync(args.mdp , result.rows[0].mdp)){
                                             const token_user = jwt.sign(
                                             { id: result.rows[0].id },

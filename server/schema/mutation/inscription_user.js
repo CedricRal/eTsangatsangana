@@ -1,5 +1,5 @@
 const {GraphQLObjectType, GraphQLID,GraphQLString} = require('graphql')
-const user_type = require('../../Type/users')
+const user_type = require('../../Type/user_type')
 const {resolve} = require('../../resolvers/mutation/inscription_user')
 
 module.exports = {

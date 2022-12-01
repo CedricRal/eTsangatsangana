@@ -7,7 +7,7 @@ const connexion_user = new GraphQLObjectType({
     fields : () =>({
         mail : {type : GraphQLString},
         token : {type : GraphQLString},
-        id : {type : GraphQLID}
+        id : {type : GraphQLString}
     })
 })
 
