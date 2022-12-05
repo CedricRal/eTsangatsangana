@@ -134,7 +134,7 @@ const MyData = [
             <TextInput
             value={query}
             onChangeText={handleSearch}
-            placeholder="Rechercher une commande"
+            placeholder="Rechercher par produit"
             style={AppStyles.placeholders}
             />
             </View>
