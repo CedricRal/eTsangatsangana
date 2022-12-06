@@ -1,0 +1,38 @@
+type users{
+    id: String!
+    nom: String!
+    prenom: String!
+    num_tel: String!
+    mail: String!
+    adresse: String!
+    photo: String
+    mdp: String!
+    adr_fb : String
+    adr_gmail: String
+    id_apple : String
+}
+
+type connexion{
+    id: String!
+    token: String!
+}
+
+######Query and Mutation##############
+type Query{
+    auth_user(mail:String! mdp: String!): connexion!
+    profil_user(id: String): users
+}
+
+type Mutation{
+    inscri_user(id: String!
+    nom: String!
+    prenom: String!
+    num_tel: String!
+    mail: String!
+    adresse: String!
+    photo: String
+    mdp: String!
+    adr_fb : String
+    adr_gmail: String
+    id_apple : String): users!
+}
