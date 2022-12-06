@@ -1,11 +1,10 @@
-const client = require('../../services/connection')
-const users = require('../../Type/user_type')
+const client = require('../../../services/connection')
 const bcrypt = require('bcryptjs')
 const { v4: uuidv4 } = require('uuid')
 
 
 module.exports = {
-    resolve: (parent,args) => {
+    inscri_user: (parent,args) => {
         try{
             return new Promise((resolve, reject) => {
                 const salt = bcrypt.genSaltSync(10)

@@ -1,12 +1,27 @@
-const express = require('express')
-const {graphqlHTTP} = require('express-graphql')
-const Schema = require('./schema/index')
+const {ApolloServer} = require('apollo-server')
+const {makeExecutableSchema} = require('@graphql-tools/schema')
+const fs = require('fs')
+const resolvers = require('./resolvers/')
 
-const app = express()
+const typeDefs = fs.readFileSync('./schema/Type/users.graphql',{encoding:'utf-8'})
 
-app.use('/graphql',graphqlHTTP({
-    schema: Schema,
-    graphiql: true
-}))
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers: resolvers
+})
 
-app.listen(4000, () => console.log('The server is running in port 4000'))
+const endpoint = './graphql'
+const server = new ApolloServer({
+    schema,
+    playground: {
+        tabs: [
+          {
+            endpoint
+          },
+        ],
+      },
+})
+
+server.listen(4000).then(() => {
+    console.log(`🚀 Server ready at https://www.graphqlbin.com/v2/new whith endpoint url = http://localhost:4000/graphql/`);
+})
