@@ -11,7 +11,7 @@ const token_user = jwt.sign(
     )
 
 const validation = (req, res, next) => {
-    /*    const { authorization } = req.headers
+    const { authorization } = req.headers
         console.log(req.headers)
         const decodedToken = jwt.verify(authorization, 'RANDOM_TOKEN_SECRET');
         const userId = decodedToken.userId;

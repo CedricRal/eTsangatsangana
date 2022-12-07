@@ -7,7 +7,7 @@ const client_redis = createClient()
 
 
 module.exports = {
-    auth_user: (parent,args) => {
+    auth_user: (parent,args,context) => {
             try{
                 return new Promise((resolve,reject) => {
                     client.query('SELECT id FROM "Users" WHERE ("mail" = $1)', [args.mail], function(err,result){
@@ -33,9 +33,8 @@ module.exports = {
                                             }
                                             async function redis(){
                                                 await client_redis.connect()
-                                                await client_redis.set('1', token_user)
-                                                const value = await client_redis.get('1')
-                                                console.log("La valeur du token qui est stocker dans le redis: "+value)
+                                                await client_redis.set(token_user, '1')
+                                                const value = await client_redis.get(token_user)
                                                 client_redis.disconnect()
                                             }
                                             redis()
