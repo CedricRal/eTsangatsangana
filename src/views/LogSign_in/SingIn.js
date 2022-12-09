@@ -3,7 +3,6 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, Alert
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import design from './../Composant/couleur';
 
