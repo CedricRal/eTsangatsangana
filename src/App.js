@@ -8,14 +8,14 @@ import LogIn from './views/LogSign_in/LogIn';
 import SingIn from './views/LogSign_in/SingIn';
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './Acceuil';
 import ProfilEdit from '../ProfileManagement/EditProfile';
 import Recup from './views/Mdp_oublie/Recuperation';
 import CodeRecup from './views/Mdp_oublie/CodeRecup';
 import NewPass from './views/Mdp_oublie/NewPassword';
 import Offre from './views/Produits/Offre';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
 import UserProfile from './../ProfileManagement/Profil';
 import CommandDetails from '../details_des_commandes/transport';
 import PayementDeLaCommande from '../ProfileManagement/PayementDeLaCommande';
@@ -26,6 +26,7 @@ import food from '../details_des_commandes/food';
 import Carte from '../paiement/Paiement_carte';
 import Mobile from '../paiement/Paiement_mobile';
 import ResumeCommande from '../resume_de_la_commande/resume_commande';
+import Menu from './views/Composant/Menu';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
@@ -34,6 +35,8 @@ const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
 const CommandesStack = createNativeStackNavigator();
 const ProfilStack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
 const myHeader = {
   headerStyle:{backgroundColor:design.Marron},
   headerTintColor:design.Blanc,
@@ -105,6 +108,17 @@ function ProfilStackScreen(){
     </>
   )
 }
+function DrawerStackScreen(){
+  return(
+    <>
+      <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profil'}}/>
+        <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profil'}}/>
+        <Drawer.Screen name='Menu' component={ Menu } options={{title:'Choisir une langues'}}/>
+      </Drawer.Navigator>
+    </>
+  )
+}
 
 
   const Tab = createBottomTabNavigator();
@@ -140,7 +154,7 @@ function ProfilStackScreen(){
         tabBarHideOnKeyboard: true,
        })}>
           <Tab.Screen name="Accueil" component={HomeStackScreen} />
-          <Tab.Screen name="Profil" component={ProfilStackScreen} />
+          <Tab.Screen name="Profil" component={DrawerStackScreen} />
           <Tab.Screen name="Offres" component={OffreStackScreen} />
           <Tab.Screen name="Commandes" component={CommandesStackScreen} />
         </Tab.Navigator>
