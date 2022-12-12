@@ -7,7 +7,7 @@ import Button from './views/Composant/bouton';
 import { ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
-
+import { useTranslation } from 'react-i18next';
 
 const MyData = [
   { 
@@ -60,6 +60,8 @@ const MyData = [
     const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
     
     const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donnée rehetra (MyData)
+
+    const {t} = useTranslation();
 
     useEffect(() => {
       setDataS(MyData);
@@ -134,7 +136,7 @@ const MyData = [
             <TextInput
             value={query}
             onChangeText={handleSearch}
-            placeholder="Rechercher par produit"
+            placeholder={t('home:search')}
             style={AppStyles.placeholders}
             />
             </View>
@@ -154,7 +156,7 @@ const MyData = [
         }}>
           <ScrollView style={{backgroundColor:'whitesmoke'}}>
             <FiltrePub/>
-            <Button title='Appliquer' onPress={() => setModalVisible(!modalVisible)}/>
+            <Button title={t('home:buttonApply')} onPress={() => setModalVisible(!modalVisible)}/>
           </ScrollView>
         </Modal>
         </>

@@ -15,9 +15,11 @@ import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useTranslation } from 'react-i18next';
 
 function Restaurant({navigation}) {
 
+  const {t} = useTranslation();
   const [index, setIndex] = React.useState(0)
 
   renderItem = ({item,index}) => {
@@ -73,13 +75,13 @@ function Restaurant({navigation}) {
         <Text style={styles.text_title}>{restaurant.name}</Text>
         <Text style={styles.prix}>{restaurant.prix}</Text>
         <Text style={styles.texte_center}>{restaurant.def}</Text>
-        <Text style={styles.texte_center}>Contact: +{restaurant.tel}</Text>
-        <Text style={styles.texte_center}>Siège: {restaurant.lieu}</Text>
-        <Text style={styles.texte_center}>Horaire: {restaurant.horaire}</Text>
-        <Text style={styles.texte_center}>Catégorie de service: {restaurant.cat_srv}</Text>
-        <Text style={styles.texte_center}>Offre: {restaurant.promo}</Text>
-        <Text style={styles.description}> Description:    {restaurant.desc}</Text>
-        <Button title={restaurant.boutton} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('details:contact')}: +{restaurant.tel}</Text>
+        <Text style={styles.texte_center}>{t('details:seat')}: {restaurant.lieu}</Text>
+        <Text style={styles.texte_center}>{t('details:schedule')}: {restaurant.horaire}</Text>
+        <Text style={styles.texte_center}>{t('details:category')}: {restaurant.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('details:offer')}: {restaurant.promo}</Text>
+        <Text style={styles.description}> {t('details:description')}:    {restaurant.desc}</Text>
+        <Button title={t('details:passCommand')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>
@@ -91,7 +93,7 @@ const restaurant = {
   name : 'KFC Madagascar',
   produit: 'Nom du produit',
   prix: '21 000 Ar',
-  def : 'restaurantt spécialiste en poulet',
+  def : 'restaurant spécialiste en poulet',
   tel : 261367364744,
   desc : 'Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Do ut amet sit mollit commodo elit.',
   lieu : 'II J htg Ankorondrano',

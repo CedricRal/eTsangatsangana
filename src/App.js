@@ -26,10 +26,11 @@ import food from '../details_des_commandes/food';
 import Carte from '../paiement/Paiement_carte';
 import Mobile from '../paiement/Paiement_mobile';
 import ResumeCommande from '../resume_de_la_commande/resume_commande';
-import Menu from './views/Composant/Menu';
+import Languages from './views/Composant/Menu';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
+import './constants/DCSlocalize';
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
@@ -114,7 +115,7 @@ function DrawerStackScreen(){
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
         <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profil'}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profil'}}/>
-        <Drawer.Screen name='Menu' component={ Menu } options={{title:'Choisir une langues'}}/>
+        <Drawer.Screen name='Languages' component={ Languages } options={{title:'Choisir une langues'}}/>
       </Drawer.Navigator>
     </>
   )
@@ -153,10 +154,10 @@ function DrawerStackScreen(){
         headerShown : false,
         tabBarHideOnKeyboard: true,
        })}>
-          <Tab.Screen name="Accueil" component={HomeStackScreen} />
-          <Tab.Screen name="Profil" component={DrawerStackScreen} />
-          <Tab.Screen name="Offres" component={OffreStackScreen} />
-          <Tab.Screen name="Commandes" component={CommandesStackScreen} />
+          <Tab.Screen name="Accueil" component={HomeStackScreen} options={{title: 'Accueil'}}/>
+          <Tab.Screen name="Profil" component={DrawerStackScreen} options={{title: 'Profil'}}/>
+          <Tab.Screen name="Offres" component={OffreStackScreen} options={{title: 'Offres'}}/>
+          <Tab.Screen name="Commandes" component={CommandesStackScreen} options={{title: 'Commandes'}}/>
         </Tab.Navigator>
       </NavigationContainer>
     );

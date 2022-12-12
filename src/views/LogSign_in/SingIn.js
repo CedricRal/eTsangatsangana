@@ -5,9 +5,11 @@ import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
 import { launchImageLibrary } from 'react-native-image-picker';
 import design from './../Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 function SingIn({navigation}) {
 
+    const {t} = useTranslation();
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     nom:'',
@@ -24,40 +26,40 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre e-mail svp!', 'email')
+        handleError(t('logSignIn:noEmail'), 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un e-mail correct svp!', 'email')
+        handleError(t('logSignIn:incorrectEmail'), 'email')
         valid = false
     };
     if (!inputs.nom){
-        handleError('Entrer votre nom svp!', 'nom')
+        handleError(t('logSignIn:noName'), 'nom')
         valid = false
     };
     if (!inputs.prenom){
-        handleError('Entrer votre prénom svp!', 'prenom')
+        handleError(t('logSignIn:noFirstname'), 'prenom')
         valid = false
     };
     if (!inputs.phone){
-        handleError('Entrer votre numéro de téléphone svp!', 'phone')
+        handleError(t('logSignIn:noPhone'), 'phone')
         valid = false
     };
     if (!inputs.adresse){
-        handleError('Entrer votre adresse svp!', 'adresse')
+        handleError(t('logSignIn:noAdress'), 'adresse')
         valid = false
     };
     if (!inputs.password){
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('logSignIn:noPassword'), 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
         valid = false
-        handleError('Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        handleError(t('logSignIn:neededPassword'), 'password')
     };
     if (!inputs.password){
         valid = false
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('logSignIn:noPassword'), 'password')
     } else if (inputs.confirm != inputs.password){
-        handleError('Mot de passe ne correspond pas', 'confirm')
+        handleError(t('logSignIn:matchingPassword'), 'confirm')
         valid = false
     };
     if (valid == true) {
@@ -109,25 +111,25 @@ const renderFileData = () => {
 return(
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>S'inscrire</Text>
+                <Text style={styles.title}>{t('logSignIn:titleSignIn')}</Text>
                 
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Nom' 
+                    placeholder={t('logSignIn:lastname')} 
                     error={errors.nom} 
                     onChangeText={text => handleOnChange(text, 'nom')}
                     onFocus={() => {
                         handleError(null, 'nom')
                     }}/>
                 <Input 
-                    placeholder='Prénom' 
+                    placeholder={t('logSignIn:firstname')} 
                     error={errors.prenom}
                     onChangeText={text => handleOnChange(text, 'prenom')}
                     onFocus={() => {
                         handleError(null, 'prenom')
                     }}/>
                 <Input 
-                    placeholder='Numéro de téléphone'
+                    placeholder={t('logSignIn:phone')}
                     error={errors.phone}
                     keyboardType = 'numeric' 
                     onChangeText={text => handleOnChange(text, 'phone')}
@@ -135,21 +137,21 @@ return(
                         handleError(null, 'phone')
                     }}/>
                 <Input 
-                    placeholder='Adresse' 
+                    placeholder={t('logSignIn:adress')} 
                     error={errors.adresse}
                     onChangeText={text => handleOnChange(text, 'adresse')}
                     onFocus={() => {
                         handleError(null, 'adresse')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre e-mail'
+                    placeholder={t('logSignIn:enterEmail')}
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder='Mot de passe'
+                    placeholder={t('logSignIn:password')}
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -157,16 +159,16 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='Confirmation de mot de passe'
+                    placeholder={t('logSignIn:confirmation')}
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
                     onFocus={() => {
                         handleError(null, 'confirm')
                     }}/>
-                <Button title="S'inscrire" onPress={validate}/>
+                <Button title={t('logSignIn:signIn')} onPress={validate}/>
                 <Text style={styles.other} onPress={() => navigation.navigate('LogIn')}>
-                    Vous avez déjà un compte?
+                    {t('logSignIn:already')}
                 </Text>
                 </View>
             </ScrollView>

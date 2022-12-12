@@ -15,9 +15,11 @@ import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useTranslation } from 'react-i18next';
 
 function Transport({navigation}) {
 
+  const {t} = useTranslation();
   const [index, setIndex] = React.useState(0)
 
   renderItem = ({item,index}) => {
@@ -72,14 +74,14 @@ function Transport({navigation}) {
         <Text style={styles.title_details}>{transport.produit}</Text>
         <Text style={styles.text_title}>{transport.name}</Text>
         <Text style={styles.prix}>{transport.prix}</Text>
-        <Text style={styles.texte_center}>Ligne: {transport.direction}</Text>
-        <Text style={styles.texte_center}>Contact: +{transport.tel}</Text>
-        <Text style={styles.texte_center}>Siège: {transport.lieu}</Text>
-        <Text style={styles.texte_center}>Horaire: {transport.horaire}</Text>
-        <Text style={styles.texte_center}>Catégorie de service: {transport.cat_srv}</Text>
-        <Text style={styles.texte_center}>Offre: {transport.promo}</Text>
-        <Text style={styles.description}> Description:    {transport.desc}</Text>
-        <Button title={transport.boutton} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('details:line')}: {transport.direction}</Text>
+        <Text style={styles.texte_center}>{t('details:contact')}: +{transport.tel}</Text>
+        <Text style={styles.texte_center}>{t('details:seat')}: {transport.lieu}</Text>
+        <Text style={styles.texte_center}>{t(('details:schedule'))}: {transport.horaire}</Text>
+        <Text style={styles.texte_center}>{t('details:category')}: {transport.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('details:offer')}: {transport.promo}</Text>
+        <Text style={styles.description}> {t('details:description')}:    {transport.desc}</Text>
+        <Button title={t('details:reserv')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>
@@ -97,7 +99,6 @@ const transport = {
   horaire : 'Lundi au Vendredi',
   promo : 'Tanà Antsirabe à 10 000ar',
   cat_srv : 'hdtd',
-  boutton : 'Faire une réservation'
 };
 const images = [
   require('../../assets/images/TanaAmpefy/IMG1.jpg'),

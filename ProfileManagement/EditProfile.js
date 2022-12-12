@@ -4,9 +4,11 @@ import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from '../src/views/Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 const ProfilEdit = () => {
 
+    const { t } = useTranslation();
     const [fileData, setFileData] = useState(null);
 
     const [username, setUsername] = useState("Vina")
@@ -101,7 +103,7 @@ const ProfilEdit = () => {
           </View>
 
           <Pressable style={styles.button} onPress={modifier}>
-            <Text style={styles.text}>Modifier</Text>
+            <Text style={styles.text}>{t('langues:buttonModify')}</Text>
           </Pressable> 
           </ScrollView>              
         </View>

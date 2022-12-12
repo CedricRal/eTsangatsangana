@@ -3,9 +3,10 @@ import { Alert, StyleSheet, Text, TouchableOpacity, Image, View, ScrollView } fr
 import {SelectList} from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-date-picker';
 import { RadioButton } from 'react-native-paper';
-
+import { useTranslation } from "react-i18next";
 
 export default FiltrePub = () => {
+  const {t} = useTranslation();
   const [type, setType] = React.useState('');
   const [checked, setChecked] = React.useState('');
 
@@ -24,9 +25,9 @@ export default FiltrePub = () => {
   }
 
   const types = [
-    {key:'hotel', value:'Hotelerie'},
-    {key:'restaurant', value:'Restauration'},
-    {key:'transport', value:'Transport'}
+    {key:'hotel', value:t('home:hotellerie')},
+    {key:'restaurant', value:t('home:restauration')},
+    {key:'transport', value:t('home:transport')}
   ];
   const voyage = [
     {key:'classic', value:'Classic'},
@@ -48,11 +49,6 @@ export default FiltrePub = () => {
     {key:'2', value:'Produit2'},
     {key:'3', value:'Produit3'}
   ];
-  const chambre = [
-    {key:'2etoiles', value:'2 étoiles'},
-    {key:'3etoiles', value:'3 étoiles'},
-    {key:'5etoiles', value:'5 étoiles'}
-  ];
   const prixChambre = [
     {key:'1p', value:'< Ar 100 000'},
     {key:'2p', value:'Ar 150 000 - Ar 250 000'},
@@ -60,10 +56,9 @@ export default FiltrePub = () => {
   ];
 
 
-  const hotel = JSON.stringify(type)==JSON.stringify('Hotelerie')
-  const transport = JSON.stringify(type)==JSON.stringify('Transport')
-  const restaurant = JSON.stringify(type)==JSON.stringify('Restauration')
-  console.log(checked)
+  const hotel = JSON.stringify(type)==JSON.stringify(t('home:hotellerie'))
+  const restaurant = JSON.stringify(type)==JSON.stringify(t('home:restauration'))
+  const transport = JSON.stringify(type)==JSON.stringify(t('home:transport'))
 
   return (
     <ScrollView>
@@ -72,7 +67,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={(val) => setType(val)}
       data={types}
-      placeholder={'filtrer les publicité'}
+      placeholder={t('home:filterPlaceholder')}
       />
     </View>
 
@@ -80,7 +75,7 @@ export default FiltrePub = () => {
 
     <View style={styles.dateContainer}>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date début</Text>
+                <Text style={styles.DebutFin}>{t('home:startDate')}</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -90,7 +85,7 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>Date fin</Text>
+                <Text style={styles.DebutFin}>{t('home:endDate')}</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
@@ -133,7 +128,7 @@ export default FiltrePub = () => {
                   setFin(value?.toLocaleDateString());
                 }
                 else{            //condition que si user entre une date inferieur a celle du debut
-                  Alert.alert('entrer une date de fin');
+                  Alert.alert(t('home:alert'));
                   setOpen2(false);
                   setFin('dd/mm/yy');
               }}}
@@ -147,7 +142,7 @@ export default FiltrePub = () => {
 
     <View style={[{display: hotel? 'flex': 'none'}]}>
     <View >
-      <Text style={styles.headerText}>Type d'hotel</Text>
+      <Text style={styles.headerText}>{t('home:hotelType')}</Text>
       
       <View style={styles.centerRadio}>
       <TouchableOpacity
@@ -159,7 +154,7 @@ export default FiltrePub = () => {
         status={ checked === 2 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(2)}
       />
-      <Text style={styles.labelStyle}> Hotel à 2 étoiles </Text>
+      <Text style={styles.labelStyle}> {t('home:twoStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       </TouchableOpacity>
@@ -173,7 +168,7 @@ export default FiltrePub = () => {
         status={ checked === 3 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(3)}
       />
-      <Text style={styles.labelStyle}> Hotel à 3 étoiles </Text>
+      <Text style={styles.labelStyle}> {t('home:threeStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
@@ -188,7 +183,7 @@ export default FiltrePub = () => {
         status={ checked === 4 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(4)}
       />
-      <Text style={styles.labelStyle}> Hotel à 4 étoiles </Text>
+      <Text style={styles.labelStyle}> {t('home:fourStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
@@ -201,7 +196,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={prixChambre}
-      placeholder={'Prix'}
+      placeholder={t('home:price')}
       />
     </View>
     </View>
@@ -248,7 +243,7 @@ export default FiltrePub = () => {
         status={ checked === 'classique' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('classique')}
       />
-      <Text style={styles.labelStyle}> Classique </Text>
+      <Text style={styles.labelStyle}> {t('home:classic')} </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.horizontalList, {backgroundColor: checked === 'premium' ? 'lightskyblue' : 'lightsteelblue'}]}
@@ -259,7 +254,7 @@ export default FiltrePub = () => {
         status={ checked === 'premium' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('premium')}
       />
-      <Text style={styles.labelStyle}> Premium </Text>
+      <Text style={styles.labelStyle}> {t('home:premium')} </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.horizontalList, {backgroundColor: checked === 'economic' ? 'lightskyblue' : 'lightsteelblue'}]}
@@ -270,7 +265,7 @@ export default FiltrePub = () => {
         status={ checked === 'economic' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('economic')}
       />
-      <Text style={styles.labelStyle}> Economic </Text>
+      <Text style={styles.labelStyle}> {t('home:economic')} </Text>
       </TouchableOpacity>
     </ScrollView>
     <View style={styles.dropdown}>
@@ -278,7 +273,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={depart}
-      placeholder={'Départ'}
+      placeholder={t('home:departure')}
       boxStyles={{marginHorizontal:20}}
       />
       </View>
@@ -287,7 +282,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={arrivee}
-      placeholder={'Arrivée'}
+      placeholder={t('home:arrival')}
       boxStyles={{marginHorizontal:20}}
       />
     </View>
@@ -373,6 +368,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     marginTop:50,
-    marginHorizontal:20
+    marginHorizontal:20,
+    marginBottom: 20
   },
 })

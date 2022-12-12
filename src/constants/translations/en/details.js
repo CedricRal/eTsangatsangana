@@ -1,9 +1,11 @@
 export default {
-    product: 'Name of product',
+    line: 'Line',
     contact: 'Contact',
     seat: 'Seat',
     schedule: 'Schedule',
     category: 'Service category',
     offer: 'Offer',
-    description: 'Description'
+    description: 'Description',
+    passCommand: 'Pass command',
+    reserv: 'Make a reservation',
 }

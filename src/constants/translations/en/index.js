@@ -1,5 +1,11 @@
-import common from "./common";
+import langues from "./langues";
+import home from "./home";
+import details from "./details";
+import logSignIn from "./logSignIn";
 
 export default {
-    common,
+    langues,
+    home,
+    details,
+    logSignIn,
 };

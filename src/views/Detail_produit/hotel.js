@@ -13,9 +13,11 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTranslation } from 'react-i18next';
 
 function Hotel({navigation}) {
 
+  const {t} = useTranslation();
   const [index, setIndex] = React.useState(0)
 
   renderItem = ({item,index}) => {
@@ -69,13 +71,13 @@ function Hotel({navigation}) {
         <Text style={styles.title_details}>{hotel.produit}</Text>
         <Text style={styles.text_title}>{hotel.name}</Text>
         <Text style={styles.prix}>{hotel.prix}</Text>
-        <Text style={styles.texte_center}>Contact: +{hotel.tel}</Text>
-        <Text style={styles.texte_center}>Siège: {hotel.lieu}</Text>
-        <Text style={styles.texte_center}>Horaire: {hotel.horaire}</Text>
-        <Text style={styles.texte_center}>Catégorie de service: {hotel.cat_srv}</Text>
-        <Text style={styles.texte_center}>Offre: {hotel.promo}</Text>
-        <Text style={styles.description}> Description:    {hotel.desc}</Text>
-        <Button title={hotel.boutton} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('details:contact')}: +{hotel.tel}</Text>
+        <Text style={styles.texte_center}>{t('details:seat')}: {hotel.lieu}</Text>
+        <Text style={styles.texte_center}>{t('details:schedule')}: {hotel.horaire}</Text>
+        <Text style={styles.texte_center}>{t('details:category')}: {hotel.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('details:offer')}: {hotel.promo}</Text>
+        <Text style={styles.description}> {t('details:description')}:    {hotel.desc}</Text>
+        <Button title={t('details:reserv')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>
@@ -93,7 +95,6 @@ const hotel = {
   horaire : 'Lundi au Vendredi',
   promo : 'Chambre classique à 280 000ar',
   cat_srv : 'hdtd',
-  boutton : 'Faire une réservation'
 }
 const images = [
   require('../../assets/images/Chambre_Hôtel/IMG_5783.jpg'),
