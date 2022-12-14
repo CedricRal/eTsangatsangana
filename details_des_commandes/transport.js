@@ -19,7 +19,6 @@ export default Transport = ({navigation}) => {
         <View style={styles.container}>
             
             <Text style={styles.text}>{t('langues:yourOrder')}</Text>
-            
                 
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:name')}</Text>: RAIVO </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:phone')}</Text>: 0336298214</Text>
@@ -28,12 +27,7 @@ export default Transport = ({navigation}) => {
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:nb')}</Text>: {transport.nombre_prs} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>Direction</Text>: {transport.direction} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {transport.prix} ariary</Text>
-            
-            
-            <View style={styles.button}>
-                <Button title={t('langues:validate')} onPress={
-                () => navigation.navigate('PaymentCommand')}/>
-            </View>
+
         </View>
         </ScrollView>
     )

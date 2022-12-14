@@ -27,10 +27,6 @@ export default Food = ({navigation}) => {
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:nb')}</Text>: {food.nombre} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {food.prix} ariary </Text>
 
-            <View style={styles.button}>
-                <Button title={t('langues:validate')} onPress={
-                () => navigation.navigate('PaymentCommand')}/>
-            </View>
         </View>
         </ScrollView>
 
