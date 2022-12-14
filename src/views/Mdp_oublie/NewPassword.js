@@ -4,8 +4,10 @@ import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTranslation } from 'react-i18next';
 
 function NewPass({navigation}) {
+    const {t} = useTranslation();
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     password:'',
     confirm:'',
@@ -17,17 +19,17 @@ const validate = () => { //fonction de validation des information
     let valid = true;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.password){
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('langues:noPassword'), 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
-        handleError('Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        handleError(t('langues:neededPassword'), 'password')
         valid = false
     };
     if (!inputs.password){
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('langues:noPassword'), 'password')
         valid = false
     } else if (inputs.confirm != inputs.password){
-        handleError('Mot de passe ne correspond pas', 'confirm')
+        handleError(t('langues:matchingPassword'), 'confirm')
         valid = false
     };
     if (valid == true) {
@@ -59,7 +61,7 @@ return(
                         <View style={styles.circle}>
                         <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
                         </View>
-                        <Text style={styles.modalText}>Récupération de mot de passe réussie</Text>
+                        <Text style={styles.modalText}>{t('langues:succesModal')}</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
@@ -74,11 +76,11 @@ return(
 
 
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>Changement de mot de passe</Text>
-                <Text style={styles.description}>Entrer un nouveau mot de passe pour terminer la récupération</Text>                
+                <Text style={styles.title}>{t('langues:passwordChange')}</Text>
+                <Text style={styles.description}>{t('langues:changingDescription')}</Text>                
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre nouveau mot de passe'
+                    placeholder={t('langues:enterPassword')}
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -86,14 +88,14 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='Confirmer votre mot de passe'
+                    placeholder={t('langues:confirmPassword')}
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
                     onFocus={() => {
                         handleError(null, 'confirm')
                     }}/>
-                <Button title="Continuer" onPress={validate}/>
+                <Button title={t('langues:continue')} onPress={validate}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

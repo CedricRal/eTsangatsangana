@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
-
 import styles from './styles';
+import { useTranslation } from 'react-i18next';
 
 export default Hotel = ({navigation}) => {
+    const {t} = useTranslation();
 
     const hotel = {
         commande: 'chambre double',
@@ -17,17 +18,17 @@ export default Hotel = ({navigation}) => {
 
         <View style={styles.container}>
             
-            <Text style={styles.text}>Votre commande</Text>
+            <Text style={styles.text}>{t('langues:yourOrder')}</Text>
 
-            <Text style={styles.field_command}><Text style={styles.label}>Nom</Text>: RAIVO </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>Téléphone</Text>: 0336298214</Text>
-            <Text style={styles.field_command}><Text style={styles.label}>Commande</Text>: {hotel.commande} places </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>Entreprise</Text>: {hotel.entreprise} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>Nombre de personne</Text>: {hotel.nombre_prs} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>Prix</Text>: {hotel.prix} ariary</Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:name')}</Text>: RAIVO </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:phone')}</Text>: 0336298214</Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:order')}</Text>: {hotel.commande} places </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:company')}</Text>: {hotel.entreprise} </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:nb')}</Text>: {hotel.nombre_prs} </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {hotel.prix} ariary</Text>
             
             <View style={styles.button}>
-                <Button title='Valider ma commande' onPress={
+                <Button title={t('langues:validate')} onPress={
                 () => navigation.navigate('PaymentCommand')}/>
             </View>
         </View>

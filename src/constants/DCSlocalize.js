@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as RNLocalize from 'react-native-localize';
 import en from './translations/en';
 import fr from './translations/fr';
+
 const LANGUAGES = {
  en,
  fr,

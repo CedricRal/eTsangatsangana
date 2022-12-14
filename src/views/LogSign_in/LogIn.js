@@ -18,17 +18,17 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError(t('logSignIn:noEmail'), 'email')
+        handleError(t('langues:noEmail'), 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError(t('logSignIn:incorrectEmail'), 'email')
+        handleError(t('langues:incorrectEmail'), 'email')
         valid = false
     };
     if (!inputs.password){
-        handleError(t('logSignIn:noPassword'), 'password')
+        handleError(t('langues:noPassword'), 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
-        handleError(t('logSignIn:incorrectPassword'), 'password')
+        handleError(t('langues:incorrectPassword'), 'password')
         valid = false
     };
     if (valid == true) {
@@ -46,17 +46,17 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
         <SafeAreaView style={styles.container}>
 
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>{t('logSignIn:titleLogIn')}</Text>
+                <Text style={styles.title}>{t('langues:titleLogIn')}</Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder={t('logSignIn:email')} 
+                    placeholder={t('langues:email')} 
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder={t('logSignIn:password')} 
+                    placeholder={t('langues:password')} 
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -64,11 +64,11 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                         handleError(null, 'password')
                     }}/>
                 <Text style={styles.other2} onPress={() => navigation.navigate('Recup')}>
-                    {t('logSignIn:forgot')}
+                    {t('langues:forgot')}
                 </Text>
-                <Button title={t('logSignIn:LogIn')} onPress={validate}/>
+                <Button title={t('langues:logIn')} onPress={validate}/>
                 <Text style={styles.other} onPress={ () => navigation.navigate('SingIn')}>
-                    {t('logSignIn:create')}
+                    {t('langues:create')}
                 </Text>
                 </View>
             </ScrollView>

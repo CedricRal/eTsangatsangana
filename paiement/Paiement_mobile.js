@@ -1,8 +1,10 @@
 import { Text, View, StyleSheet, TextInput, ScrollView, Image, Button, Alert} from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
+import { useTranslation } from 'react-i18next';
 
 export default function Mobile({navigation}) {
+  const {t} = useTranslation();
 
   const [data, setData] = useState([
     { label: 'Mvola', value: 'Mvola' },
@@ -46,20 +48,20 @@ const champ = () => {
 
     if (!value){   // l'utilisateur ne complète pas le champ de la CARTE
         valid = false
-        handleMobileError('Veuillez choisir un type mobile')      // l'utilisateur doit choisir un pays
+        handleMobileError(t('langues:noType'))      // l'utilisateur doit choisir un pays
       }
 
     if (!inputEnvoyeur) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
         valid = false
-        handleEnvoyeurError("Entrer le numero de l'envoyeur")
+        handleEnvoyeurError(t('langues:noSender'))
     } else if (reg_phone_number.test(inputEnvoyeur)===false){
         valid = false
-        handleEnvoyeurError('Veuillez entrer un numéro de téléphone')
+        handleEnvoyeurError(t('langues:noPhone'))
     }
 
     if (!inputNom) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
         valid = false
-        handleNomError("Entrer le nom de l'envoyeur")
+        handleNomError(t('langues:noNameSender'))
     }
       if (valid == true) {
         navigation.navigate('resum_commande',
@@ -77,7 +79,7 @@ const champ = () => {
       
       <View>
         <ScrollView>
-        <Text style={styles.titre}>Paiement par mobile money</Text>
+        <Text style={styles.titre}>{t('langues:mobileMoney')}</Text>
         
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
@@ -89,7 +91,7 @@ const champ = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Type mobile' : ''}
+          placeholder={!isFocus ? t('langues:type') : ''}
           value={value}
           onFocus={() => {handleMobileError(null),setIsFocus(true)}}
           onBlur={() => setIsFocus(false)}
@@ -103,7 +105,7 @@ const champ = () => {
                 <Text style={styles.error}>{errMobileMess}</Text>//affiche l'erreur s'il y en a
           )}
 
-        <Text style={styles.label}>Destinataire</Text>
+        <Text style={styles.label}>{t('langues:recipient')}</Text>
         <TextInput
           style={styles.input}
           keyboardType={'decimal-pad'}
@@ -111,10 +113,10 @@ const champ = () => {
         >+261340425936</TextInput>
 
         <View style={styles.rowName}>
-            <Text style={styles.label}>Nom</Text><Text style={styles.inputMontant}>Rakoto Francis</Text>
+            <Text style={styles.label}>{t('langues:name')}</Text><Text style={styles.inputMontant}>Rakoto Francis</Text>
         </View>
 
-        <Text style={styles.label}>Envoyeur</Text>
+        <Text style={styles.label}>{t('langues:sender')}</Text>
         <TextInput
           style={styles.input}
           keyboardType={'phone-pad'}
@@ -129,7 +131,7 @@ const champ = () => {
             )}
 
     <View style={styles.rowName}>
-      <Text style={styles.label}>Nom </Text>
+      <Text style={styles.label}>{t('langues:name')} </Text>
         
         <TextInput
           style={styles.inputNom}
@@ -143,10 +145,10 @@ const champ = () => {
                 <Text style={styles.errorNom}>{errNomMess}</Text>//affiche l'erreur s'il y en a
             )}
     <View style={styles.rowName}>
-        <Text style={styles.label}>Montant</Text><Text style={styles.inputMontant}>Ar 80 000</Text>
+        <Text style={styles.label}>{t('langues:amount')}</Text><Text style={styles.inputMontant}>Ar 80 000</Text>
    </View>  
       <View style={styles.buttonStyle}>
-        <Button title='Payer' onPress={champ}/>
+        <Button title={t('langues:pay')} onPress={champ}/>
       </View>
       </ScrollView>
       </View>

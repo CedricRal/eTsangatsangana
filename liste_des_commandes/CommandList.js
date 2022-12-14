@@ -5,8 +5,10 @@ import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
 import design from '../src/views/Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTranslation } from 'react-i18next';
 
  export default CommandList = ({navigation}) => { 
+  const {t} = useTranslation();
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
@@ -18,22 +20,22 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
   const datePicker = {
     mode:'date',
     locale:'fr',
-    title:'Selectionner une date',
-    confirmText:'Confirmer',
-    cancelText:'Annuler'
+    title:t('langues:selectDate'),
+    confirmText:t('langues:confirmText'),
+    cancelText:t('langues:cancelText')
   }
 
   const [date1, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [date2, setDate2] = useState(new Date());
   const [open2, setOpen2] = useState(false);
-  const [debut, setDebut] = useState('Date début');
-  const [fin, setFin] = useState('Date fin');
+  const [debut, setDebut] = useState(t('langues:startDate'));
+  const [fin, setFin] = useState(t('langues:endDate'));
   
   const [modalVisible, setModalVisible] = useState(false);
 
   const empty_list = () => {
-      return (<Text style={{textAlign:'center'}}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+      return (<Text style={{textAlign:'center'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     } 
   
   useEffect(() => {
@@ -108,7 +110,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
                         <View style={styles.circle}>
                         <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
                         </View>
-                        <Text style={styles.modalText}>Filtre appliqué</Text>
+                        <Text style={styles.modalText}>{t('langues:applyedFilter')}</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}
@@ -131,7 +133,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
             <TextInput
             value={query}
             onChangeText={handleSearch}
-            placeholder="Rechercher une commande"
+            placeholder={t('langues:searchOrder')}
             onFocus={()=>{
               setIsFocused(true);
               }}
@@ -150,7 +152,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
           <View style={[{display: showFilter? 'flex': 'none'}]}>
             <Text style={styles.other}>
-                Filtrer
+                {t('langues:filter')}
             </Text>
               <View style={styles.dateInputContainer}>
                 <TouchableOpacity onPress={() => setOpen(true)} style={styles.dateInput}>
@@ -203,15 +205,14 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
                   setFin(value?.toLocaleDateString());
                 }
                 else{            //condition que si user entre une date inferieur a celle du debut
-                  Alert.alert('entrer une date de fin');
                   setOpen2(false);
-                  setFin('Date fin');
+                  setFin(t('langues:endDate'));
               }}}
               onCancel={() => {
                 setOpen2(false);
               }}
             /> 
-            <Button title='Appliquer' onPress={() => {setModalVisible(!modalVisible); setShowFilter(!showFilter)}}/>
+            <Button title={t('langues:buttonApply')} onPress={() => {setModalVisible(!modalVisible); setShowFilter(!showFilter)}}/>
             </View>
         </View>  
         }

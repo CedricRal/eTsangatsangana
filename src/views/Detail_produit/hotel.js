@@ -71,13 +71,13 @@ function Hotel({navigation}) {
         <Text style={styles.title_details}>{hotel.produit}</Text>
         <Text style={styles.text_title}>{hotel.name}</Text>
         <Text style={styles.prix}>{hotel.prix}</Text>
-        <Text style={styles.texte_center}>{t('details:contact')}: +{hotel.tel}</Text>
-        <Text style={styles.texte_center}>{t('details:seat')}: {hotel.lieu}</Text>
-        <Text style={styles.texte_center}>{t('details:schedule')}: {hotel.horaire}</Text>
-        <Text style={styles.texte_center}>{t('details:category')}: {hotel.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('details:offer')}: {hotel.promo}</Text>
-        <Text style={styles.description}> {t('details:description')}:    {hotel.desc}</Text>
-        <Button title={t('details:reserv')} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('langues:contact')}: +{hotel.tel}</Text>
+        <Text style={styles.texte_center}>{t('langues:seat')}: {hotel.lieu}</Text>
+        <Text style={styles.texte_center}>{t('langues:schedule')}: {hotel.horaire}</Text>
+        <Text style={styles.texte_center}>{t('langues:category')}: {hotel.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('langues:offer')}: {hotel.promo}</Text>
+        <Text style={styles.description}> {t('langues:description')}:    {hotel.desc}</Text>
+        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>

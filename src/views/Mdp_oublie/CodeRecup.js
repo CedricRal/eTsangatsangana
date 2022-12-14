@@ -5,8 +5,10 @@ import Button from '../Composant/bouton';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './../Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 function CodeRecup({navigation, error}) {
+    const {t} = useTranslation();
 const [isFocused, setIsFocused] = React.useState(false);
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     case1: '',
@@ -25,10 +27,10 @@ const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
     let valid = true;
     if (!inputs.case1 || !inputs.case2 || !inputs.case3){
-        handleError('Entrer le code svp!', 'code')
+        handleError(t('langues:enterCode'), 'code')
         valid = false
     } else if (inputs.case1.length!=2 || inputs.case2.length!=2 || inputs.case3.length!=2){
-        handleError('Entrer un code correct svp!', 'code')
+        handleError(t('langues:incorrectCode'), 'code')
         valid = false
     };
     if (valid == true) {
@@ -58,7 +60,7 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                         <View style={styles.circle}>
                         <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
                         </View>
-                        <Text style={styles.modalText}>Code de récupération envoyé</Text>
+                        <Text style={styles.modalText}>{t('langues:recuperationModal')}</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}
@@ -71,8 +73,8 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
 
 
 
-                <Text style={styles.title}>Nouveau mot de passe</Text>
-                <Text style={styles.description}>Veuillez saisir le code reçu par e-mail</Text>
+                <Text style={styles.title}>{t('langues:newPassword')}</Text>
+                <Text style={styles.description}>{t('langues:newPasswordDescription')}</Text>
                 <View style={styles.viewContain}>
                 <View style={styles.boxContainer}>
                 <View style={[styles.inputContainer, {borderColor: error? 'red': isFocused? design.Vert: design.Marron}]}>
@@ -133,8 +135,8 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 </View>
                 </View>
                 <Text style={styles.erreur}>{errors.code}</Text>
-                <Text style={styles.resend} onPress= {() => setModalVisible(!modalVisible)}>Renvoyer le code</Text>
-                <Button title="Continuer" onPress={validate}/>
+                <Text style={styles.resend} onPress= {() => setModalVisible(!modalVisible)}>{t('langues:resend')}</Text>
+                <Button title={t('langues:continue')} onPress={validate}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

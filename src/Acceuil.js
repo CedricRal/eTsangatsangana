@@ -117,7 +117,7 @@ const MyData = [
     )}
 
     const empty_list = () => {
-      return (<Text style={AppStyles.emptyList}> Nous n'avions trouvé aucun produit correspondant à <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+      return (<Text style={AppStyles.emptyList}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -136,7 +136,7 @@ const MyData = [
             <TextInput
             value={query}
             onChangeText={handleSearch}
-            placeholder={t('home:search')}
+            placeholder={t('langues:searchProduct')}
             style={AppStyles.placeholders}
             />
             </View>
@@ -156,7 +156,7 @@ const MyData = [
         }}>
           <ScrollView style={{backgroundColor:'whitesmoke'}}>
             <FiltrePub/>
-            <Button title={t('home:buttonApply')} onPress={() => setModalVisible(!modalVisible)}/>
+            <Button title={t('langues:buttonApply')} onPress={() => setModalVisible(!modalVisible)}/>
           </ScrollView>
         </Modal>
         </>

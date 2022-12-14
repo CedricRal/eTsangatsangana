@@ -75,13 +75,13 @@ function Restaurant({navigation}) {
         <Text style={styles.text_title}>{restaurant.name}</Text>
         <Text style={styles.prix}>{restaurant.prix}</Text>
         <Text style={styles.texte_center}>{restaurant.def}</Text>
-        <Text style={styles.texte_center}>{t('details:contact')}: +{restaurant.tel}</Text>
-        <Text style={styles.texte_center}>{t('details:seat')}: {restaurant.lieu}</Text>
-        <Text style={styles.texte_center}>{t('details:schedule')}: {restaurant.horaire}</Text>
-        <Text style={styles.texte_center}>{t('details:category')}: {restaurant.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('details:offer')}: {restaurant.promo}</Text>
-        <Text style={styles.description}> {t('details:description')}:    {restaurant.desc}</Text>
-        <Button title={t('details:passCommand')} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('langues:contact')}: +{restaurant.tel}</Text>
+        <Text style={styles.texte_center}>{t('langues:seat')}: {restaurant.lieu}</Text>
+        <Text style={styles.texte_center}>{t('langues:schedule')}: {restaurant.horaire}</Text>
+        <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('langues:offer')}: {restaurant.promo}</Text>
+        <Text style={styles.description}> {t('langues:description')}:    {restaurant.desc}</Text>
+        <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>

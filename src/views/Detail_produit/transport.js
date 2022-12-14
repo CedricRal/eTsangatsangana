@@ -74,14 +74,14 @@ function Transport({navigation}) {
         <Text style={styles.title_details}>{transport.produit}</Text>
         <Text style={styles.text_title}>{transport.name}</Text>
         <Text style={styles.prix}>{transport.prix}</Text>
-        <Text style={styles.texte_center}>{t('details:line')}: {transport.direction}</Text>
-        <Text style={styles.texte_center}>{t('details:contact')}: +{transport.tel}</Text>
-        <Text style={styles.texte_center}>{t('details:seat')}: {transport.lieu}</Text>
-        <Text style={styles.texte_center}>{t(('details:schedule'))}: {transport.horaire}</Text>
-        <Text style={styles.texte_center}>{t('details:category')}: {transport.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('details:offer')}: {transport.promo}</Text>
-        <Text style={styles.description}> {t('details:description')}:    {transport.desc}</Text>
-        <Button title={t('details:reserv')} onPress={() => navigation.navigate('LogIn')}/>
+        <Text style={styles.texte_center}>{t('langues:line')}: {transport.direction}</Text>
+        <Text style={styles.texte_center}>{t('langues:contact')}: +{transport.tel}</Text>
+        <Text style={styles.texte_center}>{t('langues:seat')}: {transport.lieu}</Text>
+        <Text style={styles.texte_center}>{t('langues:schedule')}: {transport.horaire}</Text>
+        <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
+        <Text style={styles.texte_center}>{t('langues:offer')}: {transport.promo}</Text>
+        <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
+        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn')}/>
       </View>
     </View>
     </ScrollView>

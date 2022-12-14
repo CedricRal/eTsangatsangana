@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native'; 
 import { RadioButton } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 export default function PayementDeLaCommande({navigation}) {
+  const {t} = useTranslation();
   const [checked, setChecked] = React.useState('');
 
   const styles = getStyles(checked);
@@ -19,7 +21,7 @@ export default function PayementDeLaCommande({navigation}) {
 
   return (
     <View style={styles.arrierPlanBlanc}>
-      <Text style={styles.headerText}>Voulez-vous payer votre commande par: </Text>
+      <Text style={styles.headerText}>{t('langues:orderBy')}: </Text>
       
     <View style={styles.centerRadio}>
       
@@ -34,7 +36,7 @@ export default function PayementDeLaCommande({navigation}) {
         status={ checked === 'Paiement par carte' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('Paiement par carte')}
       />
-      <Text style={styles.labelStyle1}> Paiement par carte </Text>
+      <Text style={styles.labelStyle1}>{t('langues:card')}</Text>
       </TouchableOpacity>
       </View>
 
@@ -50,7 +52,7 @@ export default function PayementDeLaCommande({navigation}) {
         status={ checked === 'Paiement par mobile money' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('Paiement par mobile money')}
       />
-      <Text style={styles.labelStyle2}> Paiement par mobile money </Text>
+      <Text style={styles.labelStyle2}>{t('langues:mobileMoney')}</Text>
       </TouchableOpacity>
 
       </View>
@@ -65,13 +67,13 @@ export default function PayementDeLaCommande({navigation}) {
         status={ checked === 'Paiement sur place ou à la livraison' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('Paiement sur place ou à la livraison')}
       />
-      <Text style={styles.labelStyle3}> Paiement sur place ou à la livraison </Text>
+      <Text style={styles.labelStyle3}>{t('langues:onTheSpot')}</Text>
       </TouchableOpacity>
       </View>
 
       <Pressable style={styles.button} onPress={buttonValider}>
-            <Text style={styles.text}>Valider</Text>
-          </Pressable>
+          <Text style={styles.text}>{t('langues:validateButton')}</Text>
+      </Pressable>
     </View>
     </View>
   );

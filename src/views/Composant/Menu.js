@@ -19,6 +19,11 @@ const Langue = [
         code: 'fr',
         drapeau: require('../../assets/drapeau/fr.png')
     },
+    {
+        nom: 'Malagasy',
+        code: 'mg',
+        drapeau: require('../../assets/drapeau/mg.png')
+    },
 ]
 
 const Languages = () => {
@@ -103,7 +108,7 @@ const Languages = () => {
               <TextInput
               value={query}
               onChangeText={handleSearch}
-              placeholder={t('langues:search')}
+              placeholder={t('langues:searchLangues')}
               style={AppStyles.placeholders}
               />
               </View>

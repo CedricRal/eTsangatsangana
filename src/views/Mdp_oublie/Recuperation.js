@@ -3,9 +3,11 @@ import { Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Alert } fro
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 
 function Recup({navigation}) {
+    const {t} = useTranslation();
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: ''
 });
@@ -16,10 +18,10 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre e-mail svp!', 'email')
+        handleError(t('langues:noEmail'), 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un e-mail correct svp!', 'email')
+        handleError(t('langues:incorrectEmail'), 'email')
         valid = false
     };
     if (valid == true) {
@@ -37,16 +39,16 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll_view}>
 
-                <Text style={styles.title}>Mot de passe oublié</Text>
+                <Text style={styles.title}>{t('langues:forgotPassword')}</Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Entrer votre e-mail'
+                    placeholder={t('langues:enterEmail')}
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
-                <Button title="Envoyer" onPress={validate}/>
+                <Button title={t('langues:sending')} onPress={validate}/>
                 </View>
             </ScrollView>
         </SafeAreaView>
