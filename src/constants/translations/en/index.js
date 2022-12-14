@@ -1,5 +1,5 @@
-import common from "./common";
+import langues from "./langues";
 
 export default {
-    common,
+    langues,
 };

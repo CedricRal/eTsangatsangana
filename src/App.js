@@ -26,10 +26,12 @@ import food from '../details_des_commandes/food';
 import Carte from '../paiement/Paiement_carte';
 import Mobile from '../paiement/Paiement_mobile';
 import ResumeCommande from '../resume_de_la_commande/resume_commande';
-import Menu from './views/Composant/Menu';
+import Languages from './views/Composant/Menu';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
+import './constants/DCSlocalize';
+import { useTranslation } from 'react-i18next';
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
@@ -56,65 +58,59 @@ const firstScreen = {
 }
 
 function HomeStackScreen(){
+  const {t} = useTranslation();
   return(
     <>
       <HomeStack.Navigator initialRouteName='Accueil'  screenOptions={myHeader}>
-        <HomeStack.Screen name='Accueil ' component={Home} options={firstScreen}/>
-        <HomeStack.Screen name='Hotel' component={Hotel}/>
-        <HomeStack.Screen name='Restaurant' component={Restaurant}/>
-        <HomeStack.Screen name='Transport' component={Transport}/>
-        <HomeStack.Screen name='LogIn' component={LogIn} options={{title: ' Authentification'}}/>
-        <HomeStack.Screen name='SingIn' component={SingIn} options={{title: 'Inscription'}}/>
-        <HomeStack.Screen name='Recup' component={Recup} options={{title: 'Récupération'}}/>
-        <HomeStack.Screen name='CodeRecup' component={CodeRecup} options={{title: 'Code de récupération'}}/>
-        <HomeStack.Screen name='NewPass' component={NewPass} options={{title: 'Nouveau mot de passe'}}/>
-        <HomeStack.Screen name='PaymentCommand'  component={ PayementDeLaCommande }  options={{title: 'Mode de paiement'}}/>
-        <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: 'Paiement par mobile'}}/>
-        <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: 'paiement par carte'}}/>
+        <HomeStack.Screen name='Accueil ' component={Home} options={{title: t('langues:home'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <HomeStack.Screen name='Hotel' component={Hotel} options={{title: t('langues:hotel')}}/>
+        <HomeStack.Screen name='Restaurant' component={Restaurant} options={{title: t('langues:restaurant')}}/>
+        <HomeStack.Screen name='Transport' component={Transport} options={{title: t('langues:transport')}}/>
+        <HomeStack.Screen name='LogIn' component={LogIn} options={{title: t('langues:authentication')}}/>
+        <HomeStack.Screen name='SingIn' component={SingIn} options={{title: t('langues:registration')}}/>
+        <HomeStack.Screen name='Recup' component={Recup} options={{title: t('langues:recovery')}}/>
+        <HomeStack.Screen name='CodeRecup' component={CodeRecup} options={{title: t('langues:recoveryCode')}}/>
+        <HomeStack.Screen name='NewPass' component={NewPass} options={{title: t('langues:newPwd')}}/>
+        <HomeStack.Screen name='PaymentCommand'  component={ PayementDeLaCommande }  options={{title: t('langues:modePayement')}}/>
+        <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: t('langues:mobileMoney')}}/>
+        <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: t('langues:card')}}/>
       </HomeStack.Navigator>
     </>
   )
 }
 function OffreStackScreen(){
+  const {t} = useTranslation();
   return(
     <>
       <OffreStack.Navigator initialRouteName='Offre' screenOptions={myHeader}>
-        <OffreStack.Screen name='Les Offres' component={Offre} options={firstScreen}/>
+        <OffreStack.Screen name='Les Offres' component={Offre} options={{title: t('langues:theOffers'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
       </OffreStack.Navigator>
     </>
   )
 }
 function CommandesStackScreen(){
+  const {t} = useTranslation();
   return(
     <>
       <CommandesStack.Navigator initialRouteName='Liste_commande' screenOptions={myHeader}>
-      <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: 'La liste des commande', headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/> 
-      <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: 'Details de la commande'}}/>
-      <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: 'Mes commandes'}}/>
-      <CommandesStack.Screen name='transport'  component={ transport }  options={{title: 'Mes commandes'}}/>
-      <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: 'Mes commandes'}}/>
-      <CommandesStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: 'Les commandes'}}/>
+      <CommandesStack.Screen name='Liste_commande'  component={ CommandList }  options={{title: t('langues:odrerList'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/> 
+      <CommandesStack.Screen name='DetailsCommand' component={ CommandDetails }  options={{title: t('langues:orderDetails')}}/>
+      <CommandesStack.Screen name='hotel' component={ hotel }  options={{title: t('langues:myOrder')}}/>
+      <CommandesStack.Screen name='transport'  component={ transport }  options={{title: t('langues:myOrder')}}/>
+      <CommandesStack.Screen name='restaurant'  component={ food }  options={{title: t('langues:myOrder')}}/>
+      <CommandesStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: t('langues:theOrder')}}/>
       </CommandesStack.Navigator>
     </>
   )
 }
-function ProfilStackScreen(){
-  return(
-    <> 
-      <ProfilStack.Navigator initialRouteName='ModificationProfile' screenOptions={myHeader}>
-        <ProfilStack.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profil', headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
-        <ProfilStack.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profil'}}/>
-      </ProfilStack.Navigator>
-    </>
-  )
-}
 function DrawerStackScreen(){
+  const {t} = useTranslation();
   return(
     <>
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
-        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{title: 'Profil'}}/>
-        <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: 'Modification profil'}}/>
-        <Drawer.Screen name='Menu' component={ Menu } options={{title:'Choisir une langues'}}/>
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
+        <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>
     </>
   )
@@ -123,6 +119,7 @@ function DrawerStackScreen(){
 
   const Tab = createBottomTabNavigator();
   export default function App() {
+    const {t} = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -153,10 +150,10 @@ function DrawerStackScreen(){
         headerShown : false,
         tabBarHideOnKeyboard: true,
        })}>
-          <Tab.Screen name="Accueil" component={HomeStackScreen} />
-          <Tab.Screen name="Profil" component={DrawerStackScreen} />
-          <Tab.Screen name="Offres" component={OffreStackScreen} />
-          <Tab.Screen name="Commandes" component={CommandesStackScreen} />
+          <Tab.Screen name="Accueil" component={HomeStackScreen} options={{title: t('langues:home')}}/>
+          <Tab.Screen name="Profil" component={DrawerStackScreen} options={{title: t('langues:profile')}}/>
+          <Tab.Screen name="Offres" component={OffreStackScreen} options={{title: t('langues:offers')}}/>
+          <Tab.Screen name="Commandes" component={CommandesStackScreen} options={{title: t('langues:orders')}}/>
         </Tab.Navigator>
       </NavigationContainer>
     );

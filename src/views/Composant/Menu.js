@@ -5,21 +5,31 @@ import { RadioButton } from 'react-native-paper';
 import AppStyles from '../../../styles/App_style';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from './bouton';
+import { useTranslation } from 'react-i18next';
 
 
 const Langue = [
     {
-        nom: 'Anglais',
+        nom: 'English',
+        code: 'en',
         drapeau: require('../../assets/drapeau/uk.png')
     },
     {
         nom: 'Français',
+        code: 'fr',
         drapeau: require('../../assets/drapeau/fr.png')
+    },
+    {
+        nom: 'Malagasy',
+        code: 'mg',
+        drapeau: require('../../assets/drapeau/mg.png')
     },
 ]
 
-const Menu = () => {
+const Languages = () => {
     const [checked, setChecked] = useState('');
+
+    const [selected, setSelected] = useState('');
 
     const [data, setData] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
@@ -27,10 +37,16 @@ const Menu = () => {
     
     const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donnée rehetra (MyData)
 
+    const { t, i18n } = useTranslation();
+
     useEffect(() => {
       setData(Langue);
       setFullData(Langue);
     }, [])
+
+    const setLanguage = (code) => {
+        return i18n.changeLanguage(code)
+    }
     
     // Mandray ny frappe utilisateur @ barre dia manao filtrage
     const handleSearch = (textTypedByTheUser) => { // textTypedByTheUser dia paramètre mandray ny avy @ <Textinput onChangeText={} />
@@ -59,21 +75,22 @@ const Menu = () => {
             return(
             <TouchableOpacity
                 style={styles.radioView}
-                onPress={() => setChecked(item.nom)} 
+                onPress={() => {setChecked(item.nom); setSelected(item.code)}} 
                 >
                 <Image source={item.drapeau} style={styles.img}/>
                 <Text style={styles.labelStyle}> {item.nom} </Text>
                 <RadioButton
                     value={item.nom} 
                     status={ checked === item.nom ? 'checked' : 'unchecked' }
-                    onPress={() => setChecked(item.nom)}
+                    onPress={() => {setChecked(item.nom); setSelected(item.code)}} 
             />
-            </TouchableOpacity>)
+            </TouchableOpacity>
+            )
     }
     Footer = () => {
         return(
             <View style={styles.footer}>
-            <Button title={'Appliquer'}/>
+            <Button title={t('langues:buttonApply')} onPress={() => setLanguage(selected)}/>
             </View>
         )
     }
@@ -91,7 +108,7 @@ const Menu = () => {
               <TextInput
               value={query}
               onChangeText={handleSearch}
-              placeholder="Rechercher une langue"
+              placeholder={t('langues:searchLangues')}
               style={AppStyles.placeholders}
               />
               </View>
@@ -107,7 +124,7 @@ const Menu = () => {
     )
 }
 
-export default Menu;
+export default Languages;
 
 const styles = StyleSheet.create({
     radioView: {

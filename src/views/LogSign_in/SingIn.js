@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, Alert, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, TouchableOpacity, Modal} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
 import { launchImageLibrary } from 'react-native-image-picker';
 import design from './../Composant/couleur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTranslation } from 'react-i18next';
 
 function SingIn({navigation}) {
 
+    const {t} = useTranslation();
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     nom:'',
@@ -17,6 +20,7 @@ const [inputs, setInputs] = React.useState({  //etat pour la validation
     confirm:'',
     adresse:''
 });
+const [modalVisible, setModalVisible] = useState(false)
 const [errors, setErrors] = React.useState({})    //etat pour l'erreur
 const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
@@ -24,45 +28,44 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre e-mail svp!', 'email')
+        handleError(t('langues:noEmail'), 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un e-mail correct svp!', 'email')
+        handleError(t('langues:incorrectEmail'), 'email')
         valid = false
     };
     if (!inputs.nom){
-        handleError('Entrer votre nom svp!', 'nom')
+        handleError(t('langues:noName'), 'nom')
         valid = false
     };
     if (!inputs.prenom){
-        handleError('Entrer votre prénom svp!', 'prenom')
+        handleError(t('langues:noFirstname'), 'prenom')
         valid = false
     };
     if (!inputs.phone){
-        handleError('Entrer votre numéro de téléphone svp!', 'phone')
+        handleError(t('langues:noPhone'), 'phone')
         valid = false
     };
     if (!inputs.adresse){
-        handleError('Entrer votre adresse svp!', 'adresse')
+        handleError(t('langues:noAdress'), 'adresse')
         valid = false
     };
     if (!inputs.password){
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('langues:noPassword'), 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
         valid = false
-        handleError('Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux', 'password')
+        handleError(t('langues:neededPassword'), 'password')
     };
     if (!inputs.password){
         valid = false
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('langues:noPassword'), 'password')
     } else if (inputs.confirm != inputs.password){
-        handleError('Mot de passe ne correspond pas', 'confirm')
+        handleError(t('langues:matchingPassword'), 'confirm')
         valid = false
     };
     if (valid == true) {
-            Alert.alert("Vous êtes inscrit à l'application. Veuillez-vous connecter");
-            navigation.navigate('LogIn');
+        setModalVisible(!modalVisible);
     }
 };
 
@@ -108,26 +111,50 @@ const renderFileData = () => {
 
 return(
         <SafeAreaView style={styles.container}>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.circle}>
+                        <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
+                        </View>
+                        <Text style={styles.modalText}>{t('langues:succesSignUp')}</Text>
+                        <TouchableOpacity
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => {
+                            setModalVisible(!modalVisible);
+                            navigation.navigate('LogIn')}}
+                        >
+                        <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
+
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>S'inscrire</Text>
+                <Text style={styles.title}>{t('langues:titleSignIn')}</Text>
                 
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='Nom' 
+                    placeholder={t('langues:lastname')} 
                     error={errors.nom} 
                     onChangeText={text => handleOnChange(text, 'nom')}
                     onFocus={() => {
                         handleError(null, 'nom')
                     }}/>
                 <Input 
-                    placeholder='Prénom' 
+                    placeholder={t('langues:firstname')} 
                     error={errors.prenom}
                     onChangeText={text => handleOnChange(text, 'prenom')}
                     onFocus={() => {
                         handleError(null, 'prenom')
                     }}/>
                 <Input 
-                    placeholder='Numéro de téléphone'
+                    placeholder={t('langues:phoneNumber')}
                     error={errors.phone}
                     keyboardType = 'numeric' 
                     onChangeText={text => handleOnChange(text, 'phone')}
@@ -135,21 +162,21 @@ return(
                         handleError(null, 'phone')
                     }}/>
                 <Input 
-                    placeholder='Adresse' 
+                    placeholder={t('langues:adress')} 
                     error={errors.adresse}
                     onChangeText={text => handleOnChange(text, 'adresse')}
                     onFocus={() => {
                         handleError(null, 'adresse')
                     }}/>
                 <Input 
-                    placeholder='Entrer votre e-mail'
+                    placeholder={t('langues:enterEmail')}
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder='Mot de passe'
+                    placeholder={t('langues:password')}
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -157,16 +184,16 @@ return(
                         handleError(null, 'password')
                     }}/>
                 <Input 
-                    placeholder='Confirmation de mot de passe'
+                    placeholder={t('langues:confirmation')}
                     error={errors.confirm}
                     password 
                     onChangeText={text => handleOnChange(text, 'confirm')}
                     onFocus={() => {
                         handleError(null, 'confirm')
                     }}/>
-                <Button title="S'inscrire" onPress={validate}/>
+                <Button title={t('langues:signIn')} onPress={validate}/>
                 <Text style={styles.other} onPress={() => navigation.navigate('LogIn')}>
-                    Vous avez déjà un compte?
+                    {t('langues:already')}
                 </Text>
                 </View>
             </ScrollView>
@@ -217,7 +244,64 @@ const styles = StyleSheet.create({
       marginTop: '-12%',
       marginBottom: '10%',
       borderRadius: 30
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    modalText: {
+        color:'black',
+        marginBottom: 15,
+        fontSize:16,
+        textAlign: "center",
+        fontFamily:design.police
+    },
+    circle: {
+        width:52,
+        height:52,
+        borderWidth:4,
+        borderRadius:45,
+        borderColor:design.Vert
+    },
+    check:{
+        alignSelf:'center',
+        marginTop:'10%'
+    },
+    button: {
+        width: 50,
+        borderRadius: 10,
+        padding: 10,
+        elevation: 2
+      },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: design.Marron,
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontFamily:design.police
+    },
 })
 
 export default SingIn;

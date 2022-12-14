@@ -1,9 +1,11 @@
 import { Text, View, StyleSheet, TextInput, ScrollView, Image, Button, Alert} from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Carte({navigation}) {
+  const {t} = useTranslation();
 
   const [data, setData] = useState([
     { label: 'Madagascar', value: '1' },
@@ -93,47 +95,47 @@ const champ = () => {
 
     if (!input) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
       valid = false
-      handleError('Entrer vôtre email')
+      handleError(t('langues:enterEmail'))
   } else if (reg_email.test(input)===false){
       valid = false
-      handleError('Veuillez entrer un email valide')
+      handleError(t('langues:correctEmail'))
   }
 
     if (!inputCard){                                                // l'utilisateur ne complète pas le champ de la CARTE
       valid = false
-      handleCardError('Veuillez completer le champ de la carte ')
+      handleCardError(t('langues:cardField'))
   } else if (reg_carte.test(inputCard)===false){                  // champ de la carte
     valid = false
-      handleCardError('code carte non valide')
+      handleCardError(t('langues:incorrectCode'))
   };
   
   if (!inputExp){                                                // l'utilisateur ne complète pas le champ de la CARTE
     valid = false
-    handleExpError("Veuillez completer la date d'expiration de la carte")
+    handleExpError(t('langues:expiration'))
   }else if (reg_exp.test(inputExp)===false) { // champ de la date d'expiration
     valid = false
-    handleExpError("date d'expiration incorrect")
+    handleExpError(t('langues:incorrectDate'))
 
   }; 
   
   if (!inputCvc){                                                // l'utilisateur ne complète pas le champ de la CARTE
     valid = false
-    handleCvcError('Veuillez completer le CVC')
+    handleCvcError(t('langues:cvc'))
   }else if (reg_cvc.test(inputCvc)===false){ // champ du cvc
     valid = false
-    handleCvcError('CVC non valide')
+    handleCvcError(t('langues:incorrectCvc'))
 
 };
 
 
 if (!inputTitulaire) {
   valid = false
-  handleTitulaireError('Entrer le nom du titulaire')
+  handleTitulaireError(t('langues:noName'))
 }
 
 if (!value){                                                // l'utilisateur ne complète pas le champ de la CARTE
   valid = false
-  handleCountryError('Veuillez choisir un pays')      // l'utilisateur doit choisir un pays
+  handleCountryError(t('langues:noCountry'))      // l'utilisateur doit choisir un pays
 }
   
   if (valid == true) {
@@ -151,9 +153,9 @@ if (!value){                                                // l'utilisateur ne 
       
       <View>
         <ScrollView>
-        <Text style={styles.titre}>Paiement par carte</Text>
+        <Text style={styles.titre}>{t('langues:card')}</Text>
         
-        <Text style={styles.label}>E-mail</Text>
+        <Text style={styles.label}>{t('langues:email')}</Text>
         <TextInput
           style={styles.input}
           keyboardType={'email-address'}
@@ -166,7 +168,7 @@ if (!value){                                                // l'utilisateur ne 
                 <Text style={styles.errorMess}>{errMess}</Text>//affiche l'erreur s'il y en a
             )}
 
-        <Text style={styles.label}>Information de la carte</Text>
+        <Text style={styles.label}>{t('langues:information')}</Text>
         
       <View style={styles.inputCardContainer}>
         <TextInput
@@ -223,7 +225,7 @@ if (!value){                                                // l'utilisateur ne 
                 <Text style={styles.errorMess}>{errCvcMess}</Text>//affiche l'erreur s'il y en a
             )}
 
-      <Text style={styles.label}>Nom du titulaire de la carte</Text>
+      <Text style={styles.label}>{t('langues:owner')}</Text>
         
         <TextInput
           style={styles.input}
@@ -237,7 +239,7 @@ if (!value){                                                // l'utilisateur ne 
                 <Text style={styles.errorMess}>{errTitulaireMess}</Text>//affiche l'erreur s'il y en a
             )}
 
-        <Text style={styles.label}>Pays ou région</Text>
+        <Text style={styles.label}>{t('langues:country')}</Text>
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
           containerStyle={{top:'45%', marginBottom: '30%', backgroundColor: 'whitesmoke', height: '20%'}}
@@ -266,7 +268,7 @@ if (!value){                                                // l'utilisateur ne 
       
 
       <View style={styles.buttonStyle}>
-        <Button title='Payer' onPress={champ}/>
+        <Button title={t('langues:pay')} onPress={champ}/>
       </View>
       </ScrollView>
       </View>

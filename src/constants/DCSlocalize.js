@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as RNLocalize from 'react-native-localize';
 import en from './translations/en';
 import fr from './translations/fr';
+
 const LANGUAGES = {
  en,
  fr,
@@ -38,6 +39,7 @@ i18n
  .use(LANGUAGE_DETECTOR)
  .use(initReactI18next)
  .init({
+  compatibilityJSON: 'v3',
   resources: LANGUAGES,
   react: {
    useSuspense: false,

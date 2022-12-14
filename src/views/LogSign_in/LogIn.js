@@ -3,8 +3,10 @@ import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard } from 'react
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 function LogIn({navigation}) {
+    const {t} = useTranslation();
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     password:''
@@ -16,17 +18,17 @@ const validate = () => { //fonction de validation des information
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if (!inputs.email){
-        handleError('Entrer votre e-mail svp!', 'email')
+        handleError(t('langues:noEmail'), 'email')
         valid = false
     } else if (reg.test(inputs.email)===false){
-        handleError('Entrer un e-mail correct svp!', 'email')
+        handleError(t('langues:incorrectEmail'), 'email')
         valid = false
     };
     if (!inputs.password){
-        handleError('Entrer votre mot de passe svp!', 'password')
+        handleError(t('langues:noPassword'), 'password')
         valid = false
     } else if (strongRegex.test(inputs.password)===false){
-        handleError('Mot de passe incorrect', 'password')
+        handleError(t('langues:incorrectPassword'), 'password')
         valid = false
     };
     if (valid == true) {
@@ -44,17 +46,17 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
         <SafeAreaView style={styles.container}>
 
             <ScrollView style={styles.scroll_view}>
-                <Text style={styles.title}>Connexion</Text>
+                <Text style={styles.title}>{t('langues:titleLogIn')}</Text>
                 <View style={styles.viewContain}>
                 <Input 
-                    placeholder='E-mail' 
+                    placeholder={t('langues:email')} 
                     error={errors.email}
                     onChangeText={text => handleOnChange(text, 'email')}
                     onFocus={() => {
                         handleError(null, 'email')
                     }}/>
                 <Input 
-                    placeholder='Mot de passe' 
+                    placeholder={t('langues:password')} 
                     error={errors.password}
                     password 
                     onChangeText={text => handleOnChange(text, 'password')}
@@ -62,11 +64,11 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                         handleError(null, 'password')
                     }}/>
                 <Text style={styles.other2} onPress={() => navigation.navigate('Recup')}>
-                    Mot de passe oublié?
+                    {t('langues:forgot')}
                 </Text>
-                <Button title="Se connecter" onPress={validate}/>
+                <Button title={t('langues:logIn')} onPress={validate}/>
                 <Text style={styles.other} onPress={ () => navigation.navigate('SingIn')}>
-                    Créer un compte?
+                    {t('langues:create')}
                 </Text>
                 </View>
             </ScrollView>
