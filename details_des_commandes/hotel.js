@@ -26,11 +26,7 @@ export default Hotel = ({navigation}) => {
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:company')}</Text>: {hotel.entreprise} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:nb')}</Text>: {hotel.nombre_prs} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {hotel.prix} ariary</Text>
-            
-            <View style={styles.button}>
-                <Button title={t('langues:validate')} onPress={
-                () => navigation.navigate('PaymentCommand')}/>
-            </View>
+
         </View>
         </ScrollView>
     )
