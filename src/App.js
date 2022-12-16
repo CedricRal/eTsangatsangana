@@ -74,6 +74,7 @@ function HomeStackScreen(){
         <HomeStack.Screen name='PaymentCommand'  component={ PayementDeLaCommande }  options={{title: t('langues:modePayement')}}/>
         <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: t('langues:mobileMoney')}}/>
         <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: t('langues:card')}}/>
+        <HomeStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: t('langues:theOrder')}}/>
       </HomeStack.Navigator>
     </>
   )
