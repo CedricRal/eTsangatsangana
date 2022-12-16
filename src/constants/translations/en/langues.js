@@ -56,7 +56,7 @@ export default {
     pay: 'Pay',
     enterEmail: 'Enter your e-mail',
     correctEmail: 'Enter correct e-mail',
-    cardField: "Please complete the card's field",
+    cardField: "Please complete the card's informations",
     incorrectCode: 'Card code non valid',
     expiration: "Please complete the card's expiry date",
     incorrectDate: "Incorrect expiry date",
@@ -75,6 +75,7 @@ export default {
     selectDate: 'Select the date',
     confirmText: 'Confirm',
     cancelText: 'Cancel',
+    mod: 'Payement mode',
     //---------------------------logSignIn----------------------
     titleLogIn: 'Connexion',
     titleSignIn: 'Sign up',

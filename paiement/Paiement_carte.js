@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, Image, Button, Alert} from 'react-native';
-import React, { useState } from 'react';
+import { Text, View, StyleSheet, TextInput, ScrollView, Image, Alert} from 'react-native';
+import React, { useState, useRef } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
-
+import Button from '../src/views/Composant/bouton';
 
 export default function Carte({navigation}) {
   const {t} = useTranslation();
@@ -21,6 +21,12 @@ export default function Carte({navigation}) {
     { label: 'France', value: '11' },
     { label: 'Egypte', value: '12' },
   ]);
+  const [isFocused, setIsFocused] = React.useState(false);
+
+  const firstInput = useRef();
+  const secondInput = useRef();
+  const thirdInput = useRef();
+  const fourthInput = useRef();
 
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
   const [errCountryMess,setErrCountryMess] = useState();
@@ -35,8 +41,12 @@ export default function Carte({navigation}) {
   
   
   const [input, setInputs] = useState(""); // state pour l'email
-  const [inputCard, setInputCard] = useState(null); // state pour la carte
-  const [inputExp, setInputExp] = useState(null); // state pour la date d'expiration
+  const [inputCard1, setInputCard1] = useState(); // state pour la carte
+  const [inputCard2, setInputCard2] = useState(); // state pour la carte
+  const [inputCard3, setInputCard3] = useState(); // state pour la carte
+  const [inputCard4, setInputCard4] = useState(); // state pour la carte
+  const [inputExp, setInputExp] = useState(null); // state pour le mois d'expiration
+  const [inputExpY, setInputExpY] = useState(null); // state pour le mois d'expiration
   const [inputCvc, setInputCvc] = useState(null); // state pour le Cvc
   const [inputTitulaire, setInputTitulaire] = useState(null);
 
@@ -44,12 +54,29 @@ export default function Carte({navigation}) {
     setInputs(text);
   }
 
-  const handleOnChangeCard = (text) => {       //prend les valeurs saisi de la carte
-    setInputCard(text);
+  const handleOnChangeCard1 = (text) => {       //prend les valeurs saisi de la carte
+    setInputCard1(text);
   }
 
-  const handleOnChangeExp = (text) => {       //prend les valeurs saisi de la date d'expiration
-    setInputExp(text);
+  const handleOnChangeCard2 = (text) => {       //prend les valeurs saisi de la carte
+    setInputCard2(text);
+  }
+
+  const handleOnChangeCard3 = (text) => {       //prend les valeurs saisi de la carte
+    setInputCard3(text);
+  }
+
+  const handleOnChangeCard4 = (text) => {       //prend les valeurs saisi de la carte
+    setInputCard4(text);
+  }
+
+  const handleOnChangeExp = (text) => {       //prend les valeurs saisi du mois d'expiration
+    if(text>12){setInputExp(null);}
+    else{setInputExp(text);}
+  }
+
+  const handleOnChangeExpY = (text) => {       //prend les valeurs saisi de la date d'expiration
+    setInputExpY(text);
   }
 
   const handleOnChangeCvc = (text) => {       //prend les valeurs saisi de la date d'expiration
@@ -91,7 +118,6 @@ const champ = () => {
     let reg_carte = /(\d{4}[-\s]?){3}\d{4}/;                         // regex de  la carte
     let reg_exp = /^(0?[1-9]{1}|1[0-2]{1})\/([0-9]{2})$/;               // regex de la date d'expiration
     let reg_cvc = /^[0-9]{3,4}$/;                                      // regex du cvc
-    
 
     if (!input) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
       valid = false
@@ -101,22 +127,18 @@ const champ = () => {
       handleError(t('langues:correctEmail'))
   }
 
-    if (!inputCard){                                                // l'utilisateur ne complète pas le champ de la CARTE
+    if (!inputCard1 || !inputCard2 || !inputCard3 || !inputCard4){                                                // l'utilisateur ne complète pas le champ de la CARTE
       valid = false
       handleCardError(t('langues:cardField'))
-  } else if (reg_carte.test(inputCard)===false){                  // champ de la carte
+  } else if (reg_carte.test(inputCard1+inputCard2+inputCard3+inputCard4)===false){                  // champ de la carte
     valid = false
       handleCardError(t('langues:incorrectCode'))
   };
   
-  if (!inputExp){                                                // l'utilisateur ne complète pas le champ de la CARTE
+  if (!inputExp || !inputExpY){                                                // l'utilisateur ne complète pas le champ de la CARTE
     valid = false
     handleExpError(t('langues:expiration'))
-  }else if (reg_exp.test(inputExp)===false) { // champ de la date d'expiration
-    valid = false
-    handleExpError(t('langues:incorrectDate'))
-
-  }; 
+  }
   
   if (!inputCvc){                                                // l'utilisateur ne complète pas le champ de la CARTE
     valid = false
@@ -153,7 +175,6 @@ if (!value){                                                // l'utilisateur ne 
       
       <View>
         <ScrollView>
-        <Text style={styles.titre}>{t('langues:card')}</Text>
         
         <Text style={styles.label}>{t('langues:email')}</Text>
         <TextInput
@@ -173,13 +194,73 @@ if (!value){                                                // l'utilisateur ne 
       <View style={styles.inputCardContainer}>
         <TextInput
           style={styles.inputCard}
-          placeholder='xxxx xxxx xxxx xxxx'
-          maxLength={16}
+          placeholder='xxxx'
+          maxLength={4}
+          ref={firstInput}
           keyboardType={'decimal-pad'}
-          onChangeText={handleOnChangeCard}
+          onChangeText={text => {
+            handleOnChangeCard1(text);
+            text.length==4 && secondInput.current.focus()}}
           onFocus={() => {
-            handleCardError(null)
-        }}
+            handleCardError(null);
+            setIsFocused(true);
+          }}
+          onBlur={()=>{
+          setIsFocused(false);
+          }}
+        />
+        <TextInput
+          style={styles.inputCard}
+          placeholder='xxxx'
+          maxLength={4}
+          ref={secondInput}
+          keyboardType={'decimal-pad'}
+          onChangeText={text => {
+            handleOnChangeCard2(text);
+            if(text.length==4){thirdInput.current.focus()}
+            else if(!text){firstInput.current.focus()}}}
+          onFocus={() => {
+            handleCardError(null);
+            setIsFocused(true);
+          }}
+          onBlur={()=>{
+          setIsFocused(false);
+          }}
+        />
+        <TextInput
+          style={styles.inputCard}
+          placeholder='xxxx'
+          maxLength={4}
+          ref={thirdInput}
+          keyboardType={'decimal-pad'}
+          onChangeText={text => {
+            handleOnChangeCard3(text);
+            if(text.length==4){fourthInput.current.focus()}
+            else if(!text){secondInput.current.focus()}}}
+          onFocus={() => {
+            handleCardError(null);
+            setIsFocused(true);
+          }}
+          onBlur={()=>{
+          setIsFocused(false);
+          }}
+        />
+        <TextInput
+          style={styles.inputCard}
+          placeholder='xxxx'
+          maxLength={4}
+          ref={fourthInput}
+          keyboardType={'decimal-pad'}
+          onChangeText={text => {
+            handleOnChangeCard4(text);
+            (!text) && thirdInput.current.focus()}}
+          onFocus={() => {
+            handleCardError(null);
+            setIsFocused(true);
+          }}
+          onBlur={()=>{
+          setIsFocused(false);
+          }}
         />
         <View style={styles.imageCardJustified}>
           <Image source={require('../assets/MyImages/card.png')} style={styles.cardImage}/>
@@ -190,16 +271,30 @@ if (!value){                                                // l'utilisateur ne 
       </View>
 
       <View style={styles.coteAcote}>
+        <View style={styles.date}>
         <TextInput
           style={styles.expiration_de_la_carte}
-          placeholder='MM/AA'
-          maxLength={5}
+          placeholder='MM'
+          value={inputExp}
+          maxLength={2}
           keyboardType={'phone-pad'}
           onChangeText={handleOnChangeExp}
           onFocus={() => {
             handleExpError(null)
         }}
         />
+        <Text style={styles.slash}>/</Text>
+        <TextInput
+          style={styles.expiration_de_la_carte}
+          placeholder='AA'
+          maxLength={2}
+          keyboardType={'phone-pad'}
+          onChangeText={handleOnChangeExpY}
+          onFocus={() => {
+            handleExpError(null)
+        }}
+        />
+        </View>
         <View style={styles.cvcEtIcon}>
         <TextInput
           style={styles.cvc}
@@ -316,7 +411,7 @@ const styles = StyleSheet.create({
 
   inputCard: {
     fontSize: 16,
-    width: '60%'
+    width: '15%'
   },
 
   cardImage: {
@@ -364,11 +459,10 @@ const styles = StyleSheet.create({
 
   expiration_de_la_carte: {
     fontSize: 16,
-    width: '45%',
     borderColor: 'gray',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomLeftRadius: 8,
     paddingLeft: '2%',
+    width:'40%',
+    textAlign:'center'
   },
 
   dropdown: {
@@ -395,10 +489,20 @@ const styles = StyleSheet.create({
     marginBottom: '10%',
     marginTop: '10%',
   },
-
+  slash: {
+    textAlignVertical:'center',
+    fontSize: 34,
+    fontWeight:'bold'
+  },
   errorMess: {
     color: 'red',
      marginLeft: '10%'
   },
-
+  date: {
+    borderWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    width: '45%',
+    borderBottomLeftRadius: 8,
+    alignSelf:'center'
+  }
 });
