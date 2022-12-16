@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native'; 
+import { View, Text, TouchableOpacity, StyleSheet, Pressable, ScrollView } from 'react-native'; 
 import { RadioButton } from 'react-native-paper';
+import design from '../src/views/Composant/couleur'
 import { useTranslation } from 'react-i18next';
 
 export default function PayementDeLaCommande({navigation}) {
@@ -20,6 +21,7 @@ export default function PayementDeLaCommande({navigation}) {
 
 
   return (
+    <ScrollView>
     <View style={styles.arrierPlanBlanc}>
       <Text style={styles.headerText}>{t('langues:orderBy')}: </Text>
       
@@ -32,11 +34,12 @@ export default function PayementDeLaCommande({navigation}) {
         
       >
       <RadioButton
+        color={design.Vert}
         value="Paiement par carte" 
         status={ checked === 'Paiement par carte' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('Paiement par carte')}
       />
-      <Text style={styles.labelStyle1}>{t('langues:card')}</Text>
+      <Text style={styles.labelStyle1}>{t('langues:Pcard')}</Text>
       </TouchableOpacity>
       </View>
 
@@ -48,11 +51,12 @@ export default function PayementDeLaCommande({navigation}) {
         }}
       >
       <RadioButton
+        color={design.Vert}
         value="Paiement par mobile money"
         status={ checked === 'Paiement par mobile money' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('Paiement par mobile money')}
       />
-      <Text style={styles.labelStyle2}>{t('langues:mobileMoney')}</Text>
+      <Text style={styles.labelStyle2}>{t('langues:PmobileMoney')}</Text>
       </TouchableOpacity>
 
       </View>
@@ -60,14 +64,30 @@ export default function PayementDeLaCommande({navigation}) {
       <View style={styles.cadre}>
       <TouchableOpacity
         style={styles.radioView3}
-        onPress={() => setChecked('Paiement sur place ou à la livraison')}
+        onPress={() => setChecked('Paiement sur place')}
       >
       <RadioButton
-        value="Paiement sur place ou à la livraison"
-        status={ checked === 'Paiement sur place ou à la livraison' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('Paiement sur place ou à la livraison')}
+        color={design.Vert}
+        value="Paiement sur place"
+        status={ checked === 'Paiement sur place' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement sur place')}
       />
-      <Text style={styles.labelStyle3}>{t('langues:onTheSpot')}</Text>
+      <Text style={styles.labelStyle3}>{t('langues:PonTheSpot')}</Text>
+      </TouchableOpacity>
+      </View>
+
+      <View style={styles.cadre}>
+      <TouchableOpacity
+        style={styles.radioView4}
+        onPress={() => setChecked('Paiement à la livraison')}
+      >
+      <RadioButton
+        color={design.Vert}
+        value="Paiement à la livraison"
+        status={ checked === 'Paiement à la livraison' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('Paiement à la livraison')}
+      />
+      <Text style={styles.labelStyle4}>{t('langues:PonDelivery')}</Text>
       </TouchableOpacity>
       </View>
 
@@ -76,6 +96,7 @@ export default function PayementDeLaCommande({navigation}) {
       </Pressable>
     </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -111,34 +132,48 @@ export default function PayementDeLaCommande({navigation}) {
     alignItems: 'center',
     paddingVertical: '4%',
     borderRadius: 8,
-    backgroundColor: checked === 'Paiement sur place ou à la livraison' ? design.Marron: 'white'
+    backgroundColor: checked === 'Paiement sur place' ? design.Marron: 'white'
+  },
+  radioView4: {
+    width: '100%',
+    flexDirection:'row',
+    alignItems: 'center',
+    paddingVertical: '4%',
+    borderRadius: 8,
+    backgroundColor: checked === 'Paiement à la livraison' ? design.Marron: 'white'
   },
 
   labelStyle1: {
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: '8%',
     width: '75%',
     color: checked === 'Paiement par carte' ? 'white': 'black'
   },
 
   labelStyle2: {
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: '8%',
     width: '75%',
     color: checked === 'Paiement par mobile money' ? 'white': 'black'
   },
 
   labelStyle3: {
-    fontSize: 18,
+    fontSize: 16,
     width: '75%',
     marginLeft: '8%',
-    color: checked === 'Paiement sur place ou à la livraison' ? 'white': 'black'
+    color: checked === 'Paiement sur place' ? 'white': 'black'
+  },
+  labelStyle4: {
+    fontSize: 16,
+    width: '75%',
+    marginLeft: '8%',
+    color: checked === 'Paiement à la livraison' ? 'white': 'black'
   },
 
   cadre: {
     width: '100%',
     borderRadius: 8,
-    marginBottom: '8%'
+    marginVertical: '4%',
   },
 
   centerRadio: {
@@ -146,10 +181,12 @@ export default function PayementDeLaCommande({navigation}) {
   },
 
   headerText: {
-    fontSize: 21,
+    fontSize: 18,
     textAlign: 'center',
-    marginBottom: '20%',
+    marginTop: '18%',
+    marginBottom: '8%',
     fontWeight: 'bold',
+    color:'black'
   },
 
   labelStyle: {
@@ -162,11 +199,12 @@ export default function PayementDeLaCommande({navigation}) {
     justifyContent: 'center',
     paddingVertical: '3%',
     paddingHorizontal: '10%',
+    marginBottom:30,
     borderRadius: 25,
     backgroundColor: design.Marron,
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: design.Blanc,
   },
