@@ -16,6 +16,7 @@ const MyData = [
     "title": "Chicky",
     "image": require('../assets/MyImages/nuggets.png'),
     "prix": "21 000 Ar",
+    "type": "restaurant",
   },
   { 
     "id": "2",
@@ -23,6 +24,7 @@ const MyData = [
     "title": "Gastro Pizza",
     "image": require('../assets/MyImages/pizza.png'),
     "prix": "24 000 Ar",
+    "type": "restaurant",
   },
   { 
     "id": "3",
@@ -30,6 +32,7 @@ const MyData = [
     "title": "Mercury",
     "image": require('../assets/MyImages/hotel.png'),
     "prix": "180 000 Ar",
+    "type": "hotel",
   },
   { 
     "id": "4",
@@ -37,6 +40,7 @@ const MyData = [
     "title": "Soa Trans",
     "image": require('../assets/MyImages/transport.png'),
     "prix": "10 000 Ar",
+    "type": "transport",
   },
   { 
     "id": "5",
@@ -44,6 +48,7 @@ const MyData = [
     "title": "Entreprise",
     "image": require('../assets/MyImages/img2.jpg'),
     "prix": "50 000 Ar",
+    "type": "transport",
   },
   { 
      "id": "6",
@@ -51,6 +56,7 @@ const MyData = [
      "title": "Entreprise",
      "image": require('../assets/MyImages/img1.jpg'),
      "prix": "50 000 Ar",
+     "type": "hotel",
   },
 ];    
   export default function App({navigation}) {
@@ -93,11 +99,11 @@ const MyData = [
       
     return (
         <TouchableOpacity onPress={() => 
-          {if(item.id=='3' || item.id=='5') {
+          {if(item.type == 'hotel') {
             navigation.navigate('Hotel')}
-          else if(item.id=='1' || item.id=='2'){
+          else if(item.type == 'restaurant'){
             navigation.navigate('Restaurant')}
-          else if(item.id=='4' || item.id=='6'){
+          else if(item.type == 'transport'){
             navigation.navigate('Transport')
           }}}
           style={AppStyles.touchableStyle}>

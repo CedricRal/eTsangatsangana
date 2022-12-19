@@ -81,7 +81,7 @@ function Restaurant({navigation}) {
         <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
         <Text style={styles.texte_center}>{t('langues:offer')}: {restaurant.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {restaurant.desc}</Text>
-        <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn')}/>
+        <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn', {type:'restaurant'})}/>
       </View>
     </View>
     </ScrollView>
