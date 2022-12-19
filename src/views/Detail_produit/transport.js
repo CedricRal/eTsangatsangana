@@ -81,7 +81,7 @@ function Transport({navigation}) {
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
         <Text style={styles.texte_center}>{t('langues:offer')}: {transport.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn')}/>
+        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {type:'transport'})}/>
       </View>
     </View>
     </ScrollView>

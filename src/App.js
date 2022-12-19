@@ -18,6 +18,7 @@ import NewPass from './views/Mdp_oublie/NewPassword';
 import Offre from './views/Produits/Offre';
 import UserProfile from './../ProfileManagement/Profil';
 import CommandDetails from '../details_des_commandes/transport';
+import detailCmd from '../resume_de_la_commande/detailCmd';
 import PayementDeLaCommande from '../ProfileManagement/PayementDeLaCommande';
 import CommandList from '../liste_des_commandes/CommandList';
 import hotel from '../details_des_commandes/hotel';
@@ -75,6 +76,7 @@ function HomeStackScreen(){
         <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: t('langues:mobileMoney')}}/>
         <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: t('langues:card')}}/>
         <HomeStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: t('langues:theOrder')}}/>
+        <HomeStack.Screen name='detailCmd'  component={ detailCmd }  options={{title: t('langues:detailsCmd')}}/>
       </HomeStack.Navigator>
     </>
   )

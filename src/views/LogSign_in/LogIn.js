@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
@@ -7,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 function LogIn({navigation}) {
     const {t} = useTranslation();
+    const route = useRoute();
+    const type = route.params.type;
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     password:''
@@ -32,7 +35,7 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        navigation.navigate('PaymentCommand')
+        navigation.navigate('detailCmd',{type:type})
     }
 };
 
