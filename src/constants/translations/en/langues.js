@@ -74,7 +74,7 @@ export default {
     incorrectCvc: 'Non valid CVC',
     noName: "Enter the holder's name",
     noCountry: 'Please choose a country',
-    type: 'Mobile type',
+    type: 'Your operator',
     recipient: 'Recipient',
     sender: 'Sender',
     amount: 'Amount',
