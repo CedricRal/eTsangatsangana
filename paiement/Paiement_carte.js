@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
+import design from '../src/views/Composant/couleur';
 
 export default function Carte({navigation}) {
   const {t} = useTranslation();
@@ -21,7 +22,9 @@ export default function Carte({navigation}) {
     { label: 'France', value: '11' },
     { label: 'Egypte', value: '12' },
   ]);
-  const [isFocused, setIsFocused] = React.useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFocus1, setIsFocus1] = useState(false);
+  const [isFocus2, setIsFocus2] = useState(false);
 
   const firstInput = useRef();
   const secondInput = useRef();
@@ -183,7 +186,7 @@ if (!value){                                                // l'utilisateur ne 
           onChangeText={handleOnChange}
           onFocus={() => {
             handleError(null)
-        }}
+          }}
         />
         {errMess && (
                 <Text style={styles.errorMess}>{errMess}</Text>//affiche l'erreur s'il y en a
@@ -191,7 +194,7 @@ if (!value){                                                // l'utilisateur ne 
 
         <Text style={styles.label}>{t('langues:information')}</Text>
         
-      <View style={styles.inputCardContainer}>
+      <View style={[styles.inputCardContainer, {borderBottomWidth:0}, isFocus2 && { borderColor: design.Vert }]}>
         <TextInput
           style={styles.inputCard}
           placeholder='xxxx'
@@ -202,12 +205,9 @@ if (!value){                                                // l'utilisateur ne 
             handleOnChangeCard1(text);
             text.length==4 && secondInput.current.focus()}}
           onFocus={() => {
-            handleCardError(null);
-            setIsFocused(true);
+            handleCardError(null),setIsFocus2(true)
           }}
-          onBlur={()=>{
-          setIsFocused(false);
-          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <TextInput
           style={styles.inputCard}
@@ -220,12 +220,9 @@ if (!value){                                                // l'utilisateur ne 
             if(text.length==4){thirdInput.current.focus()}
             else if(!text){firstInput.current.focus()}}}
           onFocus={() => {
-            handleCardError(null);
-            setIsFocused(true);
+            handleCardError(null),setIsFocus2(true)
           }}
-          onBlur={()=>{
-          setIsFocused(false);
-          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <TextInput
           style={styles.inputCard}
@@ -238,12 +235,9 @@ if (!value){                                                // l'utilisateur ne 
             if(text.length==4){fourthInput.current.focus()}
             else if(!text){secondInput.current.focus()}}}
           onFocus={() => {
-            handleCardError(null);
-            setIsFocused(true);
+            handleCardError(null),setIsFocus2(true)
           }}
-          onBlur={()=>{
-          setIsFocused(false);
-          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <TextInput
           style={styles.inputCard}
@@ -255,12 +249,9 @@ if (!value){                                                // l'utilisateur ne 
             handleOnChangeCard4(text);
             (!text) && thirdInput.current.focus()}}
           onFocus={() => {
-            handleCardError(null);
-            setIsFocused(true);
+            handleCardError(null),setIsFocus2(true)
           }}
-          onBlur={()=>{
-          setIsFocused(false);
-          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <View style={styles.imageCardJustified}>
           <Image source={require('../assets/MyImages/card.png')} style={styles.cardImage}/>
@@ -271,7 +262,7 @@ if (!value){                                                // l'utilisateur ne 
       </View>
 
       <View style={styles.coteAcote}>
-        <View style={styles.date}>
+        <View style={[styles.date, isFocus2 && { borderColor: design.Vert }]}>
         <TextInput
           style={styles.expiration_de_la_carte}
           placeholder='MM'
@@ -280,8 +271,9 @@ if (!value){                                                // l'utilisateur ne 
           keyboardType={'phone-pad'}
           onChangeText={handleOnChangeExp}
           onFocus={() => {
-            handleExpError(null)
-        }}
+            handleExpError(null),setIsFocus2(true)
+          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <Text style={styles.slash}>/</Text>
         <TextInput
@@ -291,11 +283,12 @@ if (!value){                                                // l'utilisateur ne 
           keyboardType={'phone-pad'}
           onChangeText={handleOnChangeExpY}
           onFocus={() => {
-            handleExpError(null)
-        }}
+            handleExpError(null),setIsFocus2(true)
+          }}
+          onBlur={() => setIsFocus2(false)}
         />
         </View>
-        <View style={styles.cvcEtIcon}>
+        <View style={[styles.cvcEtIcon, isFocus2 && { borderColor: design.Vert }]}>
         <TextInput
           style={styles.cvc}
           placeholder='CVC'
@@ -303,8 +296,9 @@ if (!value){                                                // l'utilisateur ne 
           keyboardType={'decimal-pad'}
           maxLength={3}
           onFocus={() => {
-            handleCvcError(null)
-        }}
+            handleCvcError(null),setIsFocus2(true)
+          }}
+          onBlur={() => setIsFocus2(false)}
         />
         <Image source={require('../assets/MyImages/cvc.png')} style={styles.cvcImage}/>
         </View>
@@ -323,11 +317,12 @@ if (!value){                                                // l'utilisateur ne 
       <Text style={styles.label}>{t('langues:owner')}</Text>
         
         <TextInput
-          style={styles.input}
+          style={[styles.input, isFocus1 && { borderColor: design.Vert }]}
           onChangeText={handleOnChangeTitulaire}
           onFocus={() => {
-            handleTitulaireError(null)
-        }}
+            handleTitulaireError(null),setIsFocus1(true)
+          }}
+          onBlur={() => setIsFocus1(false)}
         />
 
       {errTitulaireMess && (
@@ -336,7 +331,7 @@ if (!value){                                                // l'utilisateur ne 
 
         <Text style={styles.label}>{t('langues:country')}</Text>
         <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          style={[styles.dropdown, isFocus && { borderColor: design.Vert }]}
           containerStyle={{top:'45%', marginBottom: '30%', backgroundColor: 'whitesmoke', height: '20%'}}
 
           iconStyle={{marginRight: '1%', width: '10%'}}
@@ -378,7 +373,8 @@ const styles = StyleSheet.create({
     fontSize: 38,
     fontWeight: 'bold',
     marginTop: '10%',
-    marginBottom: '10%'
+    marginBottom: '10%',
+    color: 'black',
   },
 
   label: {
@@ -387,14 +383,16 @@ const styles = StyleSheet.create({
     marginBottom: '1%',
     marginTop: '7%',
     fontWeight: 'bold',
+    color:'black',
   },
 
   input: {
     fontSize: 16,
+    height: '8%',
     width: '80%',
     alignSelf: 'center',
-    borderColor: 'gray',
-    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: design.Marron,
+    borderWidth: 1,
     borderRadius: 8,
     paddingLeft: '2%',
     overflow: 'hidden',
@@ -403,15 +401,17 @@ const styles = StyleSheet.create({
   inputCardContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
+    height: '8%',
     width: '80%',
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8, 
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
+    borderColor: design.Marron,
   },
 
   inputCard: {
     fontSize: 16,
-    width: '15%'
+    width: '15%',
   },
 
   cardImage: {
@@ -435,9 +435,11 @@ const styles = StyleSheet.create({
 
   cvcEtIcon: {
     flexDirection: 'row',
+    height: '80%',
     width: '35%',
     borderBottomRightRadius: 8, 
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
+    borderColor: design.Marron,
   },
 
   imageCardJustified: {
@@ -459,7 +461,6 @@ const styles = StyleSheet.create({
 
   expiration_de_la_carte: {
     fontSize: 16,
-    borderColor: 'gray',
     paddingLeft: '2%',
     width:'40%',
     textAlign:'center'
@@ -467,13 +468,16 @@ const styles = StyleSheet.create({
 
   dropdown: {
     height: 50,
-    borderColor: 'gray',
     width: '80%',
     alignSelf: 'center',
     paddingLeft: '2%',
-    borderColor: 'gray',
+    borderColor: design.Marron,
     borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
+    borderStartWidth: 1,
+    borderEndWidth: 1,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderWidth: 1,
   },
 
   placeholderStyle: {
@@ -492,17 +496,20 @@ const styles = StyleSheet.create({
   slash: {
     textAlignVertical:'center',
     fontSize: 34,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    marginBottom:8,
   },
   errorMess: {
     color: 'red',
      marginLeft: '10%'
   },
   date: {
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     flexDirection: 'row',
+    height: '80%',
     width: '45%',
     borderBottomLeftRadius: 8,
-    alignSelf:'center'
+    borderRightWidth:0,
+    borderColor: design.Marron,
   }
 });

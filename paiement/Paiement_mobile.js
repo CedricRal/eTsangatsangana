@@ -1,7 +1,9 @@
-import { Text, View, StyleSheet, TextInput, ScrollView, Image, Button, Alert} from 'react-native';
+import { Text, View, StyleSheet, TextInput, ScrollView} from 'react-native';
 import React, { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
+import design from '../src/views/Composant/couleur';
+import Button from '../src/views/Composant/bouton';
 
 export default function Mobile({navigation}) {
   const {t} = useTranslation();
@@ -13,6 +15,8 @@ export default function Mobile({navigation}) {
   ]);
 
   const [isFocus, setIsFocus] = useState(false);
+  const [isFocus1, setIsFocus1] = useState(false);
+  const [isFocus2, setIsFocus2] = useState(false);
   
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
   const [inputNom, setInputNom] = useState("");
@@ -78,11 +82,10 @@ const champ = () => {
     return (
       
       <View>
-        <ScrollView>
-        <Text style={styles.titre}>{t('langues:mobileMoney')}</Text>
+        <ScrollView >
         
         <Dropdown
-          style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+          style={[styles.dropdown, isFocus && { borderColor: design.Vert }]}
           iconStyle={{marginRight: '1%', width: '10%'}}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
@@ -105,7 +108,7 @@ const champ = () => {
                 <Text style={styles.error}>{errMobileMess}</Text>//affiche l'erreur s'il y en a
           )}
 
-        <Text style={styles.label}>{t('langues:recipient')}</Text>
+        <Text style={[styles.label, {marginTop:'10%'}]}>{t('langues:recipient')}</Text>
         <TextInput
           style={styles.input}
           keyboardType={'decimal-pad'}
@@ -118,27 +121,28 @@ const champ = () => {
 
         <Text style={styles.label}>{t('langues:sender')}</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, isFocus1 && { borderColor: design.Vert }]}
           keyboardType={'phone-pad'}
           placeholder="numero de l'envoyeur (sans espace)"
-          onChangeText={handleOnChangeEnvoyeur}
+          onChangeText={() => {handleOnChangeEnvoyeur}}
           onFocus={() => {
-            handleEnvoyeurError(null)
+            handleEnvoyeurError(null); setIsFocus1(true)
         }}
+        onBlur={() => setIsFocus1(false)}
         >+261</TextInput>
         {errEnvoyeurMess && (
                 <Text style={styles.error}>{errEnvoyeurMess}</Text>//affiche l'erreur s'il y en a
             )}
 
-    <View style={styles.rowName}>
+    <View style={[styles.rowName, {marginTop:'10%'}]}>
       <Text style={styles.label}>{t('langues:name')} </Text>
-        
         <TextInput
-          style={styles.inputNom}
+          style={[styles.inputNom, isFocus2 && { borderColor: design.Vert }]}
           onChangeText={handleOnChangeNom}
           onFocus={() => {
-            handleNomError(null)
-        }}
+            handleNomError(null); setIsFocus2(true)
+          }}
+          onBlur={() => setIsFocus2(false)}
         />
     </View>
     {errNomMess && (
@@ -157,23 +161,14 @@ const champ = () => {
 }
 
 const styles = StyleSheet.create({
-
-    titre: {
-        textAlign: 'center',
-        fontSize: 38,
-        fontWeight: 'bold',
-        marginTop: '10%',
-        marginBottom: '10%'
-      },
-
       dropdown: {
         height: 50,
-        borderColor: 'gray',
         width: '80%',
         alignSelf: 'center',
-        borderColor: 'gray',
+        borderColor: design.Marron,
         borderRadius: 8,
-        borderWidth: StyleSheet.hairlineWidth,
+        borderWidth: 1,
+        marginTop: '20%',
       },
 
       error: {
@@ -187,10 +182,13 @@ const styles = StyleSheet.create({
 
       placeholderStyle: {
         fontSize: 16,
+        marginLeft: 20,
+        color: 'black',
       },
 
       selectedTextStyle: {
         fontSize: 16,
+        color: 'black',
       },
 
       label: {
@@ -199,32 +197,41 @@ const styles = StyleSheet.create({
         marginBottom: '1%',
         marginTop: '5%',
         fontWeight: 'bold',
+        color: 'black',
       },
     
       input: {
         fontSize: 16,
         width: '80%',
+        height:'8%',
         alignSelf: 'center',
-        borderColor: 'gray',
-        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: design.Marron,
+        borderWidth: 1,
         borderRadius: 8,
-        paddingLeft: '2%'
+        paddingLeft: '2%',
+        color: 'black',
       },
 
       rowName: {
         flexDirection: 'row',
         marginTop: '5%',
       },
-      
+      All: {
+        marginTop:'20%',
+        marginBottom: '10%',
+      },
 
       inputNom: {
         fontSize: 16,
-        width: '50%',
+        width: '64%',
+        height: '90%',
         marginLeft: '5%',
-        borderColor: 'gray',
-        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: design.Marron,
+        borderWidth: 1,
         borderRadius: 8,
+        textAlignVertical: 'center',
         paddingLeft: '2%',
+        color: 'black',
       },
 
       inputMontant: {
@@ -232,10 +239,10 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         paddingLeft: '2%',
         marginTop: '4.6%',
+        color: 'black',
       },
 
       buttonStyle: {
-        width: '25%',
         alignSelf: 'center',
         marginBottom: '10%',
         marginTop: '10%',
