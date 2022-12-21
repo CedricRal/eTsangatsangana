@@ -24,7 +24,7 @@ type Query{
 }
 
 type Mutation{
-    inscri_user(id: String!
+    inscri_user(
     nom: String!
     prenom: String!
     num_tel: String!
