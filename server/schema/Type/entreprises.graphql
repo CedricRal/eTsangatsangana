@@ -1,0 +1,63 @@
+scalar Date
+type entreprise{
+    id: String!
+    nom: String!
+    logo: String!
+    adresse: String!
+    tel: String!
+    adr_fb: String
+    type_service: String!
+    NIF_STAT: String
+    slogan: String!
+    description: String!
+    date_abonnement: Date!
+    type_abonnement: String!
+    mode_payement: String!
+    date_payement: Date!
+    id_users: String!
+}
+
+######Query and Mutation######
+type Query{
+    getOneEtp(id: String!):entreprise!
+    getAllEtp:[entreprise!]
+}
+
+type Mutation{
+    create_entreprise(
+    nom: String
+    logo: String
+    adresse: String
+    tel: String
+    adr_fb: String
+    type_service: String
+    NIF_STAT: String
+    slogan: String
+    description: String
+    date_abonnement: Date
+    type_abonnement: String
+    mode_payement: String
+    date_payement: Date
+    id_users: String!):entreprise!
+
+    delEtp(id: String!):entreprise!
+
+    updateEtp(
+    id: String!
+    nom: String
+    logo: String
+    adresse: String
+    tel: String
+    adr_fb: String
+    type_service: String
+    NIF_STAT: String
+    slogan: String
+    description: String
+    date_abonnement: Date
+    type_abonnement: String
+    mode_payement: String
+    date_payement: Date
+    id_users: String):entreprise!
+}
+
+
