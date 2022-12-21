@@ -33,6 +33,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import './constants/DCSlocalize';
 import { useTranslation } from 'react-i18next';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://192.168.1.122:4000',
+  cache: new InMemoryCache()
+})
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
@@ -132,6 +138,7 @@ function DrawerStackScreen(){
 
     return (
       <NavigationContainer>
+        <ApolloProvider client={client}>
         <Tab.Navigator screenOptions={({route}) => ({
         tabBarIcon : ({focused, color, size}) => {
             let iconName;
@@ -158,6 +165,7 @@ function DrawerStackScreen(){
           <Tab.Screen name="Offres" component={OffreStackScreen} options={{title: t('langues:offers')}}/>
           <Tab.Screen name="Commandes" component={CommandesStackScreen} options={{title: t('langues:orders')}}/>
         </Tab.Navigator>
+        </ApolloProvider>
       </NavigationContainer>
     );
   }

@@ -1,14 +1,14 @@
 const {ApolloServer, ApolloError} = require('apollo-server')
 const {makeExecutableSchema} = require('@graphql-tools/schema')
 const fs = require('fs')
-const resolvers = require('./resolvers/')
+const resolvers = require('./resolvers/index')
 const {ApolloServerPluginLandingPageGraphQLPlayground, AuthenticationError} = require('apollo-server-core')
 const jwt = require('jsonwebtoken')
 const { createClient } = require('redis')
 const client_redis = createClient()
 
 const typeDefs = fs.readFileSync('./schema/Type/users.graphql',{encoding:'utf-8'})
-
+console.log(resolvers)
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers: resolvers
@@ -25,7 +25,7 @@ const server = new ApolloServer({
         ],
       },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    context: ({req}) => {
+    /*context: ({req}) => {
       return new Promise((resolve,reject) =>{
         const token = req.headers['authorization']
         try{
@@ -55,7 +55,7 @@ const server = new ApolloServer({
         }
       })
       
-    }
+    }*/
 })
 
 server.listen(4000).then(({url}) => {
