@@ -1,12 +1,13 @@
 
 import React, {useEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import Hotel from './views/Detail_produit/hotel';
 import Transport from './views/Detail_produit/transport';
 import Restaurant from './views/Detail_produit/restauration';
 import LogIn from './views/LogSign_in/LogIn';
 import SingIn from './views/LogSign_in/SingIn';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -112,12 +113,26 @@ function CommandesStackScreen(){
     </>
   )
 }
+
+function EditIconHeader() {
+  const {t} = useTranslation();
+  const navigation = useNavigation();
+  return(
+    <View style={styles.EditIcon}>
+      <Text style={styles.profilTitle}>{t('langues:profile')}</Text>
+      <TouchableOpacity style={styles.icon} onPress={() => { navigation.navigate('ModificationProfile') }}>
+        <Icon name='user-edit' color={design.Blanc} size={24}/>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 function DrawerStackScreen(){
   const {t} = useTranslation();
   return(
     <>
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
-        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
         <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>
@@ -169,5 +184,19 @@ function DrawerStackScreen(){
       </NavigationContainer>
     );
   }
-//      {variable[param]}
-
+  const styles = StyleSheet.create({
+    EditIcon: {
+      flex:1,
+      flexDirection:'row',
+    },
+    profilTitle: {
+      color:design.Blanc,
+      textAlignVertical:'center',
+      fontSize:24,
+      fontWeight:'bold',
+    },
+    icon: {
+      justifyContent:'center',
+      marginLeft:'65%',
+    },
+  });
