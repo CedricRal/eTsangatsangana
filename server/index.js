@@ -25,7 +25,7 @@ const server = new ApolloServer({
         ],
       },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    context: ({req}) => {
+    /*context: ({req}) => {
       return new Promise((resolve,reject) =>{
         const token = req.headers['authorization']
         try{

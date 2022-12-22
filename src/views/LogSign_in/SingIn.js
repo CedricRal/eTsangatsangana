@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, TouchableOpacity, Modal} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Image, Keyboard, TouchableOpacity, Modal, ActivityIndicator} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import ModifierImage from './../../../ProfileManagement/ProfileImg';
@@ -7,21 +7,43 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
+import { useRoute } from '@react-navigation/native';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../../hooks/inscription';
 
 function SingIn({navigation}) {
 
     const {t} = useTranslation();
-const [inputs, setInputs] = React.useState({  //etat pour la validation
-    email: '',
-    nom:'',
-    prenom:'',
-    phone:'',
-    password:'',
-    confirm:'',
-    adresse:''
-});
-const [modalVisible, setModalVisible] = useState(false)
-const [errors, setErrors] = React.useState({})    //etat pour l'erreur
+    const route = useRoute();
+    const type = route.params.type;
+    const [inputs, setInputs] = React.useState({  //etat pour la validation
+        email: '',
+        nom:'',
+        prenom:'',
+        phone:'',
+        password:'',
+        confirm:'',
+        adresse:''
+    });
+    const [ inscri_user, {data, loading, error} ] = useMutation(CREATE_USER, {
+        variables: {
+            nom:inputs.nom,
+            prenom:inputs.prenom,
+            adresse:inputs.adresse,
+            mail:inputs.email,
+            num_tel:inputs.phone,
+            mdp:inputs.password,
+            photo:'source/photo/img'
+        }
+    });
+    const spiner = () => {
+        if(loading){
+            return <ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>
+        }
+    };
+
+    const [modalVisible, setModalVisible] = useState(false)
+    const [errors, setErrors] = React.useState({})    //etat pour l'erreur
 const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
     let valid = true;
@@ -108,10 +130,9 @@ const renderFileData = () => {
       }
     })}
 
-
 return(
         <SafeAreaView style={styles.container}>
-
+                
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -127,7 +148,8 @@ return(
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            navigation.navigate('LogIn')}}
+                            inscri_user();
+                            navigation.navigate('LogIn', {type:type})}}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
@@ -197,6 +219,7 @@ return(
                 </Text>
                 </View>
             </ScrollView>
+            {spiner()}
         </SafeAreaView>
     )
 }
@@ -302,6 +325,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily:design.police
     },
+    loader: {
+        position:'absolute',
+        alignSelf:'center',
+        marginVertical:'40%'
+    }
 })
 
 export default SingIn;

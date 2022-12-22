@@ -2,6 +2,7 @@ import { Image, Text, View , StyleSheet, TouchableOpacity, ScrollView} from 'rea
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { TextInput } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from '../src/views/Composant/couleur';
 
 
@@ -14,30 +15,17 @@ export default UserProfile = ({navigation}) => {
 
     return (
     
-    <View style={styles.fondBlanc}> 
-        <TouchableOpacity onPress={() => {
-            navigation.navigate('ModificationProfile')
-            }}>
-            <Image resizeMode='center'
-            source= {require('../assets/MyImages/EditIcon.jpg')
-            }
-            style={styles.editingIcon}
-          />      
-        </TouchableOpacity>
-
-
-        <View style={styles.distance}>
-            <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}> {route.params? route.params.nom : 'nom'}</TextInput>
-            <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}> {route.params? route.params.prenom : 'prenom'}</TextInput>
-            <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}> {route.params? route.params.adresse : 'adresse'}</TextInput>
-            <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}> {route.params? route.params.email : 'email'}</TextInput>
-            <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}> {route.params? route.params.phone : 'phone'}</TextInput>
-        </View>
+    <View style={styles.distance}> 
+        <TextInput editable={false} activeUnderlineColor='transparent'
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={25} color={design.Marron} />    {route.params? route.params.nom : 'nom'}</TextInput>
+        <TextInput editable={false} activeUnderlineColor='transparent'
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={25} color={design.Marron} />    {route.params? route.params.prenom : 'prenom'}</TextInput>
+        <TextInput editable={false} activeUnderlineColor='transparent'
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'map-marker-alt'} size={25} color={design.Marron} />    {route.params? route.params.adresse : 'adresse'}</TextInput>
+        <TextInput editable={false} activeUnderlineColor='transparent'
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'envelope'} size={25} color={design.Marron} />    {route.params? route.params.email : 'email'}</TextInput>
+        <TextInput editable={false} activeUnderlineColor='transparent'
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'phone'} size={25} color={design.Marron} />    {route.params? route.params.phone : 'phone'}</TextInput>
     </View>
     
     )
@@ -45,19 +33,12 @@ export default UserProfile = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
-   
-    fondBlanc: {
-        paddingTop: '20%',
-        backgroundColor: design.Blanc,
-        width: '100%',
-        height: '100%',
-    },
-
     distance: {
-        marginTop: '-20%'
+        marginTop: '20%'
     },
       textInput: {
         borderWidth: 1,
+        height:45,
         width: '75%',
         marginBottom: '2%',
         alignSelf: 'center',
@@ -70,9 +51,9 @@ const styles = StyleSheet.create({
     },
     
     editingIcon: {
-        height: '20%',
-        width:'20%',
-        marginLeft: '60%'
+        marginVertical: 50,
+        borderWidth:1,
+        alignSelf:'center',
     }
 });
 
