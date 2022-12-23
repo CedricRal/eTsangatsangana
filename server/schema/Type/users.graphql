@@ -17,10 +17,20 @@ type connexion{
     token: String!
 }
 
+type role{
+    id: String!
+    id_user: String!
+    id_role: String!
+}
+
+type get_roles{
+    description: String!
+}
 ######Query and Mutation##############
 type Query{
     auth_user(mail:String! mdp: String!): connexion!
     profil_user(id: String): users
+    get_role(id_user: String!): [get_roles]
 }
 
 type Mutation{
@@ -35,4 +45,6 @@ type Mutation{
     adr_fb : String
     adr_gmail: String
     id_apple : String): users!
+    
+    create_role(id_user: String! id_role: String!): role!
 }
