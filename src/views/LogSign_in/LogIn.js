@@ -1,10 +1,13 @@
-import React from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, ActivityIndicator } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import { useTranslation } from 'react-i18next';
+import { GET_USER } from '../../hooks/connexion';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLazyQuery } from '@apollo/client';
 
 function LogIn({navigation}) {
     const {t} = useTranslation();
@@ -14,6 +17,15 @@ const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     password:''
 });
+
+    const [get_user,{ error, loading, data, called }] = useLazyQuery(GET_USER, {
+        variables: {
+            mail:inputs.email, mdp:inputs.password
+        }
+    });
+
+    console.log({error, loading, data, called});
+
 const [errors, setErrors] = React.useState({})    //etat pour l'erreur
 const validate = () => { //fonction de validation des information
     Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
@@ -35,9 +47,32 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        navigation.navigate('detailCmd',{type:type})
+        get_user();
+        if(data){handleSave()};
     }
 };
+
+    const handleSave = async() => {
+        try {
+            AsyncStorage.setItem("myToken", data.auth_user.token);
+            navigation.navigate('detailCmd',{type:type});
+        }catch (error) {
+            alert(error)
+        }
+    };
+    const loadToken = async() => {
+        try {
+            const token = await AsyncStorage.getItem("myToken");
+            if(token !== null){
+                navigation.navigate('detailCmd',{type:type});
+            };
+        } catch (error) {
+            alert(error);
+        }
+    }
+    useLayoutEffect(() => {
+        loadToken();
+    },[]);
 
 const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
     setInputs(prevState => ({...prevState, [input]: text}));
@@ -45,6 +80,8 @@ const handleOnChange = (text, input) => {       //prend les valeurs saisi aux in
 const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
     setErrors(prevState => ({...prevState, [input]: errorMessage}));
 }
+    if(loading) return <ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>
+
     return(
         <SafeAreaView style={styles.container}>
 
@@ -114,6 +151,10 @@ const styles = StyleSheet.create({
         color : design.Marron,
         textDecorationLine:'underline',
         fontFamily: design.police
+    },
+    loader: {
+        alignSelf: 'center',
+        justifyContent: 'center',
     }
 })
 
