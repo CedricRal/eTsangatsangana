@@ -56,7 +56,7 @@ const server = new ApolloServer({
           new Error(err)
         }
       })
-    }
+    }*/
 })
 
 server.listen(4000).then(({url}) => {
