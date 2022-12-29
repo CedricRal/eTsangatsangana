@@ -10,6 +10,7 @@ module.exports = {
                         reject(err)
                     }
                     else{
+                        console.log(result.rows);
                         resolve(new Promise((resolve,reject)=>{
                             console.log(result.rows[0]['id_role']);
                             client.query('SELECT "description" FROM "Rôles" WHERE (id=$1)',[result.rows[0]['id_role']],function(err,result){

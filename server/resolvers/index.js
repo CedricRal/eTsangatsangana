@@ -13,6 +13,11 @@ const {delProduit} = require('./mutation/produits/delete')
 const {updateProduit} = require('./mutation/produits/update')
 const {getAllProduit} = require('./query/produits/getAll')
 const {getOneProduit} = require('./query/produits/getOne')
+const {createPublicites} = require('./mutation/publicités/create')
+const {delPublicites} = require('./mutation/publicités/delete')
+const {updatePublicites} = require('./mutation/publicités/update')
+const {getAllPublicites} = require('./query/publicités/getAll')
+const {getOnePublicites} = require('./query/publicités/getOne')
 
 const Query = {
     auth_user,
@@ -21,7 +26,9 @@ const Query = {
     getOneEtp,
     getAllEtp,
     getAllProduit,
-    getOneProduit
+    getOneProduit,
+    getAllPublicites,
+    getOnePublicites
 }
 
 const Mutation = {
@@ -32,7 +39,10 @@ const Mutation = {
     updateEtp,
     createProduit,
     delProduit,
-    updateProduit
+    updateProduit,
+    createPublicites,
+    delPublicites,
+    updatePublicites
 }
 
 module.exports = {Query,Mutation}

@@ -25,7 +25,7 @@ module.exports = {
                                             const token_user = jwt.sign(
                                             { id: result.rows[0].id },
                                             'RANDOM_TOKEN_SECRET',
-                                            { expiresIn: '24h' }
+                                            {}
                                             )
                                             const user = {
                                                 token: token_user,
@@ -34,7 +34,6 @@ module.exports = {
                                             async function redis(){
                                                 await client_redis.connect()
                                                 await client_redis.set(token_user, '1')
-                                                const value = await client_redis.get(token_user)
                                                 client_redis.disconnect()
                                             }
                                             redis()

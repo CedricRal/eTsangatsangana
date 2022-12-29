@@ -1,0 +1,44 @@
+type publicites{
+    id: String!
+    titre: String!
+    resume: String!
+    description: String!
+    prix: Int!
+    date_debut: Date
+    date_fin: Date
+    lieu: String!
+    id_produits: String!
+    id_etp: String!
+}
+
+############QUERY AND MUTATION#########
+type Query{
+    getOnePublicites(id:String!):publicites!
+    getAllPublicites:[publicites!]
+}
+
+type Mutation{
+    createPublicites(
+        titre: String!
+        resume: String!
+        description: String!
+        prix: Int!
+        date_deb: Date
+        date_fin: Date
+        lieu: String!
+        id_produits: String!
+        id_etp: String!):publicites!
+    
+    delPublicites(id: String!):publicites
+
+    updatePublicites(id: String!
+        titre: String!
+        resume: String!
+        description: String!
+        prix: Int!
+        date_deb: Date
+        date_fin: Date
+        lieu: String!
+        id_produits: String!
+        id_etp: String!):publicites!
+}
