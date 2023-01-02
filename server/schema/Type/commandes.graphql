@@ -15,7 +15,9 @@ type commandes{
 
 #############QUERY AND MUTATION#########
 type Query{
-    listeCommande(id: String):commandes!
+    listeCommandeEtp(id_etp: String!):[commandes!]
+    listeCommandeUsers(id_users: String!):[commandes!]
+    getCommande(id:String!):commandes!
 }
 
 type Mutation{
