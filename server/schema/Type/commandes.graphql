@@ -1,0 +1,34 @@
+type commandes{
+    id: String!
+    qt: Int!
+    lieu_livraison: String
+    temps_prepa: String
+    choix_place: String
+    livraison: String!
+    date: Date!
+    type_payement: String!
+    status: String!
+    id_users: String
+    id_etp: String
+    id_produits: String!
+}
+
+#############QUERY AND MUTATION#########
+type Query{
+    listeCommande(id: String):commandes!
+}
+
+type Mutation{
+    createCommande(
+    qt: Int!
+    lieu_livraison: String
+    temps_prepa: String
+    choix_place: String
+    livraison: String!
+    date: Date!
+    type_payement: String!
+    status: String!
+    id_users: String
+    id_etp: String
+    id_produits: String!):commandes!
+}
