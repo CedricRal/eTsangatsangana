@@ -2,12 +2,14 @@ const {auth_user} = require('./query/user/authentification_user')
 const {profil_user} = require('./query/user/profil_user')
 const {inscri_user} = require('./mutation/user/inscription_user')
 const {create_role} = require('./mutation/user/create_roles')
+const {listeCommandeUsers} = require('./query/user/liste_commande')
 const {get_role} = require('./query/user/get_role')
 const {create_entreprise} = require('./mutation/entreprise/create')
 const {delEtp} = require('./mutation/entreprise/delete')
 const {updateEtp} = require('./mutation/entreprise/update')
 const {getOneEtp} = require('./query/entreprise/getOne')
 const {getAllEtp} = require('./query/entreprise/getAll')
+const {listeCommandeEtp} = require('./query/entreprise/liste_commande')
 const {createProduit} = require('./mutation/produits/create')
 const {delProduit} = require('./mutation/produits/delete')
 const {updateProduit} = require('./mutation/produits/update')
@@ -18,6 +20,8 @@ const {delPublicites} = require('./mutation/publicités/delete')
 const {updatePublicites} = require('./mutation/publicités/update')
 const {getAllPublicites} = require('./query/publicités/getAll')
 const {getOnePublicites} = require('./query/publicités/getOne')
+const {createCommande} = require('./mutation/commandes/create')
+const {getCommande} = require('./query/commandes/détails')
 
 const Query = {
     auth_user,
@@ -28,7 +32,10 @@ const Query = {
     getAllProduit,
     getOneProduit,
     getAllPublicites,
-    getOnePublicites
+    getOnePublicites,
+    listeCommandeEtp,
+    listeCommandeUsers,
+    getCommande
 }
 
 const Mutation = {
@@ -42,7 +49,8 @@ const Mutation = {
     updateProduit,
     createPublicites,
     delPublicites,
-    updatePublicites
+    updatePublicites,
+    createCommande
 }
 
 module.exports = {Query,Mutation}
