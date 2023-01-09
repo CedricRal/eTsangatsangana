@@ -7,6 +7,7 @@ const {get_role} = require('./query/user/get_role')
 const {create_entreprise} = require('./mutation/entreprise/create')
 const {delEtp} = require('./mutation/entreprise/delete')
 const {updateEtp} = require('./mutation/entreprise/update')
+const {createFacture} = require('./mutation/entreprise/addFacture')
 const {getOneEtp} = require('./query/entreprise/getOne')
 const {getAllEtp} = require('./query/entreprise/getAll')
 const {listeCommandeEtp} = require('./query/entreprise/liste_commande')
@@ -50,7 +51,8 @@ const Mutation = {
     createPublicites,
     delPublicites,
     updatePublicites,
-    createCommande
+    createCommande,
+    createFacture
 }
 
 module.exports = {Query,Mutation}

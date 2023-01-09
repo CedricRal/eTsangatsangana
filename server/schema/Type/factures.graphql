@@ -1,0 +1,19 @@
+type factures{
+    id: String!
+    date_debut: Date!
+    date_fin: Date!
+    montant: Int!
+    statut: String!
+    id_etp: String!
+}
+
+######Query and Mutation##########
+type Mutation{
+    createFacture(
+        date_debut:Date!
+        date_fin: Date!
+        montant: Int!
+        statut: String!
+        id_etp: String!
+    ):factures!
+}
