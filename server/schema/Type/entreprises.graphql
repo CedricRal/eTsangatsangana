@@ -17,10 +17,15 @@ type entreprise{
     id_users: String!
 }
 
+type getAllEnt{
+    nbr_page: Int!
+    items: [entreprise!]
+}
+
 ######Query and Mutation######
 type Query{
     getOneEtp(id: String!):entreprise!
-    getAllEtp:[entreprise!]
+    getAllEtp(page:Int!):getAllEnt!
 }
 
 type Mutation{
