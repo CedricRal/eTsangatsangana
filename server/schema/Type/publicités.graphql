@@ -11,10 +11,15 @@ type publicites{
     id_etp: String!
 }
 
+type getAllPub{
+    nbr_page: Int!
+    items: [publicites!]
+}
+
 ############QUERY AND MUTATION#########
 type Query{
     getOnePublicites(id:String!):publicites!
-    getAllPublicites:[publicites!]
+    getAllPublicites(page:Int!): getAllPub!
 }
 
 type Mutation{

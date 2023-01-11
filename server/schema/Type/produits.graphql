@@ -9,10 +9,15 @@ type produits{
     id_etp: String!
 }
 
+type getAllProd{
+    nbr_page: Int!
+    items: [produits!]
+}
+
 ######Query and Mutation########
 type Query{
     getOneProduit(id:String!):produits!
-    getAllProduit:[produits!]
+    getAllProduit(page:Int!): getAllProd!
 }
 
 type Mutation{
