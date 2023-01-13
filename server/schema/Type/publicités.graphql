@@ -16,9 +16,14 @@ type getAllPub{
     items: [publicites!]
 }
 
+type getOnePub{
+    image: String!
+    items:  publicites!
+}
+
 ############QUERY AND MUTATION#########
 type Query{
-    getOnePublicites(id:String!):publicites!
+    getOnePublicites(id:String!):publicites
     getAllPublicites(page:Int!): getAllPub!
 }
 
