@@ -10,7 +10,17 @@ module.exports = {
                         reject(err)
                     }
                     else{
-                       resolve(result.rows[0])
+                        const res = result.rows[0]
+                        console.log(res['id_produits'])
+                        resolve(new Promise((resolve,reject)=>{
+                            client.query('SELECT ')
+                            if (err){
+                                reject(err)
+                            }
+                            else{
+                                resolve()
+                            }
+                       }))
                     }
                 })
             })

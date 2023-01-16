@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { createClient } = require('redis')
 const client_redis = createClient()
-
+const { GraphQLError } = require('graphql')
 
 
 module.exports = {
@@ -12,12 +12,16 @@ module.exports = {
                 return new Promise((resolve,reject) => {
                     client.query('SELECT id FROM "Users" WHERE ("mail" = $1)', [args.mail], function(err,result){
                         if(result.rowCount == 0){
-                            reject(new Error("Mail " + args.mail + " est invalide"))
+                            reject(reject(new GraphQLError('mail invalid',{
+                                extensions:{
+                                    code:"Input invalide"
+                                }
+                        })))
                         }
                         else{
                             resolve(new Promise((resolve,reject) => {client.query('SELECT mdp,id FROM "Users" WHERE ("id" = $1)',[result.rows[0].id],function(err,result) {
                                 if(err){
-                                    reject(new Error('Mail invalide'))
+                                    reject(new GraphQLError('Mail invalide'))
                                         }
                                 else{
                                     resolve(new Promise((resolve,reject)=>{
@@ -40,7 +44,11 @@ module.exports = {
                                             resolve(user)
                                         }
                                         else{
-                                            reject(new Error("Mot de passe de "+args.mail+" est invalide"))
+                                            reject(reject(new GraphQLError('mot de passe invalid',{
+                                                extensions:{
+                                                    code:"Input invalide"
+                                                }
+                                        })))
                                         }
                                 }))
                                 }

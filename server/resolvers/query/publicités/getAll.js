@@ -9,7 +9,6 @@ module.exports = {
                     }
                     else{
                         const res = result.rows
-                        
                         resolve({nbr_page: (new Promise((resolve,reject) =>{
                             client.query('SELECT COUNT(*) FROM "Publicités"',[],function(err,result){
                                 if (err){

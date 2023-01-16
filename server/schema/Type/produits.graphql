@@ -16,7 +16,7 @@ type getAllProd{
 
 ######Query and Mutation########
 type Query{
-    getOneProduit(id:String!):produits!
+    getOneProduit(id:String!):produits
     getAllProduit(page:Int!): getAllProd!
 }
 
@@ -29,7 +29,7 @@ type Mutation{
         livraison: String
         place_dispo: Int
         id_etp: String!
-    ):produits!
+    ):produits
 
     delProduit(id: String!):produits
 

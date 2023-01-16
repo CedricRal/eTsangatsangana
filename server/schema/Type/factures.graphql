@@ -15,5 +15,5 @@ type Mutation{
         montant: Int!
         statut: String!
         id_etp: String!
-    ):factures!
+    ):factures
 }

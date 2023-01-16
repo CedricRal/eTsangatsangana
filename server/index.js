@@ -15,6 +15,7 @@ const schema = makeExecutableSchema({
   resolvers: resolvers
 })
 
+
 const endpoint = './graphql'
 const server = new ApolloServer({
     schema,

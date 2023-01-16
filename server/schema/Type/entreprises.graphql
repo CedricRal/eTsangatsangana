@@ -24,7 +24,7 @@ type getAllEnt{
 
 ######Query and Mutation######
 type Query{
-    getOneEtp(id: String!):entreprise!
+    getOneEtp(id: String!):entreprise
     getAllEtp(page:Int!):getAllEnt!
 }
 
@@ -43,7 +43,7 @@ type Mutation{
     type_abonnement: String
     mode_payement: String
     date_payement: Date
-    id_users: String!):entreprise!
+    id_users: String!):entreprise
 
     delEtp(id: String!):entreprise!
 
@@ -62,7 +62,7 @@ type Mutation{
     type_abonnement: String
     mode_payement: String
     date_payement: Date
-    id_users: String):entreprise!
+    id_users: String):entreprise
 }
 
 
