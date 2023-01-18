@@ -13,17 +13,18 @@ type publicites{
 
 type getAllPub{
     nbr_page: Int!
-    items: [publicites!]
+    items: [publicites!],
+    images:[images!]
 }
 
 type getOnePub{
-    image: String!
+    image: images!
     items:  publicites!
 }
 
 ############QUERY AND MUTATION#########
 type Query{
-    getOnePublicites(id:String!):publicites
+    getOnePublicites(id:String!):getOnePub
     getAllPublicites(page:Int!): getAllPub!
 }
 

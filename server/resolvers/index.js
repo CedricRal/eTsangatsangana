@@ -23,6 +23,11 @@ const {getAllPublicites} = require('./query/publicités/getAll')
 const {getOnePublicites} = require('./query/publicités/getOne')
 const {createCommande} = require('./mutation/commandes/create')
 const {getCommande} = require('./query/commandes/détails')
+const {createImg} = require('./mutation/images/create')
+const {delImg} = require('./mutation/images/delete')
+const {editImg} = require('./mutation/images/edit')
+const {getAllImg} = require('./query/images/getAll')
+const {getOneImg} = require('./query/images/getOne')
 
 const Query = {
     auth_user,
@@ -36,7 +41,9 @@ const Query = {
     getOnePublicites,
     listeCommandeEtp,
     listeCommandeUsers,
-    getCommande
+    getCommande,
+    getAllImg,
+    getOneImg
 }
 
 const Mutation = {
@@ -52,7 +59,10 @@ const Mutation = {
     delPublicites,
     updatePublicites,
     createCommande,
-    createFacture
+    createFacture,
+    createImg,
+    delImg,
+    editImg
 }
 
 module.exports = {Query,Mutation}

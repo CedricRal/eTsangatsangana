@@ -8,20 +8,25 @@ type produits{
     place_dispo: Int
     id_etp: String!
 }
-
+type getOneProd{
+    image:String!
+    items: produits!
+}
 type getAllProd{
     nbr_page: Int!
-    items: [produits!]
+    produit: [produits!]
+    image:[images!]
 }
 
 ######Query and Mutation########
 type Query{
-    getOneProduit(id:String!):produits
+    getOneProduit(id:String!):getOneProd!
     getAllProduit(page:Int!): getAllProd!
 }
 
 type Mutation{
     createProduit(
+        image:String!
         titre: String!
         resume: String!
         qt: Int!
@@ -29,7 +34,7 @@ type Mutation{
         livraison: String
         place_dispo: Int
         id_etp: String!
-    ):produits
+    ):getOneProd
 
     delProduit(id: String!):produits
 
