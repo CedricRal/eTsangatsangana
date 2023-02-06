@@ -1,4 +1,5 @@
 const client = require('../../../services/connection')
+
 module.exports = {
     getAllProduit(root,args){
         try{
@@ -9,7 +10,6 @@ module.exports = {
                     }
                     else{
                         const res = result.rows
-                        
                         resolve({nbr_page: (new Promise((resolve,reject) =>{
                             client.query('SELECT COUNT(*) FROM "Produits"',[],function(err,result){
                                 if (err){
@@ -20,7 +20,18 @@ module.exports = {
                                 }
                             })
                         })
-                        ) , items:res})
+                        ) , produit:res,
+                            image:(new Promise((resolve,reject)=>{
+                                client.query('SELECT * FROM "Image_produits"',[],function(err,result){
+                                    if (err){
+                                        reject(new Error(err))
+                                    }
+                                    else{
+                                        resolve(result.rows)
+                                    }
+                                })
+                            }))
+                        })
                     }
                 })
             })

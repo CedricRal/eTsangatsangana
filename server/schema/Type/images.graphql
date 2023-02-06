@@ -1,0 +1,26 @@
+type images{
+    id:String!
+    titre:String
+    id_produits:String!
+}
+
+type getAllImgs{
+    nbr_page:Int!
+    items:[images!]
+}
+
+########Type Mutation and Query##############
+type Query{
+    getOneImg(id:String!):images!
+    getAllImg(page:Int!):getAllImgs!
+}
+
+type Mutation{
+    createImg(
+        url:String!
+        id_produits:String!):images!
+    delImg(id:String!):images!
+    editImg(
+        id:String!
+        url:String!):images!
+}
