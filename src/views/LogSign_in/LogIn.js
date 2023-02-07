@@ -54,7 +54,7 @@ const validate = () => { //fonction de validation des information
 
     const handleSave = async() => {
         try {
-            AsyncStorage.setItem("myToken", data.auth_user.token);
+            AsyncStorage.setItem("myToken", data.auth_user.token);  //sauvegarder token dans la variable myToken dans AsyncStorage
             navigation.navigate('detailCmd',{type:type});
         }catch (error) {
             alert(error)
@@ -62,15 +62,15 @@ const validate = () => { //fonction de validation des information
     };
     const loadToken = async() => {
         try {
-            const token = await AsyncStorage.getItem("myToken");
-            if(token !== null){
+            const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+            if(token !== null){    //condition si token existe déjà dans AsyncStorage
                 navigation.navigate('detailCmd',{type:type});
             };
         } catch (error) {
             alert(error);
         }
     }
-    useLayoutEffect(() => {
+    useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
         loadToken();
     },[]);
 

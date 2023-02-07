@@ -1,4 +1,4 @@
-import { Text, View, FlatList, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, FlatList, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import AppStyles from '../styles/App_style';
 import { Modal } from 'react-native';
@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import { useTranslation } from 'react-i18next';
+import { useAllPub } from './hooks/connexion';
 
 const MyData = [
   { 
@@ -58,8 +59,12 @@ const MyData = [
      "prix": "50 000 Ar",
      "type": "hotel",
   },
-];    
+];
+
+
   export default function App({navigation}) {
+    const { allPubError, allPubLoading, allPubData } = useAllPub();
+    console.log("error :", allPubError, "   loading :", allPubLoading);
 
     const [dataS, setDataS] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
@@ -70,16 +75,17 @@ const MyData = [
     const {t} = useTranslation();
 
     useEffect(() => {
-      setDataS(MyData);
-      setFullData(MyData);
+      if(allPubData){
+      setDataS(allPubData.getAllPublicites);
+      setFullData(allPubData.getAllPublicites);
+    }
     }, [])
     
     // Mandray ny frappe utilisateur @ barre dia manao filtrage
     const handleSearch = (textTypedByTheUser) => { // textTypedByTheUser dia paramètre mandray ny avy @ <Textinput onChangeText={} />
-      
       if (textTypedByTheUser) {
       const filteredData = fullData.filter((itemTofilter) => { // fullData dia mis an'ny Donnée rehetra
-        const itemData = itemTofilter.name ? itemTofilter.name.toUpperCase() : ''.toUpperCase();
+        const itemData = itemTofilter.titre ? itemTofilter.titre.toUpperCase() : ''.toUpperCase();
         const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
         return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
         // ra mis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
@@ -94,9 +100,8 @@ const MyData = [
   }  
     const numColumn = 2
 
-   
+    console.log("    data :", dataS )
     const renderItem = ({ item }) => { 
-      
     return (
         <TouchableOpacity onPress={() => 
           {if(item.type == 'hotel') {
@@ -109,17 +114,17 @@ const MyData = [
           style={AppStyles.touchableStyle}>
           <View>
           <Image
-            source={ item.image }
+            source={require('../assets/MyImages/img1.jpg')}
             resizeMode={'cover'}
             style={AppStyles.coverImage}
           />
           <View style={AppStyles.textImage}>
-            <Text style={AppStyles.produit}>{item.name}</Text>
-            <Text style={AppStyles.entreprise}>{item.title}</Text>
-            <Text style={AppStyles.prix}>{item.prix}</Text>
+            <Text style={AppStyles.produit}>{item.titre}</Text>
+            <Text style={AppStyles.entreprise}>{item.resume}</Text>
+            <Text style={AppStyles.prix}>{item.prix} Ar</Text>
           </View>
           </View>
-          </TouchableOpacity>
+        </TouchableOpacity>
     )}
 
     const empty_list = () => {
@@ -127,6 +132,9 @@ const MyData = [
     }
     const [modalVisible, setModalVisible] = useState(false);
 
+
+    if(allPubLoading) return <ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>
+    if(allPubError) return <View><Text>Connexion error when fetching data</Text></View>
     return (
       <View>
         <FlatList

@@ -114,6 +114,10 @@ const AppStyles = StyleSheet.create({
     flatList: {
       backgroundColor:design.Blanc,
       marginHorizontal:2,
+    },
+    loader: {
+        alignSelf: 'center',
+        justifyContent: 'center',
     }
   });
 

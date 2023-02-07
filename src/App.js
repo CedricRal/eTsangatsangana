@@ -37,7 +37,7 @@ import { useTranslation } from 'react-i18next';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'http://192.168.98.126:4000',
+  uri: 'http://192.168.43.239:4000',
   cache: new InMemoryCache()
 })
 
