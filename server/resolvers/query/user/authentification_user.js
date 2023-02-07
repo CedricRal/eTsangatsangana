@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { createClient } = require('redis')
 const client_redis = createClient()
+
+client_redis.on("connect", function () {
+    console.log("Connected to Redis");
+});
+  
+client_redis.on("error", function (err) {
+console.log("Error: " + err);
+})
+
 const { GraphQLError } = require('graphql')
 
 
@@ -11,7 +20,7 @@ module.exports = {
             try{
                 return new Promise((resolve,reject) => {
                     client.query('SELECT id FROM "Users" WHERE ("mail" = $1)', [args.mail], function(err,result){
-                        if(result.rowCount == 0){
+                        if(!(result)){
                             reject(reject(new GraphQLError('mail invalid',{
                                 extensions:{
                                     code:"Input invalide"

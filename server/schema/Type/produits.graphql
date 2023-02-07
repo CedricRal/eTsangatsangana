@@ -9,9 +9,18 @@ type produits{
     id_etp: String!
 }
 type getOneProd{
-    image:String!
-    items: produits!
+    id: String!
+    titre: String!
+    resume: String!
+    qt: Int!
+    prix: Int!
+    livraison: String
+    place_dispo: Int
+    entreprise:entreprise!
+    image:[images!]
 }
+
+
 type getAllProd{
     nbr_page: Int!
     produit: [produits!]
@@ -48,5 +57,4 @@ type Mutation{
         place_dispo: Int
         id_etp: String!
     ):produits
-
 }

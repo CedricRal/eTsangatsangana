@@ -1,0 +1,8 @@
+type payement{
+    client_secret:String!
+}
+
+#######Query and Mutations#########
+type Mutation{
+    CreatePayement(prix:Int!):payement
+}

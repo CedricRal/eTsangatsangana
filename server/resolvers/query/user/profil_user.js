@@ -1,23 +1,30 @@
 const client = require('../../../services/connection')
-const {ApolloServer} = require('apollo-server')
-const {makeExecutableSchema} = require('@graphql-tools/schema')
-
+const { GraphQLError } = require('graphql')
 
 module.exports = {
-        profil_user(root,args){
+        profil_user(root,args,context){
         try{
-            return new Promise((resolve,reject) => {
-                client.query('SELECT * FROM "Users" WHERE ("id" = $1)',[args.id],function(err,result){
-                    if (err){
-                        console.log(err);
-                        reject(err)
+            if (!(context.userId)){
+                return new GraphQLError('token invalid',{
+                    extensions:{
+                        code:"token invalide"
                     }
-                    else{
-                       console.log(result.rows[0])
-                       resolve(result.rows[0])
-                    }
-                })
             })
+            }
+            else{
+                return new Promise((resolve,reject) => {
+                    client.query('SELECT * FROM "Users" WHERE ("id" = $1)',[args.id],function(err,result){
+                        if (err){
+                            console.log(err);
+                            reject(err)
+                        }
+                        else{
+                           console.log(result.rows[0])
+                           resolve(result.rows[0])
+                        }
+                    })
+                }) 
+            }
         }
         catch(err){
             console.log(err)

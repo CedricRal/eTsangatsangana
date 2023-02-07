@@ -13,13 +13,21 @@ type publicites{
 
 type getAllPub{
     nbr_page: Int!
-    items: [publicites!],
-    images:[images!]
+    items:[getOnePub!]
 }
 
 type getOnePub{
-    image: images!
-    items:  publicites!
+    id: String!
+    titre: String!
+    resume: String!
+    description: String!
+    date_debut: Date
+    date_fin: Date
+    prix:Int!
+    lieu: String!
+    image: [images!]
+    entreprise:String!
+    produits:String!
 }
 
 ############QUERY AND MUTATION#########

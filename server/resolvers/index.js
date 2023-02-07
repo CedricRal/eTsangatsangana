@@ -28,6 +28,8 @@ const {delImg} = require('./mutation/images/delete')
 const {editImg} = require('./mutation/images/edit')
 const {getAllImg} = require('./query/images/getAll')
 const {getOneImg} = require('./query/images/getOne')
+const {CreatePayement} = require('./mutation/payement/payement')
+const {getOnePub,getAllPub} = require('./query/publicités/autre')
 
 const Query = {
     auth_user,
@@ -62,7 +64,8 @@ const Mutation = {
     createFacture,
     createImg,
     delImg,
-    editImg
+    editImg,
+    CreatePayement
 }
 
-module.exports = {Query,Mutation}
+module.exports = {Query,Mutation,getOnePub,getAllPub}

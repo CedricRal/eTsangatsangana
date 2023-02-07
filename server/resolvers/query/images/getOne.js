@@ -2,22 +2,31 @@ const client = require('../../../services/connection')
 const { GraphQLError } = require('graphql')
 
 module.exports = {
-        getOneImg(root,args){
+        getOneImg(root,args,context){
         try{
-            return new Promise((resolve,reject) => {
-                client.query('SELECT * FROM "Image_produits" WHERE ("id" = $1)',[args.id],function(err,result){
-                    if (!(result.rows[0])){
-                        reject(new GraphQLError('Id invalid',{
-                            extensions:{
-                                code:"Input invalide"
-                            }
-                    }))
+            if (!(context.userId)){
+                return new GraphQLError('token invalid',{
+                    extensions:{
+                        code:"token invalide"
                     }
-                    else{
-                       resolve(result.rows[0])
-                    }
-                })
             })
+            }
+            else{
+                return new Promise((resolve,reject) => {
+                    client.query('SELECT * FROM "Image_produits" WHERE ("id" = $1)',[args.id],function(err,result){
+                        if (!(result.rows[0])){
+                            reject(new GraphQLError('Id invalid',{
+                                extensions:{
+                                    code:"Input invalide"
+                                }
+                        }))
+                        }
+                        else{
+                           resolve(result.rows[0])
+                        }
+                    })
+                })
+            }
         }
         catch(err){
             console.log(err)

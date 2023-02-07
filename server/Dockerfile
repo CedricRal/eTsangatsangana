@@ -1,8 +1,8 @@
-FROM node:19-alpine AS development
-ENV NODE_ENV development
-WORKDIR /index
-COPY package*.json ./
-RUN npm install
+#syntax=docker/dockerfile:1
+FROM node:12.22.9-alpine
+ENV NODE_ENV = production
+WORKDIR /server
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install nodemon
+RUN npm install --production
 COPY . .
-EXPOSE 4000
-ENTRYPOINT [ "npm", "run", "dev" ] 
