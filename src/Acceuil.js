@@ -64,22 +64,23 @@ const MyData = [
 
   export default function App({navigation}) {
     const { allPubError, allPubLoading, allPubData } = useAllPub();
+    
     console.log("error :", allPubError, "   loading :", allPubLoading);
 
-    const [dataS, setDataS] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
+    const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
     const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
     
-    const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donnée rehetra (MyData)
+    const [fullData, setFullData] = useState(allPubData? allPubData.getAllPublicites : []); // tableau vide ametrahana ny donnée rehetra (MyData)
 
     const {t} = useTranslation();
 
     useEffect(() => {
-      if(allPubData){
-      setDataS(allPubData.getAllPublicites);
-      setFullData(allPubData.getAllPublicites);
-    }
-    }, [])
+      if (allPubData) {
+        setDataS(allPubData.getAllPublicites);
+        setFullData(allPubData.getAllPublicites);
+      }
+    }, [allPubData])
     
     // Mandray ny frappe utilisateur @ barre dia manao filtrage
     const handleSearch = (textTypedByTheUser) => { // textTypedByTheUser dia paramètre mandray ny avy @ <Textinput onChangeText={} />
@@ -99,8 +100,6 @@ const MyData = [
     }
   }  
     const numColumn = 2
-
-    console.log("    data :", dataS )
     const renderItem = ({ item }) => { 
     return (
         <TouchableOpacity onPress={() => 
@@ -132,10 +131,10 @@ const MyData = [
     }
     const [modalVisible, setModalVisible] = useState(false);
 
+    if(allPubLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
+    if(allPubError) return(<View><Text>Connexion error when fetching data</Text></View>)
 
-    if(allPubLoading) return <ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>
-    if(allPubError) return <View><Text>Connexion error when fetching data</Text></View>
-    return (
+     if(allPubData)return (
       <View>
         <FlatList
           ListHeaderComponent={
