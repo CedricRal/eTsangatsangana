@@ -3,9 +3,17 @@ const {v4: uuidv4} = require('uuid')
 const { GraphQLError } = require('graphql')
 
 module.exports = {
-    createPublicites:(parent,args) =>{
+    createPublicites:(parent,args,context) =>{
         try{
-            const id = uuidv4()
+            if (!(context.userId)){
+                return new GraphQLError('token invalid',{
+                    extensions:{
+                        code:"token invalide"
+                    }
+            })
+            }
+            else{
+                const id = uuidv4()
             return new Promise((resolve,reject) =>{
                 client.query('SELECT id FROM "Produits" WHERE id=$1',[args.id_produits],function(err,result){
                     if (!(result.rows[0])){
@@ -43,6 +51,7 @@ module.exports = {
                 })
                 
             })
+            }
         }
         catch(err){
             console.log(err)

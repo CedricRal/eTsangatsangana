@@ -6,5 +6,6 @@ const publicites = fs.readFileSync('./schema/Type/publicités.graphql',{encoding
 const commandes = fs.readFileSync('./schema/Type/commandes.graphql',{encoding: 'utf-8'})
 const factures = fs.readFileSync('./schema/Type/factures.graphql',{encoding: 'utf-8'})
 const images = fs.readFileSync('./schema/Type/images.graphql',{encoding: 'utf-8'})
-const typeDefs = entreprise + users + produits + publicites + commandes + factures + images
+const payement = fs.readFileSync('./schema/Type/payement.graphql',{encoding: 'utf-8'})
+const typeDefs = entreprise + users + produits + publicites + commandes + factures + images + payement
 module.exports = typeDefs

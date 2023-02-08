@@ -4,8 +4,18 @@ const { GraphQLError } = require('graphql')
 const cloudinary = require('cloudinary').v2
 
 module.exports = {
-    createProduit: (parent,args) => {
+    createProduit: (parent,args,context) => {
         try{
+            if (!(context.userId)){
+                return new GraphQLError('token invalid',{
+                    extensions:{
+                        code:"token invalide"
+                    }
+            })
+            }
+            else{
+                
+            }
             return new Promise((resolve, reject) => {
                 client.query('SELECT id FROM "Entreprises" WHERE id=$1',[args.id_etp],function(err,result){
                     if (!(result.rows[0])){
