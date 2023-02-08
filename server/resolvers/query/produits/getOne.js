@@ -22,30 +22,14 @@ module.exports = {
                         }))
                         }
                         else{
-                            const res = result.rows[0]
-                           resolve({image:(new Promise((resolve,reject)=>{
-                                    client.query('SELECT titre FROM "Image_produits" WHERE id_produits=$1',[res['id']],function(err,result){
-                                        if (!(result.rows[0])){
-                                            reject(new GraphQLError('Id invalid',{
-                                                extensions:{
-                                                    code:"Input invalide"
-                                                }
-                                        }))
-                                        }
-                                        else{
-                                            resolve(result.rows[0]['titre'])
-                                        }
-                                    })
-                           })),
-                                    items: res
-                        })
+                            resolve(result.rows[0])
                         }
+                        })
                     })
-                })
+                }
             }
-        }
         catch(err){
             console.log(err)
         }
-    },
+    }
 }

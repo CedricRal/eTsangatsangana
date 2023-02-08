@@ -4,7 +4,7 @@ const { GraphQLError } = require('graphql')
 module.exports = {
         getCommande(root,args,context){
         try{
-            if (context={}){
+            if (!(context.userId)){
                 return (new GraphQLError('Id invalid',{
                     extensions:{
                         code:"Input invalide"
