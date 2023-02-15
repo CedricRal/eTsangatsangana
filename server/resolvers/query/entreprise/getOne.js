@@ -2,7 +2,7 @@ const client = require('../../../services/connection')
 const { GraphQLError } = require('graphql')
 
 module.exports = {
-        getOneEtp(root,args,context){
+        getOneEntreprise(root,args,context){
         try{
             if (!(context.userId)){
                 return new GraphQLError('token invalid',{

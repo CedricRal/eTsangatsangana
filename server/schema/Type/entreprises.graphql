@@ -17,15 +17,33 @@ type entreprise{
     id_users: String!
 }
 
-type getAllEnt{
+type getOneEtp{
+    id: String
+    nom: String
+    logo: String
+    adresse: String
+    tel: String
+    adr_fb: String
+    type_service: String
+    NIF_STAT: String
+    slogan: String
+    description: String
+    date_abonnement: Date
+    type_abonnement: String
+    mode_payement: String
+    date_payement: Date
+    users:users
+}
+
+type getAllEtp{
     nbr_page: Int!
-    items: [entreprise!]
+    items: [getOneEtp!]
 }
 
 ######Query and Mutation######
 type Query{
-    getOneEtp(id: String!):entreprise
-    getAllEtp(page:Int!):getAllEnt!
+    getOneEntreprise(id: String!):getOneEtp!
+    getAllEntreprise(page:Int!):getAllEtp!
 }
 
 type Mutation{

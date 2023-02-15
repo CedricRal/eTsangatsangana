@@ -13,11 +13,54 @@ type commandes{
     id_produits: String!
 }
 
+type getCmd{
+    id: String!
+    qt: Int!
+    lieu_livraison: String
+    temps_prepa: String
+    choix_place: String
+    livraison: String!
+    date: Date!
+    type_payement: String!
+    status: String!
+    user: users
+    entreprise: entreprise
+    produit: produits
+}
+
+type listeCmdEtp{
+    id: String!
+    qt: Int!
+    lieu_livraison: String
+    temps_prepa: String
+    choix_place: String
+    livraison: String!
+    date: Date!
+    type_payement: String!
+    status: String!
+    user: users
+    produit: produits
+}
+
+type listeCmdUsers{
+    id: String!
+    qt: Int!
+    lieu_livraison: String
+    temps_prepa: String
+    choix_place: String
+    livraison: String!
+    date: Date!
+    type_payement: String!
+    status: String!
+    entreprise: entreprise
+    produit: produits
+}
+
 #############QUERY AND MUTATION#########
 type Query{
-    listeCommandeEtp(id_etp: String!):[commandes]
-    listeCommandeUsers(id_users: String!):[commandes]
-    getCommande(id:String!):commandes
+    listeCommandeEtp(id_etp: String!):[listeCmdEtp]
+    listeCommandeUsers(id_users: String!):[listeCmdUsers!]
+    getCommande(id:String!):getCmd
 }
 
 type Mutation{

@@ -8,8 +8,8 @@ const {create_entreprise} = require('./mutation/entreprise/create')
 const {delEtp} = require('./mutation/entreprise/delete')
 const {updateEtp} = require('./mutation/entreprise/update')
 const {createFacture} = require('./mutation/entreprise/addFacture')
-const {getOneEtp} = require('./query/entreprise/getOne')
-const {getAllEtp} = require('./query/entreprise/getAll')
+const {getOneEntreprise} = require('./query/entreprise/getOne')
+const {getAllEntreprise} = require('./query/entreprise/getAll')
 const {listeCommandeEtp} = require('./query/entreprise/liste_commande')
 const {createProduit} = require('./mutation/produits/create')
 const {delProduit} = require('./mutation/produits/delete')
@@ -30,13 +30,17 @@ const {getAllImg} = require('./query/images/getAll')
 const {getOneImg} = require('./query/images/getOne')
 const {CreatePayement} = require('./mutation/payement/payement')
 const {getOnePub,getAllPub} = require('./query/publicités/autre')
+const {getOneProd,getAllProd} = require('./query/produits/autre')
+const {getAllEtp,getOneEtp,listeCmdEtp} = require('./query/entreprise/autre')
+const {getCmd} = require('./query/commandes/autre')
+const {listeCmdUsers} = require('./query/user/autre')
 
 const Query = {
     auth_user,
     profil_user,
     get_role,
-    getOneEtp,
-    getAllEtp,
+    getAllEntreprise,
+    getOneEntreprise,
     getAllProduit,
     getOneProduit,
     getAllPublicites,
@@ -68,4 +72,4 @@ const Mutation = {
     CreatePayement
 }
 
-module.exports = {Query,Mutation,getOnePub,getAllPub}
+module.exports = {Query,Mutation,getOnePub,getAllPub,getAllProd,getOneProd,getAllEtp,getOneEtp,listeCmdEtp,getCmd,listeCmdUsers}

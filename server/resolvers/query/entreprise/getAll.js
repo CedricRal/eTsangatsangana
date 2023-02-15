@@ -2,7 +2,7 @@ const client = require('../../../services/connection')
 const { GraphQLError } = require('graphql')
 
 module.exports = {
-    getAllEtp(root,args,context){
+    getAllEntreprise(root,args,context){
         try{
             if (!(context.userId)){
                 return new GraphQLError('token invalid',{
@@ -19,18 +19,7 @@ module.exports = {
                         }
                         else{
                             const res = result.rows
-                            
-                            resolve({nbr_page: (new Promise((resolve,reject) =>{
-                                client.query('SELECT COUNT(*) FROM "Entreprises"',[],function(err,result){
-                                    if (err){
-                                        reject(err)
-                                    }
-                                    else{                                    
-                                        resolve(parseInt(result.rows[0]['count']/10))
-                                    }
-                                })
-                            })
-                            ) , items:res})
+                            resolve({items:res})
                         }
                     })
                 })
