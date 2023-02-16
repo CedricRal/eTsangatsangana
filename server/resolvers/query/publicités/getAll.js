@@ -4,15 +4,7 @@ const { GraphQLError } = require('graphql')
 module.exports = {
     getAllPublicites(root,args,context){
         try{
-            if (!(context.userId)){
-                return new GraphQLError('token invalid',{
-                    extensions:{
-                        code:"token invalide"
-                    }
-            })
-            }
-            else{
-                return new Promise((resolve,reject) =>{
+            return new Promise((resolve,reject) =>{
                     client.query('SELECT * FROM "Publicités" LIMIT 10 OFFSET $1',[(args.page*10)],function(err,result){
                         if (err){
                             reject(err)
@@ -23,7 +15,6 @@ module.exports = {
                         }
                     })
                 })
-            }
         }
         catch(err){
             console.log(err)
