@@ -119,7 +119,7 @@ const MyData = [
           />
           <View style={AppStyles.textImage}>
             <Text style={AppStyles.produit}>{item.titre}</Text>
-            <Text style={AppStyles.entreprise}>{item.resume}</Text>
+            <Text style={AppStyles.entreprise}>{item.entreprise}</Text>
             <Text style={AppStyles.prix}>{item.prix} Ar</Text>
           </View>
           </View>

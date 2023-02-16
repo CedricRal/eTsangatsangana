@@ -34,12 +34,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import './constants/DCSlocalize';
 import { useTranslation } from 'react-i18next';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLink, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const client = new ApolloClient({
-  uri: 'http://192.168.43.239:4000',
-  cache: new InMemoryCache()
-})
+
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
@@ -144,12 +143,43 @@ function DrawerStackScreen(){
   const Tab = createBottomTabNavigator();
   export default function App() {
     const {t} = useTranslation();
+    const [token, setToken] = React.useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg4NWVlN2M1LTczMTYtNDIwMC1iYzFlLWIyODEyYWQ0MDEyMCIsImlhdCI6MTY3MzM3NTM1OX0.uzBmz3GkHv5sBHF-OFMFYirYUPb0MYaiXAQP7UFgfQk");
 
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide()
-    }, 500);
-    }, [])
+const httpLink = createHttpLink({
+  uri: 'http://192.168.43.239:4000',
+});
+
+const loadToken = async() => {
+  try {
+      const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+      if(token !== null){    //condition si token existe déjà dans AsyncStorage
+          setToken(token)
+      };
+  } catch (error) {
+      alert(error);
+  }
+}
+console.log('token =>',token);
+
+const authLink = setContext((_, {headers}) => {
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+
+    useEffect(() => {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 500);
+      }, [])
 
     return (
       <NavigationContainer>
