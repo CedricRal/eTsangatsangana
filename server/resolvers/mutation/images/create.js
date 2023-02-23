@@ -32,6 +32,7 @@ module.exports = {
                             })
                             cloudinary.uploader.upload(args.url, { public_id: id}, (error, results)=>{
                                 if(error){
+                                    console.log(error)
                                     reject(new GraphQLError('Url image invalide',{
                                         extensions:{
                                             code:"Input invalide"
