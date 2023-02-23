@@ -15,12 +15,34 @@ import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 function Restaurant({navigation}) {
 
   const {t} = useTranslation();
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(0);
+  const route = useRoute();
+  
+  const restaurant = {
+    name : route.params.entreprise,
+    produit: route.params.produit,
+    prix: route.params.prix,
+    def : 'restaurant spécialiste en poulet',
+    tel : 261367364744,
+    desc : 'Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Do ut amet sit mollit commodo elit.',
+    lieu : 'II J htg Ankorondrano',
+    horaire : 'Lundi au Vendredi',
+    promo : 'Nuggets  -15% soit 21 000ar',
+    cat_srv : 'hdtd',
+    boutton : 'Passer une commande' 
+  } 
+
+  const images = [
+    require('../../assets/images/Burger/IMG_5765.jpg'),
+    require('../../assets/images/Burger/IMG_5781.jpg'),
+    require('../../assets/images/Burger/IMG_5782.jpg'),
+  ]
 
   renderItem = ({item,index}) => {
     return (
@@ -81,7 +103,12 @@ function Restaurant({navigation}) {
         <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
         <Text style={styles.texte_center}>{t('langues:offer')}: {restaurant.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {restaurant.desc}</Text>
-        <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn', {type:'restaurant'})}/>
+        <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn', {
+          type:'restaurant',
+          entreprise:restaurant.name,
+          produit:restaurant.produit,
+          prix:restaurant.prix
+        })}/>
       </View>
     </View>
     </ScrollView>
@@ -89,25 +116,6 @@ function Restaurant({navigation}) {
   ); 
 }
 
-const restaurant = {
-  name : 'KFC Madagascar',
-  produit: 'Nom du produit',
-  prix: '21 000 Ar',
-  def : 'restaurant spécialiste en poulet',
-  tel : 261367364744,
-  desc : 'Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Do ut amet sit mollit commodo elit.',
-  lieu : 'II J htg Ankorondrano',
-  horaire : 'Lundi au Vendredi',
-  promo : 'Nuggets  -15% soit 21 000ar',
-  cat_srv : 'hdtd',
-  boutton : 'Passer une commande' 
-} 
-
-const images = [
-  require('../../assets/images/Burger/IMG_5765.jpg'),
-  require('../../assets/images/Burger/IMG_5781.jpg'),
-  require('../../assets/images/Burger/IMG_5782.jpg'),
-]
 
 export default Restaurant;
 

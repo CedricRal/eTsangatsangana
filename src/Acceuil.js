@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import { useTranslation } from 'react-i18next';
-import { useAllPub } from './hooks/connexion';
+import { useAllPub } from './hooks/query';
 
 const MyData = [
   { 
@@ -67,18 +67,18 @@ const MyData = [
     
     console.log("error :", allPubError, "   loading :", allPubLoading);
 
-    const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
+    const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
     const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
     
-    const [fullData, setFullData] = useState(allPubData? allPubData.getAllPublicites : []); // tableau vide ametrahana ny donnée rehetra (MyData)
+    const [fullData, setFullData] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide ametrahana ny donnée rehetra (MyData)
 
     const {t} = useTranslation();
 
     useEffect(() => {
       if (allPubData) {
-        setDataS(allPubData.getAllPublicites);
-        setFullData(allPubData.getAllPublicites);
+        setDataS(allPubData.getAllPublicites.items);
+        setFullData(allPubData.getAllPublicites.items);
       }
     }, [allPubData])
     
@@ -103,12 +103,24 @@ const MyData = [
     const renderItem = ({ item }) => { 
     return (
         <TouchableOpacity onPress={() => 
-          {if(item.type == 'hotel') {
-            navigation.navigate('Hotel')}
-          else if(item.type == 'restaurant'){
-            navigation.navigate('Restaurant')}
-          else if(item.type == 'transport'){
-            navigation.navigate('Transport')
+          {if(item.resume == 'Hotel') {
+            navigation.navigate('Hotel', {
+              produit:item.titre,
+              entreprise:item.entreprise,
+              prix:item.prix
+            })}
+          else if(item.resume == 'Restaurant'){
+            navigation.navigate('Restaurant', {
+              produit:item.titre,
+              entreprise:item.entreprise,
+              prix:item.prix
+            })}
+          else if(item.resume == 'Transport'){
+            navigation.navigate('Transport', {
+              produit:item.titre,
+              entreprise:item.entreprise,
+              prix:item.prix
+            })
           }}}
           style={AppStyles.touchableStyle}>
           <View>

@@ -19,7 +19,7 @@ import NewPass from './views/Mdp_oublie/NewPassword';
 import Offre from './views/Produits/Offre';
 import UserProfile from './../ProfileManagement/Profil';
 import CommandDetails from '../details_des_commandes/transport';
-import detailCmd from '../resume_de_la_commande/detailCmd';
+import DetailCmd from '../resume_de_la_commande/detailCmd';
 import PayementDeLaCommande from '../ProfileManagement/PayementDeLaCommande';
 import CommandList from '../liste_des_commandes/CommandList';
 import hotel from '../details_des_commandes/hotel';
@@ -82,7 +82,7 @@ function HomeStackScreen(){
         <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: t('langues:mobileMoney')}}/>
         <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: t('langues:card')}}/>
         <HomeStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: t('langues:theOrder')}}/>
-        <HomeStack.Screen name='detailCmd'  component={ detailCmd }  options={{title: t('langues:detailsCmd')}}/>
+        <HomeStack.Screen name='detailCmd'  component={ DetailCmd }  options={{title: t('langues:detailsCmd')}}/>
       </HomeStack.Navigator>
     </>
   )
@@ -143,7 +143,7 @@ function DrawerStackScreen(){
   const Tab = createBottomTabNavigator();
   export default function App() {
     const {t} = useTranslation();
-    const [token, setToken] = React.useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg4NWVlN2M1LTczMTYtNDIwMC1iYzFlLWIyODEyYWQ0MDEyMCIsImlhdCI6MTY3MzM3NTM1OX0.uzBmz3GkHv5sBHF-OFMFYirYUPb0MYaiXAQP7UFgfQk");
+    /*const [token, setToken] = React.useState('');
 
 const httpLink = createHttpLink({
   uri: 'http://192.168.43.239:4000',
@@ -173,9 +173,36 @@ const authLink = setContext((_, {headers}) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache()
+});*/
+  // Create an HTTP link
+const httpLink = new HttpLink({
+  uri: 'http://192.168.43.239:4000'
+});
+
+// Create an auth link
+const authLink = setContext(async (_, { headers }) => {
+  // Get the authentication token from AsyncStorage if it exists
+  const token = await AsyncStorage.getItem('myToken');
+  // Return the headers to the context so HTTP link can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? token : ''
+    }
+  };
+});
+
+// Combine the auth link and the HTTP link
+const link = authLink.concat(httpLink);
+
+// Create an ApolloClient instance
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
 });
 
     useEffect(() => {
+      //loadToken();
       setTimeout(() => {
         SplashScreen.hide();
       }, 500);

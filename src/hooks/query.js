@@ -1,5 +1,4 @@
 import { useQuery, gql } from "@apollo/client";
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQyMjc5OThkLTU1NGQtNDI5Mi05NjRlLWJkN2RkOTNkZmM0ZSIsImlhdCI6MTY3NTk1OTYwMH0.mFqN32SeHzvfp2K3EGBTl2NojiOD0uymJEW2Qm53Xzs'
 
 export const GET_USER = gql`
     query auth_user($mail:String!, $mdp:String!){
@@ -16,7 +15,8 @@ const GET_ALL_PUB = gql`
             titre,
             entreprise,
             image{titre},
-            prix
+            prix,
+            resume
             }
         }
     }
@@ -31,5 +31,26 @@ export const useAllPub = () => {
         allPubError,
         allPubLoading,
         allPubData
+    }
+}
+
+const GET_PROFIL = gql`
+    query profil_user($id:String!){
+        profil_user(id:$id){
+            id,nom, prenom, num_tel, mail, adresse, adr_gmail
+        }
+    }
+`
+export const useProfil = (id) => {
+    const {data, loading, error} = useQuery(GET_PROFIL, {
+        variables:{id}
+    });
+    const profilData = data;
+    const profilLoading = loading;
+    const profilError = error
+    return{
+        profilError,
+        profilData,
+        profilLoading
     }
 }

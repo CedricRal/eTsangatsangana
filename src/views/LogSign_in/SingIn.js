@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { useRoute } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
-import { CREATE_USER } from '../../hooks/inscription';
+import { CREATE_USER } from '../../hooks/mutation';
 
 function SingIn({navigation}) {
 

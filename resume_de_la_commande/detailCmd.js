@@ -1,25 +1,44 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
 import { SelectList } from 'react-native-dropdown-select-list';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GET_PROFIL, useProfil } from '../src/hooks/query';
 
-export default detailCmd = ({navigation}) => {
+export default DetailCmd = ({navigation}) => {
     const {t} = useTranslation();
     const route = useRoute();
+    const [userId, setUserId] = React.useState();
+    const loadToken = async() => {
+        try {
+            const myId = await AsyncStorage.getItem("myId");    //prendre myToken dans AsyncStorage
+            if(myId !== null){    //condition si token existe déjà dans AsyncStorage
+                setUserId(myId)
+            };
+        } catch (error) {
+            alert(error);
+        }
+    }
+    useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+        loadToken();
+    },[]);
+    const {profilError, profilData, profilLoading} = useProfil(userId);
+    console.log("id =>", userId,"data: ",profilData, "load", profilLoading, profilError);
 
     const [total, setTotal] = React.useState(0);
     const cmd = {
-        nom_: 'Raivo',
-        commande: 'Nugget',
-        entreprise: 'Chicky',
+        nom: 'Raivo',
+        commande: route.params.produit,
+        entreprise: route.params.entreprise,
         nombre: 2,
-        prix: 2000,
+        prix: route.params.prix,
     }
+    console.log(route.params.entreprise)
     const [selected, setSelected] = React.useState("");
   
-    const data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
+    const nbr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
 
     return (
         <ScrollView>
@@ -40,7 +59,7 @@ export default detailCmd = ({navigation}) => {
                 dropdownTextStyles={{alignSelf:'center'}}
                 placeholder='0'
                 search={false}
-                data={data} 
+                data={nbr} 
                 save="value"
             /></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:unitPrice')}:</Text><Text style={styles.label}>{cmd.prix} ariary</Text></View> 
