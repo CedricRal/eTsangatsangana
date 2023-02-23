@@ -1,16 +1,7 @@
 const client = require('../../../services/connection')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { createClient } = require('redis')
-const client_redis = createClient()
-
-client_redis.on("connect", function () {
-    console.log("Connected to Redis");
-});
-  
-client_redis.on("error", function (err) {
-console.log("Error: " + err);
-})
+const client_redis = require('../../../services/redis')
 
 const { GraphQLError } = require('graphql')
 
@@ -47,6 +38,7 @@ module.exports = {
                                             async function redis(){
                                                 await client_redis.connect()
                                                 await client_redis.set(token_user, '1')
+                                                const value = await client_redis.get("1")
                                                 client_redis.disconnect()
                                             }
                                             redis()

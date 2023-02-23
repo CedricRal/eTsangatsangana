@@ -4,23 +4,15 @@ const {ApolloServerPluginLandingPageGraphQLPlayground, AuthenticationError} = re
 const jwt = require('jsonwebtoken')
 const {isJwtExpired} = require('jwt-check-expiration')
 const typeDefs = require('./schema/index')
-const { createClient } = require('redis')
-const client_redis = createClient()
-
-client_redis.on("connect", function () {
-    console.log("Connected to Redis");
-});
-  
-client_redis.on("error", function (err) {
-console.log("Error: " + err);
-})
-
+const client_redis = require('./services/redis')
+const { GraphQLError } = require('graphql')
 const resolvers = require('./resolvers/index')
 
 const schema = makeExecutableSchema({
   typeDefs: typeDefs ,
   resolvers: resolvers
 })
+
 
 
 const endpoint = './graphql'
@@ -43,26 +35,38 @@ const server = new ApolloServer({
           try{
             const token = req.headers['authorization']
             console.log('TokenExpired is:', isJwtExpired(token))
-            const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
-            const userId = decodedToken.id
-            if (!userId){
-              reject(new Error('Le token est invalide'))
-            }
-            else{
-              async function redis(){
-                await client_redis.connect()
-                const value = await client_redis.get(token)
-                if (value==null){
+            jwt.verify(token, 'RANDOM_TOKEN_SECRET',function(err,decoded){
+              if (err){
+                reject(reject(new GraphQLError('token invalid',{
+                  extensions:{
+                      code:"token invalide"
+                  }
+              })))
+              }
+              else{
+                resolve(new Promise((resolve,reject)=>{
+                const userId = decoded.id
+                if (!userId){
                   reject(new Error('Le token est invalide'))
-                  client_redis.disconnect()
                 }
                 else{
-                  resolve({ userId })
-                  client_redis.disconnect()
+                  async function redis(){
+                    await client_redis.connect()
+                    const value = await client_redis.get(token)
+                    if (value==null){
+                      client_redis.disconnect()
+                      reject(new Error('Le token est invalide'))
+                    }
+                    else{
+                      client_redis.disconnect()
+                      resolve({ userId })
+                    }
+                  }
+                  redis()
                 }
-            }
-            redis()
-            }
+                }))
+              }
+            })              
           }
           catch(err){
             new Error(err)
