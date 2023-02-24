@@ -38,8 +38,10 @@ module.exports = {
                                             async function redis(){
                                                 await client_redis.connect()
                                                 await client_redis.set(token_user, '1')
-                                                const value = await client_redis.get("1")
-                                                client_redis.disconnect()
+                                                const value = await client_redis.get(token_user)
+                                                console.log(value);
+                                                client_redis.quit()
+                                                console.log("redis déconnecté")
                                             }
                                             redis()
                                             resolve(user)
