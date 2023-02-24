@@ -37,14 +37,15 @@ const server = new ApolloServer({
             console.log('TokenExpired is:', isJwtExpired(token))
             jwt.verify(token, 'RANDOM_TOKEN_SECRET',function(err,decoded){
               if (err){
-                reject(reject(new GraphQLError('token invalid',{
+                reject(new GraphQLError('token invalid',{
                   extensions:{
                       code:"token invalide"
                   }
-              })))
+              }))
               }
               else{
                 resolve(new Promise((resolve,reject)=>{
+                  console.log("jwt verifié");
                 const userId = decoded.id
                 if (!userId){
                   reject(new Error('Le token est invalide'))
@@ -53,12 +54,17 @@ const server = new ApolloServer({
                   async function redis(){
                     await client_redis.connect()
                     const value = await client_redis.get(token)
+                    console.log("token prise");
                     if (value==null){
-                      client_redis.disconnect()
+                      console.log("context failed");
+                      await client_redis.quit()
+                      console.log("redis déconnecté");
                       reject(new Error('Le token est invalide'))
                     }
                     else{
-                      client_redis.disconnect()
+                      console.log("context success");
+                      await client_redis.quit()
+                      console.log("redis déconnecté")
                       resolve({ userId })
                     }
                   }
