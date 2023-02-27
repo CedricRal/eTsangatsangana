@@ -4,7 +4,7 @@ const cloudinary = require('cloudinary').v2
 
 module.exports = {
     delImg:(parent,args,context)=>{
-        if (!(context.userId)){
+        if (context.token==false){
             return new GraphQLError('token invalid',{
                 extensions:{
                     code:"token invalide"

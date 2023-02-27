@@ -4,7 +4,7 @@ const { GraphQLError } = require('graphql')
 module.exports = {
     listeCommandeUsers(parent,args,context){
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return (new GraphQLError('Id invalid',{
                     extensions:{
                         code:"Input invalide"

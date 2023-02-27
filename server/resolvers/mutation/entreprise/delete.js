@@ -4,7 +4,7 @@ const client = require('../../../services/connection')
 module.exports = {
         delEtp: (root,args,context) => {
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

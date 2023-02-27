@@ -3,7 +3,7 @@ const client = require('../../../services/connection')
 module.exports = {
     delProduit:(parent,args,context) =>{
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

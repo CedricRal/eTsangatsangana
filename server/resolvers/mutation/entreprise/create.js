@@ -5,7 +5,7 @@ const { GraphQLError } = require('graphql')
 module.exports = {
     create_entreprise: (parent,args,context) => {
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

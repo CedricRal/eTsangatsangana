@@ -4,7 +4,7 @@ const { GraphQLError } = require('graphql')
 module.exports = {
     get_role(parent,args,context){
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

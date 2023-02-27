@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary').v2
 module.exports = {
     createProduit: (parent,args,context) => {
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

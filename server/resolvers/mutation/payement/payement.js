@@ -3,7 +3,7 @@ const stripe = require("stripe")('sk_test_51MRsNRD1CBZDrWS4alDXdEpBg8EyENFuD9aE1
 module.exports={
     CreatePayement:(parent,args,context)=>{
       try{
-        if (!(context.userId)){
+        if (context.token==false){
           return new GraphQLError('token invalid',{
               extensions:{
                   code:"token invalide"
