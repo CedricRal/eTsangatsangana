@@ -4,7 +4,7 @@ const {ApolloServerPluginLandingPageGraphQLPlayground, AuthenticationError} = re
 const jwt = require('jsonwebtoken')
 const {isJwtExpired} = require('jwt-check-expiration')
 const typeDefs = require('./schema/index')
-const client_redis = require('./services/redis')
+const {client_redis} = require('./services/redis')
 const resolvers = require('./resolvers/index')
 
 
@@ -48,19 +48,8 @@ const server = new ApolloServer({
                 }
                 else{
                   async function redis(){
-                    if (client_redis.connected){
-                      await client_redis.quit()
-                    }
-                    else{
-                      await client_redis.connect()
-                    }
                     const value = await client_redis.get(token)
-                    await client_redis.quit()
-                    await console.log("redis déconnecté");
-                    if (client_redis.connected){
-                      await client_redis.quit()
-                    }
-                    else{
+                    
                         await console.log("token prise");
                       if (value==null){
                         await console.log("token non stocké dans le redis");
@@ -69,10 +58,9 @@ const server = new ApolloServer({
                       }
                       else{
                         await console.log("context success");
-                        await console.log("redis déconnecté")
                         await resolve({token:true, userId })
                       }
-                    }
+                    
                     
                   }
                   redis()
@@ -82,7 +70,7 @@ const server = new ApolloServer({
             })              
           }
           catch(err){
-            client_redis.quit()
+            console.log(err)
           }
         })
       }

@@ -29,11 +29,11 @@ export default DetailCmd = ({navigation}) => {
 
     const [total, setTotal] = React.useState(0);
     const cmd = {
-        nom: 'Raivo',
+        nom: profilData? profilData.profil_user.nom : '',
         commande: route.params.produit,
         entreprise: route.params.entreprise,
-        nombre: 2,
         prix: route.params.prix,
+        tel: profilData? profilData.profil_user.num_tel : '',
     }
     console.log(route.params.entreprise)
     const [selected, setSelected] = React.useState("");
@@ -46,8 +46,8 @@ export default DetailCmd = ({navigation}) => {
             
             <Text style={styles.text}>{t('langues:detailsCommand')}</Text>
             
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:name')}: </Text><Text style={styles.label}>RAIVO </Text></View>
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>0336298214</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:name')}: </Text><Text style={styles.label}>{cmd.nom} </Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{cmd.tel}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:order')}: </Text><Text style={styles.label}>{cmd.commande}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:company')}: </Text><Text style={styles.label}>{cmd.entreprise}</Text></View>
             <View style={[styles.field_command,{flexDirection:'row', flex:1}]}>

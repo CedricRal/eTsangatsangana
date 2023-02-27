@@ -64,8 +64,6 @@ const MyData = [
 
   export default function App({navigation}) {
     const { allPubError, allPubLoading, allPubData } = useAllPub();
-    
-    console.log("error :", allPubError, "   loading :", allPubLoading);
 
     const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
@@ -100,7 +98,7 @@ const MyData = [
     }
   }  
     const numColumn = 2
-    const renderItem = ({ item }) => { 
+    const renderItem = ({ item }) => {
     return (
         <TouchableOpacity onPress={() => 
           {if(item.resume == 'Hotel') {
@@ -125,7 +123,7 @@ const MyData = [
           style={AppStyles.touchableStyle}>
           <View>
           <Image
-            source={require('../assets/MyImages/img1.jpg')}
+            source={{uri:item.image[0].titre}}
             resizeMode={'cover'}
             style={AppStyles.coverImage}
           />
