@@ -4,7 +4,7 @@ const {v4: uuidv4} = require('uuid')
 module.exports = {
     createCommande:(parent,args,context) =>{
         try{
-            if (!(context.userId)){
+            if (context.token==false){
                 return new GraphQLError('token invalid',{
                     extensions:{
                         code:"token invalide"

@@ -5,7 +5,7 @@ const {v4: uuidv4} = require('uuid')
 
 module.exports = {
     createImg:(parent,args,context)=>{
-        if (!(context.userId)){
+        if (context.token==false){
             return new GraphQLError('token invalid',{
                 extensions:{
                     code:"token invalide"
