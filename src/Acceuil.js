@@ -10,58 +10,6 @@ import design from './views/Composant/couleur';
 import { useTranslation } from 'react-i18next';
 import { useAllPub } from './hooks/query';
 
-const MyData = [
-  { 
-    "id": "1",
-    "name": "Nuggets",
-    "title": "Chicky",
-    "image": require('../assets/MyImages/nuggets.png'),
-    "prix": "21 000 Ar",
-    "type": "restaurant",
-  },
-  { 
-    "id": "2",
-    "name": "Pizza GM",
-    "title": "Gastro Pizza",
-    "image": require('../assets/MyImages/pizza.png'),
-    "prix": "24 000 Ar",
-    "type": "restaurant",
-  },
-  { 
-    "id": "3",
-    "name": "Chambre comfort",
-    "title": "Mercury",
-    "image": require('../assets/MyImages/hotel.png'),
-    "prix": "180 000 Ar",
-    "type": "hotel",
-  },
-  { 
-    "id": "4",
-    "name": "Tana à Antsirabe",
-    "title": "Soa Trans",
-    "image": require('../assets/MyImages/transport.png'),
-    "prix": "10 000 Ar",
-    "type": "transport",
-  },
-  { 
-    "id": "5",
-    "name": "Nom du produit",
-    "title": "Entreprise",
-    "image": require('../assets/MyImages/img2.jpg'),
-    "prix": "50 000 Ar",
-    "type": "transport",
-  },
-  { 
-     "id": "6",
-     "name": "Nom du produit",
-     "title": "Entreprise",
-     "image": require('../assets/MyImages/img1.jpg'),
-     "prix": "50 000 Ar",
-     "type": "hotel",
-  },
-];
-
-
   export default function App({navigation}) {
     const { allPubError, allPubLoading, allPubData } = useAllPub();
 

@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next';
 import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLink, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SV_ENDPOINT } from "@env";
 
 
 
@@ -139,70 +140,38 @@ function DrawerStackScreen(){
   )
 }
 
-
   const Tab = createBottomTabNavigator();
+
   export default function App() {
-    const {t} = useTranslation();
-    /*const [token, setToken] = React.useState('');
 
-const httpLink = createHttpLink({
-  uri: 'http://192.168.43.239:4000',
-});
+  const {t} = useTranslation();
+  const httpLink = new HttpLink({
+    uri: SV_ENDPOINT
+  });
 
-const loadToken = async() => {
-  try {
-      const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
-      if(token !== null){    //condition si token existe déjà dans AsyncStorage
-          setToken(token)
-      };
-  } catch (error) {
-      alert(error);
-  }
-}
-console.log('token =>',token);
+  // Create an auth link
+  const authLink = setContext(async (_, { headers }) => {
+    // Get the authentication token from AsyncStorage if it exists
+    const token = await AsyncStorage.getItem('myToken');
+    // Return the headers to the context so HTTP link can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? token : ''
+      }
+    };
+  });
 
-const authLink = setContext((_, {headers}) => {
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
+  // Combine the auth link and the HTTP link
+  const link = authLink.concat(httpLink);
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});*/
-  // Create an HTTP link
-const httpLink = new HttpLink({
-  uri: 'http://192.168.43.239:4000'
-});
-
-// Create an auth link
-const authLink = setContext(async (_, { headers }) => {
-  // Get the authentication token from AsyncStorage if it exists
-  const token = await AsyncStorage.getItem('myToken');
-  // Return the headers to the context so HTTP link can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? token : ''
-    }
-  };
-});
-
-// Combine the auth link and the HTTP link
-const link = authLink.concat(httpLink);
-
-// Create an ApolloClient instance
-const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache()
-});
+  // Create an ApolloClient instance
+  const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache()
+  });
 
     useEffect(() => {
-      //loadToken();
       setTimeout(() => {
         SplashScreen.hide();
       }, 500);
