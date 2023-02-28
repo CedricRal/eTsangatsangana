@@ -13,12 +13,31 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 function Hotel({navigation}) {
 
   const {t} = useTranslation();
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(0);
+  const route = useRoute();
+
+  const hotel = {
+    name : route.params.entreprise,
+    prix : route.params.prix,
+    produit: route.params.produit,
+    tel : 261367364744,
+    desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Enim esse occaecat nisi fugiat est quis duis consequat officia.',
+    lieu : 'II J htg Anosy',
+    horaire : 'Lundi au Vendredi',
+    promo : 'Chambre classique à 280 000ar',
+    cat_srv : 'hdtd',
+  }
+  const images = [
+    require('../../assets/images/Chambre_Hôtel/IMG_5783.jpg'),
+    require('../../assets/images/Chambre_Hôtel/IMG_5784.jpg'),
+    require('../../assets/images/Chambre_Hôtel/IMG_5785.jpg'),
+  ]
 
   renderItem = ({item,index}) => {
     return (
@@ -70,37 +89,26 @@ function Hotel({navigation}) {
       <View style={styles.body_container}>
         <Text style={styles.title_details}>{hotel.produit}</Text>
         <Text style={styles.text_title}>{hotel.name}</Text>
-        <Text style={styles.prix}>{hotel.prix}</Text>
+        <Text style={styles.prix}>{hotel.prix} ar</Text>
         <Text style={styles.texte_center}>{t('langues:contact')}: +{hotel.tel}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {hotel.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {hotel.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {hotel.cat_srv}</Text>
         <Text style={styles.texte_center}>{t('langues:offer')}: {hotel.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {hotel.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {type:'hotel'})}/>
+        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
+          type:'hotel',
+          entreprise:hotel.name,
+          produit:hotel.produit,
+          prix:hotel.prix
+        })}/>
       </View>
     </View>
     </ScrollView>
     </>
-  ); 
+  );
 }
 
-const hotel = {
-  name : 'Carlton',
-  prix : '150 000 Ar',
-  produit: 'Nom du produit',
-  tel : 261367364744,
-  desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Enim esse occaecat nisi fugiat est quis duis consequat officia.',
-  lieu : 'II J htg Anosy',
-  horaire : 'Lundi au Vendredi',
-  promo : 'Chambre classique à 280 000ar',
-  cat_srv : 'hdtd',
-}
-const images = [
-  require('../../assets/images/Chambre_Hôtel/IMG_5783.jpg'),
-  require('../../assets/images/Chambre_Hôtel/IMG_5784.jpg'),
-  require('../../assets/images/Chambre_Hôtel/IMG_5785.jpg'),
-]
 
 export default Hotel;
 

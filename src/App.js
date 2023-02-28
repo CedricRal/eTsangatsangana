@@ -19,7 +19,7 @@ import NewPass from './views/Mdp_oublie/NewPassword';
 import Offre from './views/Produits/Offre';
 import UserProfile from './../ProfileManagement/Profil';
 import CommandDetails from '../details_des_commandes/transport';
-import detailCmd from '../resume_de_la_commande/detailCmd';
+import DetailCmd from '../resume_de_la_commande/detailCmd';
 import PayementDeLaCommande from '../ProfileManagement/PayementDeLaCommande';
 import CommandList from '../liste_des_commandes/CommandList';
 import hotel from '../details_des_commandes/hotel';
@@ -34,12 +34,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import './constants/DCSlocalize';
 import { useTranslation } from 'react-i18next';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLink, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SV_ENDPOINT } from "@env";
 
-const client = new ApolloClient({
-  uri: 'http://192.168.98.126:4000',
-  cache: new InMemoryCache()
-})
+
 
 const HomeStack = createNativeStackNavigator();
 const OffreStack = createNativeStackNavigator();
@@ -83,7 +83,7 @@ function HomeStackScreen(){
         <HomeStack.Screen name='MobilePayement'  component={ Mobile }  options={{title: t('langues:mobileMoney')}}/>
         <HomeStack.Screen name='CardPayement'  component={ Carte }  options={{title: t('langues:card')}}/>
         <HomeStack.Screen name='resum_commande'  component={ ResumeCommande }  options={{title: t('langues:theOrder')}}/>
-        <HomeStack.Screen name='detailCmd'  component={ detailCmd }  options={{title: t('langues:detailsCmd')}}/>
+        <HomeStack.Screen name='detailCmd'  component={ DetailCmd }  options={{title: t('langues:detailsCmd')}}/>
       </HomeStack.Navigator>
     </>
   )
@@ -140,16 +140,42 @@ function DrawerStackScreen(){
   )
 }
 
-
   const Tab = createBottomTabNavigator();
-  export default function App() {
-    const {t} = useTranslation();
 
-  useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide()
-    }, 500);
-    }, [])
+  export default function App() {
+
+  const {t} = useTranslation();
+  const httpLink = new HttpLink({
+    uri: SV_ENDPOINT
+  });
+
+  // Create an auth link
+  const authLink = setContext(async (_, { headers }) => {
+    // Get the authentication token from AsyncStorage if it exists
+    const token = await AsyncStorage.getItem('myToken');
+    // Return the headers to the context so HTTP link can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? token : ''
+      }
+    };
+  });
+
+  // Combine the auth link and the HTTP link
+  const link = authLink.concat(httpLink);
+
+  // Create an ApolloClient instance
+  const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache()
+  });
+
+    useEffect(() => {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 500);
+      }, [])
 
     return (
       <NavigationContainer>

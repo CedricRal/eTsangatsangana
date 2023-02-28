@@ -15,12 +15,32 @@ import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 function Transport({navigation}) {
 
   const {t} = useTranslation();
-  const [index, setIndex] = React.useState(0)
+  const [index, setIndex] = React.useState(0);
+  const route = useRoute();
+  
+  const transport = {
+    name : route.params.entreprise,
+    produit: route.params.produit,
+    prix: route.params.prix,
+    tel : 261367364744,
+    direction : 'Tana - Antsirabe - Fianarantsoa',
+    desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Sit pariatur anim in ex officia Lorem veniam non fugiat dolor. Quis in sit id mollit tempor ipsum.',
+    lieu : 'II J htg Ambodivona',
+    horaire : 'Lundi au Vendredi',
+    promo : 'Tanà Antsirabe à 10 000ar',
+    cat_srv : 'hdtd',
+  };
+  const images = [
+    require('../../assets/images/TanaAmpefy/IMG1.jpg'),
+    require('../../assets/images/TanaAmpefy/IMG2.jpg'),
+    require('../../assets/images/TanaAmpefy/IMG3.jpg'),
+  ]
 
   renderItem = ({item,index}) => {
     return (
@@ -81,30 +101,18 @@ function Transport({navigation}) {
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
         <Text style={styles.texte_center}>{t('langues:offer')}: {transport.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {type:'transport'})}/>
+        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
+          type:'transport',
+          entreprise:transport.name,
+          produit:transport.produit,
+          prix:transport.prix
+        })}/>
       </View>
     </View>
     </ScrollView>
     </>
   ); 
 }
-const transport = {
-  name : 'Sonatra',
-  produit: 'Nom du produit',
-  prix: '10 000 Ar',
-  tel : 261367364744,
-  direction : 'Tana - Antsirabe - Fianarantsoa',
-  desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Sit pariatur anim in ex officia Lorem veniam non fugiat dolor. Quis in sit id mollit tempor ipsum.',
-  lieu : 'II J htg Ambodivona',
-  horaire : 'Lundi au Vendredi',
-  promo : 'Tanà Antsirabe à 10 000ar',
-  cat_srv : 'hdtd',
-};
-const images = [
-  require('../../assets/images/TanaAmpefy/IMG1.jpg'),
-  require('../../assets/images/TanaAmpefy/IMG2.jpg'),
-  require('../../assets/images/TanaAmpefy/IMG3.jpg'),
-]
 
 export default Transport;
 

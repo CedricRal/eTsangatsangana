@@ -5,7 +5,7 @@ import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import { useTranslation } from 'react-i18next';
-import { GET_USER } from '../../hooks/connexion';
+import { GET_USER } from '../../hooks/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLazyQuery } from '@apollo/client';
 
@@ -13,6 +13,9 @@ function LogIn({navigation}) {
     const {t} = useTranslation();
     const route = useRoute();
     const type = route.params.type;
+    const produit = route.params.produit;
+    const entreprise = route.params.entreprise;
+    const prix = route.params.prix;
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     password:''
@@ -23,8 +26,6 @@ const [inputs, setInputs] = React.useState({  //etat pour la validation
             mail:inputs.email, mdp:inputs.password
         }
     });
-
-    console.log({error, loading, data, called});
 
 const [errors, setErrors] = React.useState({})    //etat pour l'erreur
 const validate = () => { //fonction de validation des information
@@ -54,23 +55,34 @@ const validate = () => { //fonction de validation des information
 
     const handleSave = async() => {
         try {
-            AsyncStorage.setItem("myToken", data.auth_user.token);
-            navigation.navigate('detailCmd',{type:type});
+            AsyncStorage.setItem("myToken", data.auth_user.token);  //sauvegarder token dans la variable myToken dans AsyncStorage
+            AsyncStorage.setItem("myId", data.auth_user.id);
+            navigation.navigate('detailCmd',{
+                type:type,
+                produit:produit,
+                entreprise:entreprise,
+                prix:prix
+            });
         }catch (error) {
             alert(error)
         }
     };
     const loadToken = async() => {
         try {
-            const token = await AsyncStorage.getItem("myToken");
-            if(token !== null){
-                navigation.navigate('detailCmd',{type:type});
+            const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+            if(token !== null){    //condition si token existe déjà dans AsyncStorage
+                navigation.navigate('detailCmd',{
+                    type:type,
+                    produit:produit,
+                    entreprise:entreprise,
+                    prix:prix
+                });
             };
         } catch (error) {
             alert(error);
         }
     }
-    useLayoutEffect(() => {
+    useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
         loadToken();
     },[]);
 
