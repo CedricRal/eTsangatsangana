@@ -25,7 +25,6 @@ export default DetailCmd = ({navigation}) => {
         loadToken();
     },[]);
     const {profilError, profilData, profilLoading} = useProfil(userId);
-    console.log("id =>", userId,"data: ",profilData, "load", profilLoading, profilError);
 
     const [total, setTotal] = React.useState(0);
     const cmd = {
@@ -35,10 +34,24 @@ export default DetailCmd = ({navigation}) => {
         prix: route.params.prix,
         tel: profilData? profilData.profil_user.num_tel : '',
     }
-    console.log(route.params.entreprise)
-    const [selected, setSelected] = React.useState("");
+    const [selected, setSelected] = React.useState();
   
     const nbr = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]
+
+    const validate = () => {
+        navigation.navigate('PaymentCommand',{
+            nom: cmd.nom,
+            tel: cmd.tel,
+            commande: cmd.commande,
+            entreprise: cmd.entreprise,
+            nombre: selected,
+            prix: total,
+            idPub: route.params.idPub,
+            idEtp:route.params.idEtp,
+            idProduit:route.params.idProduit,
+            type:route.params.type
+        })
+    }
 
     return (
         <ScrollView>
@@ -66,7 +79,7 @@ export default DetailCmd = ({navigation}) => {
             <View style={styles.aligner}><Text style={styles.field_command}>Total: </Text><Text style={styles.label}>{total} ariary</Text></View>
             
             <View style={styles.button}>
-                <Button title='Valider ma commande' onPress={() => navigation.navigate('PaymentCommand')}/>
+                <Button title='Valider ma commande' onPress={validate}/>
             </View>
         </View>
         </ScrollView>

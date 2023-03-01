@@ -51,20 +51,29 @@ import { useAllPub } from './hooks/query';
         <TouchableOpacity onPress={() => 
           {if(item.resume == 'Hotel') {
             navigation.navigate('Hotel', {
+              idPub:item.id,
               produit:item.titre,
-              entreprise:item.entreprise,
+              entreprise:item.entreprise.nom,
+              idEtp:item.entreprise.id,
+              idProduit:item.produits,
               prix:item.prix
             })}
           else if(item.resume == 'Restaurant'){
             navigation.navigate('Restaurant', {
+              idPub:item.id,
               produit:item.titre,
-              entreprise:item.entreprise,
+              entreprise:item.entreprise.nom,
+              idEtp:item.entreprise.id,
+              idProduit:item.produits,
               prix:item.prix
             })}
           else if(item.resume == 'Transport'){
             navigation.navigate('Transport', {
+              idPub:item.id,
               produit:item.titre,
-              entreprise:item.entreprise,
+              entreprise:item.entreprise.nom,
+              idEtp:item.entreprise.id,
+              idProduit:item.produits,
               prix:item.prix
             })
           }}}
@@ -77,7 +86,7 @@ import { useAllPub } from './hooks/query';
           />
           <View style={AppStyles.textImage}>
             <Text style={AppStyles.produit}>{item.titre}</Text>
-            <Text style={AppStyles.entreprise}>{item.entreprise}</Text>
+            <Text style={AppStyles.entreprise}>{item.entreprise.nom}</Text>
             <Text style={AppStyles.prix}>{item.prix} Ar</Text>
           </View>
           </View>

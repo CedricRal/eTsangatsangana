@@ -9,13 +9,21 @@ export default ResumeCommande = ({navigation}) => {
 
     const route = useRoute();
 
+    const date = new Date();
+    console.log(date.toLocaleDateString())
+
     const cmd = {
-        nom_: route.params.nom,
-        commande: 'Nugget',
-        entreprise: 'Chicky',
-        nombre: 2,
-        prix: 2000,
-        mode_paiement: route.params.carte
+        nom: route.params.information.nom,
+        tel: route.params.information.tel,
+        commande: route.params.information.commande,
+        entreprise: route.params.information.entreprise,
+        nombre: route.params.information.nombre,
+        prix: route.params.information.prix,
+        idPub: route.params.information.idPub,
+        idEtp:route.params.information.idEtp,
+        idProduit:route.params.information.idProduit,
+        modePaiement: route.params.information.modePaiement,
+        type:route.params.information.type
     }
 
     return (
@@ -24,13 +32,13 @@ export default ResumeCommande = ({navigation}) => {
             
             <Text style={styles.text}>{t('langues:yourOrder')}</Text>
             
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:name')}</Text>: RAIVO </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:phone')}</Text>: 0336298214</Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:name')}</Text>: {cmd.nom} </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:phone')}</Text>: {cmd.tel}</Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:order')}</Text>: {cmd.commande}</Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:company')}</Text>: {cmd.entreprise} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:nb')}</Text>: {cmd.nombre} </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{(cmd.type=='hotel')? t('langues:nb') : (cmd.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}</Text>: {cmd.nombre} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {cmd.prix} ariary </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:mod')}</Text>: {cmd.mode_paiement} </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:mod')}</Text>: {cmd.modePaiement} </Text>
 
             <View style={styles.button}>
                 <Button title='Valider ma commande' onPress={() => Alert.alert('Félicitation!! Vôtre commande a été effectué avec succès')}/>

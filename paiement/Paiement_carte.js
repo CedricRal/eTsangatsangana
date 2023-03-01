@@ -4,9 +4,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
 import design from '../src/views/Composant/couleur';
+import { useRoute } from '@react-navigation/native';
 
 export default function Carte({navigation}) {
   const {t} = useTranslation();
+  const route = useRoute();
 
   const [data, setData] = useState([
     { label: 'Madagascar', value: '1' },
@@ -52,6 +54,20 @@ export default function Carte({navigation}) {
   const [inputExpY, setInputExpY] = useState(null); // state pour le mois d'expiration
   const [inputCvc, setInputCvc] = useState(null); // state pour le Cvc
   const [inputTitulaire, setInputTitulaire] = useState(null);
+
+  const information = {
+    nom: route.params.information.nom,
+    tel: route.params.information.tel,
+    commande: route.params.information.commande,
+    entreprise: route.params.information.entreprise,
+    nombre: route.params.information.nombre,
+    prix: route.params.information.prix,
+    idPub: route.params.information.idPub,
+    idEtp:route.params.information.idEtp,
+    idProduit:route.params.information.idProduit,
+    modePaiement: route.params.information.modePaiement,
+    type:route.params.information.type
+  };
 
   const handleOnChange = (text) => {       //prend les valeurs saisi de l'email
     setInputs(text);
@@ -164,11 +180,7 @@ if (!value){                                                // l'utilisateur ne 
 }
   
   if (valid == true) {
-    navigation.navigate('resum_commande',
-    {
-      carte: 'paiement par carte',
-      nom: inputTitulaire,
-    })
+    navigation.navigate('resum_commande', {information})
   };
 
 }

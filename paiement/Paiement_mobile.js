@@ -4,9 +4,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
 import design from '../src/views/Composant/couleur';
 import Button from '../src/views/Composant/bouton';
+import { useRoute } from '@react-navigation/native';
 
 export default function Mobile({navigation}) {
   const {t} = useTranslation();
+  const route = useRoute();
 
   const [data, setData] = useState([
     { label: 'Mvola', value: 'Mvola' },
@@ -20,11 +22,25 @@ export default function Mobile({navigation}) {
   
   const [value, setValue] = useState(null); // Les valeurs dans le dropdown
   const [inputNom, setInputNom] = useState("");
-  const [inputEnvoyeur, setInputEnvoyeur] = useState("");
+  const [inputEnvoyeur, setInputEnvoyeur] = useState();
 
   const [errMobileMess,setErrMobileMess] = useState(); // state pour l'erreur mobile
   const [errEnvoyeurMess, setErrEnvoyeurMess] = useState();
   const [errNomMess, setErrNomMess] = useState();
+
+  const information = {
+    nom: route.params.information.nom,
+    tel: route.params.information.tel,
+    commande: route.params.information.commande,
+    entreprise: route.params.information.entreprise,
+    nombre: route.params.information.nombre,
+    prix: route.params.information.prix,
+    idPub: route.params.information.idPub,
+    idEtp:route.params.information.idEtp,
+    idProduit:route.params.information.idProduit,
+    modePaiement: route.params.information.modePaiement,
+    type:route.params.information.type
+  };
 
   const handleOnChangeEnvoyeur = (text) => {       //prend les valeurs saisi dans le champ destinataire
     setInputEnvoyeur(text);
@@ -49,6 +65,7 @@ export default function Mobile({navigation}) {
 const champ = () => {
     let valid = true;
     let reg_phone_number = /^(\+|00)[0-9]*$/
+    console.log('num =>',inputEnvoyeur.length)
 
     if (!value){   // l'utilisateur ne complète pas le champ de la CARTE
         valid = false
@@ -58,7 +75,7 @@ const champ = () => {
     if (!inputEnvoyeur) {                                          // si l'utilisateur ne complète pas le champ de l'EMAIL
         valid = false
         handleEnvoyeurError(t('langues:noSender'))
-    } else if (reg_phone_number.test(inputEnvoyeur)===false){
+    } else if (inputEnvoyeur.length<11){
         valid = false
         handleEnvoyeurError(t('langues:noPhone'))
     }
@@ -68,12 +85,7 @@ const champ = () => {
         handleNomError(t('langues:noNameSender'))
     }
       if (valid == true) {
-        navigation.navigate('resum_commande',
-    {
-      carte: value,
-      nom: 'Rakoto Francis'
-
-    })
+        navigation.navigate('resum_commande', {information})
       };
 }
 
@@ -124,7 +136,7 @@ const champ = () => {
           style={[styles.input, isFocus1 && { borderColor: design.Vert }]}
           keyboardType={'phone-pad'}
           placeholder="numero de l'envoyeur (sans espace)"
-          onChangeText={() => {handleOnChangeEnvoyeur}}
+          onChangeText={(text) => {handleOnChangeEnvoyeur(text)}}
           onFocus={() => {
             handleEnvoyeurError(null); setIsFocus1(true)
         }}
@@ -149,14 +161,13 @@ const champ = () => {
                 <Text style={styles.errorNom}>{errNomMess}</Text>//affiche l'erreur s'il y en a
             )}
     <View style={styles.rowName}>
-        <Text style={styles.label}>{t('langues:amount')}</Text><Text style={styles.inputMontant}>Ar 80 000</Text>
-   </View>  
+        <Text style={styles.label}>{t('langues:amount')}</Text><Text style={styles.inputMontant}> {information.prix} ariary</Text>
+    </View>  
       <View style={styles.buttonStyle}>
         <Button title={t('langues:pay')} onPress={champ}/>
       </View>
       </ScrollView>
-      </View>
-      
+    </View>
     );
 }
 

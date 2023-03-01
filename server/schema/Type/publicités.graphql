@@ -1,3 +1,8 @@
+type etp{
+    id:String!
+    nom:String!
+}
+
 type publicites{
     id: String!
     titre: String!
@@ -26,7 +31,7 @@ type getOnePub{
     prix:Int!
     lieu: String!
     image: [images!]
-    entreprise:String!
+    entreprise:etp
     produits:String!
 }
 

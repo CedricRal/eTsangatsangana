@@ -16,6 +16,7 @@ function LogIn({navigation}) {
     const produit = route.params.produit;
     const entreprise = route.params.entreprise;
     const prix = route.params.prix;
+    const idPub = route.params.idPub;
 const [inputs, setInputs] = React.useState({  //etat pour la validation
     email: '',
     password:''
@@ -61,7 +62,10 @@ const validate = () => { //fonction de validation des information
                 type:type,
                 produit:produit,
                 entreprise:entreprise,
-                prix:prix
+                prix:prix,
+                idPub:idPub,
+                idEtp:route.params.idEtp,
+                idProduit:route.params.idProduit
             });
         }catch (error) {
             alert(error)
@@ -75,7 +79,10 @@ const validate = () => { //fonction de validation des information
                     type:type,
                     produit:produit,
                     entreprise:entreprise,
-                    prix:prix
+                    prix:prix,
+                    idPub:idPub,
+                    idEtp:route.params.idEtp,
+                    idProduit:route.params.idProduit
                 });
             };
         } catch (error) {

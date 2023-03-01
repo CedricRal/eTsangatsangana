@@ -12,11 +12,13 @@ const GET_ALL_PUB = gql`
     query{
         getAllPublicites(page:0){
             items{
-            titre,
-            entreprise,
-            image{titre},
-            prix,
-            resume
+                id,
+                titre,
+                entreprise{id, nom},
+                image{titre},
+                prix,
+                resume,
+                produits
             }
         }
     }
