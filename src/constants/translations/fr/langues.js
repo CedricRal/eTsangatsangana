@@ -86,6 +86,7 @@ export default {
     confirmText: 'Confirmer',
     cancelText: 'Annuler',
     mod: 'Mode de paiement',
+    orderSucced:'Félicitation!! Vôtre commande a été effectué avec succès',
     //----------------------LogSignIn-------------
     titleLogIn: 'Connexion',
     titleSignIn: "S'inscrire",

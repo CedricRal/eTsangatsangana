@@ -12,6 +12,7 @@ import { useAllPub } from './hooks/query';
 
   export default function App({navigation}) {
     const { allPubError, allPubLoading, allPubData } = useAllPub();
+    console.log(allPubError)
 
     const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
