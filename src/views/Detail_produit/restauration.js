@@ -107,7 +107,10 @@ function Restaurant({navigation}) {
           type:'restaurant',
           entreprise:restaurant.name,
           produit:restaurant.produit,
-          prix:restaurant.prix
+          prix:restaurant.prix,
+          idPub:route.params.idPub,
+          idEtp:route.params.idEtp,
+          idProduit:route.params.idProduit
         })}/>
       </View>
     </View>

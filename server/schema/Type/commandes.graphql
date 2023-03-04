@@ -53,7 +53,7 @@ type listeCmdUsers{
     type_payement: String!
     status: String!
     entreprise: entreprise
-    produit: produits
+    produit: getOneProd
 }
 
 #############QUERY AND MUTATION#########

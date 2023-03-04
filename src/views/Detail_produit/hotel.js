@@ -100,7 +100,10 @@ function Hotel({navigation}) {
           type:'hotel',
           entreprise:hotel.name,
           produit:hotel.produit,
-          prix:hotel.prix
+          prix:hotel.prix,
+          idPub:route.params.idPub,
+          idEtp:route.params.idEtp,
+          idProduit:route.params.idProduit
         })}/>
       </View>
     </View>

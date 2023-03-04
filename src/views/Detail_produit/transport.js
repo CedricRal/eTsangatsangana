@@ -105,7 +105,10 @@ function Transport({navigation}) {
           type:'transport',
           entreprise:transport.name,
           produit:transport.produit,
-          prix:transport.prix
+          prix:transport.prix,
+          idPub:route.params.idPub,
+          idEtp:route.params.idEtp,
+          idProduit:route.params.idProduit
         })}/>
       </View>
     </View>

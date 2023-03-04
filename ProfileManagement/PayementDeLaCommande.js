@@ -1,20 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Pressable, ScrollView } from 'react-native'; 
 import { RadioButton } from 'react-native-paper';
-import design from '../src/views/Composant/couleur'
+import design from '../src/views/Composant/couleur';
+import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 
 export default function PayementDeLaCommande({navigation}) {
   const {t} = useTranslation();
+  const route = useRoute();
   const [checked, setChecked] = React.useState('');
 
   const styles = getStyles(checked);
+  const information = {
+    nom: route.params.nom,
+    tel: route.params.tel,
+    commande: route.params.commande,
+    entreprise: route.params.entreprise,
+    nombre: route.params.nombre,
+    prix: route.params.prix,
+    idPub: route.params.idPub,
+    idEtp:route.params.idEtp,
+    idProduit:route.params.idProduit,
+    type:route.params.type,
+    modePaiement: checked,
+  };
+  
+  console.log('info =>  ',information);
 
   const buttonValider = () => {
     if(checked === 'Paiement par carte') {
-      navigation.navigate('CardPayement')
+      navigation.navigate('CardPayement', {information})
     } else if(checked === 'Paiement par mobile money') {
-      navigation.navigate('MobilePayement')
+      navigation.navigate('MobilePayement', {information})
+    } else if(checked === 'Paiement sur place' || checked === 'Paiement à la livraison') {
+      navigation.navigate('resum_commande', {information})
     }
   }
 
