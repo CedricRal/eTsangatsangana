@@ -1,0 +1,1 @@
+export const regexNum = /^[0-9\b]+$/;
