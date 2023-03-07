@@ -15,7 +15,6 @@ function SingIn({navigation}) {
 
     const {t} = useTranslation();
     const route = useRoute();
-    const type = route.params.type;
     const [inputs, setInputs] = React.useState({  //etat pour la validation
         email: '',
         nom:'',
@@ -214,7 +213,15 @@ return(
                         handleError(null, 'confirm')
                     }}/>
                 <Button title={t('langues:signIn')} onPress={validate}/>
-                <Text style={styles.other} onPress={() => navigation.navigate('LogIn')}>
+                <Text style={styles.other} onPress={() => navigation.navigate('LogIn',{
+                    type:route.params.type,
+                    produit:route.params.produit,
+                    entreprise:route.params.entreprise,
+                    prix:route.params.prix,
+                    idPub:route.params.idPub,
+                    idEtp:route.params.idEtp,
+                    idProduit:route.params.idProduit
+                })}>
                     {t('langues:already')}
                 </Text>
                 </View>

@@ -128,7 +128,7 @@ export default {
     matchingPassword: 'Mot de passe ne correspond pas',
     neededPassword: 'Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux',
     //------------------------navigation----------------
-    home: 'Acceuil',
+    home: 'Accueil',
     profile: 'Profil',
     offers: 'Offres',
     orders: 'Commandes',

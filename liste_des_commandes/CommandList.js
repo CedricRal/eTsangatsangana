@@ -1,22 +1,43 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions, ActivityIndicator } from 'react-native';
+import React, { useState, useLayoutEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
 import design from '../src/views/Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
+import { useCommandeList } from '../src/hooks/query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
  export default CommandList = ({navigation}) => { 
   const {t} = useTranslation();
+  const [userId, setUserId] = React.useState();
+  const loadId = async() => {
+      try {
+          const myId = await AsyncStorage.getItem("myId");    //prendre myId dans AsyncStorage
+          if(myId !== null){    //condition si Id existe déjà dans AsyncStorage
+              setUserId(myId)
+          };
+      } catch (error) {
+          alert(error);
+      }
+  }
+  const {commandeListData, commandeListLoading, commandeListError} = useCommandeList(userId);
+  useLayoutEffect(() => {
+    loadId();//execute la fonction loadId dès que la page liste des commandes se lance
+    if(commandeListData){
+      setDataS(commandeListData.listeCommandeUsers);
+      setFullData(commandeListData.listeCommandeUsers);}
+  }, [commandeListData]);
+
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
-  const [dataS, setDataS] = useState([]); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
+  const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
   
   const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
   
-  const [fullData, setFullData] = useState([]); // tableau vide ametrahana ny donnée rehetra (MyData)
+  const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
   const datePicker = {
     mode:'date',
     locale:'fr',
@@ -36,12 +57,7 @@ import { useTranslation } from 'react-i18next';
 
   const empty_list = () => {
       return (<Text style={{textAlign:'center'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
-    } 
-  
-  useEffect(() => {
-    setDataS(MyData);
-    setFullData(MyData);
-  }, [])
+    }
   
   
 
@@ -50,7 +66,7 @@ import { useTranslation } from 'react-i18next';
         
       if (textTypedByTheUser) {
           const filteredData = fullData.filter((itemTofilter) => { // fullData dia mis an'ny Donnée rehetra
-          const itemData = itemTofilter.name ? itemTofilter.name.toUpperCase() : ''.toUpperCase();
+          const itemData = itemTofilter.titre ? itemTofilter.titre.toUpperCase() : ''.toUpperCase();
           const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
           return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
       // ra mis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
@@ -69,27 +85,27 @@ import { useTranslation } from 'react-i18next';
     <View style={styles.bodyContainer}>
      <TouchableOpacity onPress={() => 
       {
-      if(item.id == '1') {
+      if(item.entreprise.type_service == 'Restauration') {
         navigation.navigate('restaurant')}
-      else if(item.id == '2') {
+      else if(item.entreprise.type_service == 'Transport') {
         navigation.navigate('transport')}
-      else if(item.id == '3') {
+      else if(item.entreprise.type_service == 'Hotellerie') {
         navigation.navigate('hotel')
       } 
     }}
      style={styles.commande} 
       >
       <Image 
-        source={item.image}
+        source={{uri:item.produit.image[0].titre}}
         style={styles.imageStyle}
      />
      <View style={styles.nameAndDetailStyle}>
       <View style={styles.nameAndPriceStyle}>
-        <Text style={styles.fontTextName}>{item.name}</Text>
-        <Text style={styles.fontTextPrice}>{item.prix}</Text>
+        <Text style={styles.fontTextName}>{item.produit.titre}</Text>
+        <Text style={styles.fontTextPrice}>{item.qt*item.produit.prix} ar</Text>
       </View>
         <Text style={styles.fontTextDetails}>{item.date}</Text>
-        <Text style={styles.fontTextDetails}>{item.details}</Text>
+        <Text style={styles.fontTextDetails}>{item.entreprise.nom}</Text>
       </View>
       </TouchableOpacity>
       
@@ -97,6 +113,8 @@ import { useTranslation } from 'react-i18next';
     )
   }
 
+  if(commandeListLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
+  if(commandeListError) return(<View><Text>Connexion error when fetching data</Text></View>)
   return (
     <View>
 
@@ -281,7 +299,7 @@ const styles = StyleSheet.create({
     },
 
     fontTextPrice: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: 'bold',
       width: '60%',
       height: 30,
@@ -431,6 +449,10 @@ const styles = StyleSheet.create({
   check:{
       alignSelf:'center',
       marginTop:'10%'
-  }
+  },
+  loader: {
+      alignSelf: 'center',
+      justifyContent: 'center',
+  },
 
 })
