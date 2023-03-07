@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS "Users" (
     mdp text NOT NULL,
     adr_fb text,
     adr_gmail text,
-    id_apple text
+    id_apple text,
+    CONSTRAINT "Users_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Rôles" (
@@ -21,8 +22,8 @@ CREATE TABLE IF NOT EXISTS "Users_Roles" (
     id text NOT NULL PRIMARY KEY,
     id_user text NOT NULL,
     id_role text NOT NULL,
-    CONSTRAINT "Users_Roles_id_role_fkey" FOREIGN KEY ("id_role") REFERENCES "Rôles"("id"),
-    CONSTRAINT "Users_Roles_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "Users"("id")
+    CONSTRAINT "Users_Roles_id_role_fkey" FOREIGN KEY ("id_role") REFERENCES "Rôles"("id") ON DELETE CASCADE,
+    CONSTRAINT "Users_Roles_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "Users"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Entreprises" (
@@ -40,8 +41,7 @@ CREATE TABLE IF NOT EXISTS "Entreprises" (
     type_abonnement text NOT NULL,
     mode_payement text NOT NULL,
     date_payement date NOT NULL,
-    id_users text NOT NULL,
-    CONSTRAINT "Entreprises_id_users_fkey" FOREIGN KEY ("id_users") REFERENCES "Users"("id")
+    status integer NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS "Produits" (
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS "Produits" (
     livraison text,
     place_dispo integer,
     id_etp text NOT NULL,
-    CONSTRAINT "Produits_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"(id)
+    CONSTRAINT "Produits_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Commandes" (
@@ -69,9 +69,9 @@ CREATE TABLE IF NOT EXISTS "Commandes" (
     id_users text NOT NULL,
     id_etp text NOT NULL,
     id_produits text NOT NULL,
-    CONSTRAINT "Commandes_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id"),
-    CONSTRAINT "Commandes_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id"),
-    CONSTRAINT "Commandes_id_users_fkey" FOREIGN KEY ("id_users") REFERENCES "Users"("id")
+    CONSTRAINT "Commandes_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE,
+    CONSTRAINT "Commandes_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id") ON DELETE CASCADE,
+    CONSTRAINT "Commandes_id_users_fkey" FOREIGN KEY ("id_users") REFERENCES "Users"("id") ON DELETE CASCADE
 );
 
 
@@ -82,14 +82,14 @@ CREATE TABLE IF NOT EXISTS "Factures" (
     montant integer NOT NULL,
     statut text NOT NULL,
     id_etp text NOT NULL,
-    CONSTRAINT "Factures_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id")
+    CONSTRAINT "Factures_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "Image_produits" (
     id text NOT NULL PRIMARY KEY,
     titre text NOT NULL,
-    id_produits text NOT NULL,
-    CONSTRAINT "Image_produits_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id")
+    id_produits text NOT NULL, 
+    CONSTRAINT "Image_produits_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id") ON DELETE CASCADE
 );
 
 
@@ -104,6 +104,6 @@ CREATE TABLE IF NOT EXISTS "Publicités" (
     lieu text NOT NULL,
     id_produits text NOT NULL,
     id_etp text NOT NULL,
-    CONSTRAINT "Publicités_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id"),
-    CONSTRAINT "Publicités_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id")
+    CONSTRAINT "Publicités_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE,
+    CONSTRAINT "Publicités_id_produits_fkey" FOREIGN KEY ("id_produits") REFERENCES "Produits"("id") ON DELETE CASCADE
 );

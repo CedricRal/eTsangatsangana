@@ -24,7 +24,7 @@ const Home = ({ children }: props) => {
     },
     {
       path: "/publicité",
-      name: "Produits",
+      name: "Publicités",
       icon: <Image src={produit} width={24} height={24}></Image>
     },
     {
@@ -42,7 +42,7 @@ const Home = ({ children }: props) => {
     <div style={{ display: "flex", fontFamily: "Roboto" }}>
       <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top>
         <Nav className="bg-light">
-          <Nav.Link onClick={toggle} >
+          <Nav.Link onClick={toggle} className="bg-light">
             <i className="bi bi-list" style={{ fontSize: "3em", color: "#6b3b1e" }}></i>
           </Nav.Link>
         </Nav>

@@ -6,6 +6,8 @@ import {Entreprise} from './components/entreprise/entreprise'
 import {AjoutEtp} from './components/entreprise/ajout'
 import {Publicité} from './components/publicités/publicité'
 import {Liste} from './components/entreprise/liste'
+import {Détails} from './components/entreprise/détails'
+import {ListeProduit} from './components/produits/liste'
 
 
 import './App.css';
@@ -18,6 +20,8 @@ const App:React.FC = () =>{
         <Route path='/entreprise' element={<Entreprise children={<Liste/>}/>}></Route>
         <Route path='/publicité' element={<Publicité />}></Route>
         <Route path='/entreprise/ajouter' element={<AjoutEtp />}></Route>
+        <Route path='/entreprise/détails' element={<Détails />}></Route>
+        <Route path='/produits' element={<ListeProduit />}></Route>
       </Routes>
       </Home>
     

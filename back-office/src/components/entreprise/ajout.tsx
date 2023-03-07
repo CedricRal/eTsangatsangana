@@ -1,7 +1,7 @@
-import { Form, InputGroup, Button, Container } from 'react-bootstrap'
+import { Form, InputGroup, Button, Container, Nav } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { regexNum } from '../../assets/regex/regex'
+import { regexNum, regexMail } from '../../assets/regex/regex'
 import {INSCRI_USER, InscriUsersData, InscriUsersVar} from '../../fetching/mutation/inscriUser'
 import {createEtpData,CREATE_ENTREPRISE,CreateEntrepriseVariables} from '../../fetching/mutation/AjoutEtp'
 
@@ -9,16 +9,27 @@ export const AjoutEtp = () => {
     const [create_entreprise, { data, loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(CREATE_ENTREPRISE)
     const [inscri_user] = useMutation<InscriUsersData, InscriUsersVar>(INSCRI_USER)
     const entreprise = data?.create_entreprise
-
-    const Ajout = (event: any) => {
-        const form = event.currentTarget
+    let form:any=''
+    const Ajout = async (event: any) => {
+        await (form = event.currentTarget)
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            await event.preventDefault();
+            await event.stopPropagation();
+            return
+        }
+        if (mdpAdmin != confMdp){{{
+            await event.preventDefault();
+            await event.stopPropagation();
+            return
+        }}}
+        if (!(regexMail.test(mailAdmin))) {
+            await event.preventDefault();
+            await event.stopPropagation();
+            return
         }
         setValidated(true)
         create_entreprise({
-            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: "test", NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: "test", mode_payement: "test", date_payement: new Date() }
+            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date() }
         })
         inscri_user({
             variables: { nom: nomAdmin, prenom: prenomAdmin, num_tel: numAdmin, mail: mailAdmin, adresse: adresseAdmin, mdp: mdpAdmin, id_etp: entreprise?.id }
@@ -40,6 +51,8 @@ export const AjoutEtp = () => {
         setConfMdp('')  
     }
 
+    const [voirMdp,setVoirMdp]=useState(false)
+    const [voirConfMdp,setVoirConfMdp]=useState(false)
     const [validated,setValidated] = useState(false)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
@@ -48,7 +61,7 @@ export const AjoutEtp = () => {
     const [logo, setLogo] = useState('')
     const [adresse, setAdresse] = useState('')
     const [nom_fb, setNom_fb] = useState('')
-    const [service, setService] = useState('')
+    const [service, setService] = useState('value 1')
     const [nif, setNif] = useState('')
     const [slogan, setSlogan] = useState('')
     const [description, setDescription] = useState('')
@@ -111,7 +124,7 @@ export const AjoutEtp = () => {
     }
 
     const onChangeService = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setService(event.target.value)
+        setService(event.target.value)       
     }
 
     const onChangeAbonnement = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -124,7 +137,9 @@ export const AjoutEtp = () => {
         setPrenomAdmin(event.target.value)
     }
     const onChangeNumAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNumAdmin(event.target.value)
+        if (regexNum.test(event.target.value)) {
+            setNumAdmin(event.target.value);
+        }
     }
     const onChangeMailAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setMailAdmin(event.target.value)
@@ -148,12 +163,12 @@ export const AjoutEtp = () => {
                 </p>
                 <Form noValidate validated={validated} onSubmit={Ajout}>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='nomEtp'>
                             <b>
                                 Nom
                             </b>
                         </Form.Label>
-                        <Form.Control value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
+                        <Form.Control id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
                         <Form.Control.Feedback type="invalid">Nom entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
@@ -169,56 +184,60 @@ export const AjoutEtp = () => {
                         <Form.Control.Feedback type="invalid">Logo entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='adrEtp'>
                             <b>Adresse</b>
                         </Form.Label>
-                        <Form.Control required value={adresse} type="text" onChange={onChangeAdresse} placeholder="Entrer l‘adresse de l‘entreprise" />
+                        <Form.Control id="adrEtp" required value={adresse} type="text" onChange={onChangeAdresse} placeholder="Entrer l‘adresse de l‘entreprise" />
                         <Form.Control.Feedback type="invalid">Adresse entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                    <Form.Label><b>Numéro téléphone</b></Form.Label>
+                    <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
+                            <Form.Control id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">Téléphone entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='fbEtp'>
                             <b>Nom sur facebook</b>
                         </Form.Label>
-                        <Form.Control required type="text" value={nom_fb} onChange={onChangeNomfb} placeholder="Entrer le nom sur facebook de l‘entreprise" />
+                        <Form.Control id='fbEtp' required type="text" value={nom_fb} onChange={onChangeNomfb} placeholder="Entrer le nom sur facebook de l‘entreprise" />
                         <Form.Control.Feedback type="invalid">Nom facebook entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='nifEtp'>
+                            <b>NIF/STAT</b>
+                        </Form.Label>
+                        <Form.Control id='nifEtp' type="text" placeholder="NIF/STAT de l‘entreprise" value={nif} onChange={onChangeNif} />
+                    </Form.Group>
+                    <Form.Group className='mb-3'>
+                        <Form.Label htmlFor='serEtp'>
                             <b>Type de service</b>
                         </Form.Label>
-                        <Form.Select aria-label="Default select example" onChange={onChangeService}>
-                            <option>Choisissez...</option>
+                        <Form.Select id='serEtp' aria-label="Default select example" onChange={onChangeService}>
                             <option value="valeur 1">Valeur 1</option>
                             <option value="valeur 2">Valeur 2</option>
                             <option value="valeur 3">Valeur 3</option>
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='sloEtp'>
                             <b>Slogan</b>
                         </Form.Label>
-                        <Form.Control required type="text" placeholder="Slogan de l‘entreprise" value={slogan} onChange={onChangeSlogan} />
+                        <Form.Control id='sloEtp' required type="text" placeholder="Slogan de l‘entreprise" value={slogan} onChange={onChangeSlogan} />
                         <Form.Control.Feedback type="invalid">Slogan entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                        <Form.Label><b>Description</b></Form.Label>
-                        <Form.Control required as="textarea" rows={3} value={description} onChange={onChangeDescription} />
+                        <Form.Label htmlFor='descEtp'><b>Description</b></Form.Label>
+                        <Form.Control id='descEtp' required as="textarea" rows={3} value={description} onChange={onChangeDescription} />
                         <Form.Control.Feedback type="invalid">Description entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='aboEtp'>
                             <b>Type d’abonnement</b>
                         </Form.Label>
-                        <Form.Select aria-label="Default select example" onChange={onChangeAbonnement}>
-                            <option>Choisissez...</option>
+                        <Form.Select id='aboEtp' aria-label="Default select example" onChange={onChangeAbonnement}>
                             <option value="valeur 1">Valeur 1</option>
                             <option value="valeur 2">Valeur 2</option>
                             <option value="valeur 3">Valeur 3</option>
@@ -226,56 +245,71 @@ export const AjoutEtp = () => {
                     </Form.Group>
                     <div style={{ fontSize: "20px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Admin de l‘entreprise</b></div>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='nomAdm'>
                             <b>Nom</b>
                         </Form.Label>
-                        <Form.Control required type="text" placeholder="Nom de l‘admin" value={nomAdmin} onChange={onChangeNomAdmin} />
+                        <Form.Control id='nomAdm' required type="text" placeholder="Nom de l‘admin" value={nomAdmin} onChange={onChangeNomAdmin} />
                         <Form.Control.Feedback type="invalid">Nom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='prenomAdm'>
                             <b>Prénom</b>
                         </Form.Label>
-                        <Form.Control required type="text" placeholder="Prénom de l‘admin" value={prenomAdmin} onChange={onChangePrenomAdmin} />
+                        <Form.Control id='prenomAdm' required type="text" placeholder="Prénom de l‘admin" value={prenomAdmin} onChange={onChangePrenomAdmin} />
                         <Form.Control.Feedback type="invalid">Prenom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
-                            <b>Numéro téléphone</b>
-                        </Form.Label>
-                        <Form.Control required type="text" placeholder="Numéro téléphone de l‘admin" value={numAdmin} onChange={onChangeNumAdmin} />
-                        <Form.Control.Feedback type="invalid">Prenom admin obligatoire</Form.Control.Feedback>
+                    <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text>+261</InputGroup.Text>
+                            <Form.Control id="numAdm"required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
+                        </InputGroup>
+                        <Form.Control.Feedback type="invalid">Téléphone admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='mailAdm'>
                             <b>Mail</b>
                         </Form.Label>
-                        <Form.Control required type="mail" placeholder="Mail de l‘admin" value={mailAdmin} onChange={onChangeMailAdmin} />
+                        <Form.Control id='mailAdm' required type="mail" placeholder="mail@domaine.com" value={mailAdmin} onChange={onChangeMailAdmin} />
                         <Form.Control.Feedback type="invalid">Mail admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                        <Form.Label>
+                        <Form.Label htmlFor='adrAdm'>
                             <b>Adresse</b>
                         </Form.Label>
-                        <Form.Control required type="mail" placeholder="Adresse de l‘admin" value={adresseAdmin} onChange={onChangeAdresseAdmin} />
+                        <Form.Control id='adrAdm' required type="mail" placeholder="Adresse de l‘admin" value={adresseAdmin} onChange={onChangeAdresseAdmin} />
                         <Form.Control.Feedback type="invalid">Adresse admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group className='mb-3'>
-                        <Form.Label>
+                    <Form.Label htmlFor='mdpAdm'>
                             <b>Mot de passe</b>
                         </Form.Label>
-                        <Form.Control type="password" placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                    <InputGroup className='mb-3'>
+                        <Form.Control id='mdpAdm' type={(voirMdp==false) ? "password":'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirMdp(!voirMdp)}}>
+                            <i className="bi bi-eye"></i>
+                        </Button>
                         <Form.Control.Feedback type="invalid">Mot de passe admin obligatoire</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className='mb-3'>
-                        <Form.Label>
-                            <b>Confirmation mot de passe</b>
-                        </Form.Label>
-                        <Form.Control type="password" placeholder="Mot de passe de l‘admin" value={confMdp} onChange={onChangeConfMdpAdmin} />
-                    </Form.Group>
+                    </InputGroup>
+                    <Form.Label htmlFor='confMdp'>
+                        <b>Confirmation mot de passe</b>
+                    </Form.Label>
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            id='confMdp'
+                            type={(voirConfMdp==false) ? "password":'text'}
+                            placeholder="Recipient's username"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                        />
+                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirConfMdp(!voirConfMdp)}}>
+                            <i className="bi bi-eye"></i>
+                        </Button>
+                    </InputGroup>
                     <div>
                         <Button variant="success" className='text-center' style={{ height: "40px", color: "#ffffff" }} type="submit">Ajouter</Button>{' '}
-                        <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Annuler</Button>
+                        <Nav.Link href="/entreprise" style={{ display:"inline" }}>
+                            <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Annuler</Button>
+                        </Nav.Link>
                     </div>
                 </Form>
             </Container>
