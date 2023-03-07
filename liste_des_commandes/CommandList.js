@@ -453,6 +453,7 @@ const styles = StyleSheet.create({
   loader: {
       alignSelf: 'center',
       justifyContent: 'center',
+      marginVertical:'40%'
   },
 
 })
