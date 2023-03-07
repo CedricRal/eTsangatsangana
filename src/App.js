@@ -146,8 +146,9 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: SV_ENDPOINT
+    uri: 'https://fb76-154-126-11-55.eu.ngrok.io'
   });
+  console.log(SV_ENDPOINT);
 
   // Create an auth link
   const authLink = setContext(async (_, { headers }) => {

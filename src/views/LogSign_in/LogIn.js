@@ -126,7 +126,15 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                     {t('langues:forgot')}
                 </Text>
                 <Button title={t('langues:logIn')} onPress={validate}/>
-                <Text style={styles.other} onPress={ () => navigation.navigate('SingIn',{type:type})}>
+                <Text style={styles.other} onPress={ () => navigation.navigate('SingIn',{
+                    type:type,
+                    produit:produit,
+                    entreprise:entreprise,
+                    prix:prix,
+                    idPub:idPub,
+                    idEtp:route.params.idEtp,
+                    idProduit:route.params.idProduit
+                })}>
                     {t('langues:create')}
                 </Text>
                 </View>

@@ -7,6 +7,7 @@ export const GET_USER = gql`
         }
     }
 `
+//-------------------------------------------------------------------------//
 
 const GET_ALL_PUB = gql`
     query{
@@ -35,6 +36,7 @@ export const useAllPub = () => {
         allPubData
     }
 }
+//----------------------------------------------------------------------------//
 
 const GET_PROFIL = gql`
     query profil_user($id:String!){
@@ -54,5 +56,27 @@ export const useProfil = (id) => {
         profilError,
         profilData,
         profilLoading
+    }
+}
+//----------------------------------------------------------------------------//
+
+const GET_COMMANDE_LIST = gql`
+    query listeCommandeUsers($id_users:String!){
+        listeCommandeUsers(id_users:$id_users){
+            id, date, qt, produit{image{titre}, titre, prix}, entreprise{nom, type_service}
+        }
+    }
+`
+export const useCommandeList = (id_users) => {
+    const {data, loading, error} = useQuery(GET_COMMANDE_LIST, {
+        variables:{id_users}
+    });
+    const commandeListData = data;
+    const commandeListLoading = loading;
+    const commandeListError = error
+    return{
+        commandeListData,
+        commandeListLoading,
+        commandeListError
     }
 }
