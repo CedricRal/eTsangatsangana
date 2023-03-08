@@ -108,7 +108,7 @@ const Languages = () => {
               <TextInput
               value={query}
               onChangeText={handleSearch}
-              placeholder={t('langues:searchLangues')}
+              placeholder={t('langues:searchLangue')}
               style={AppStyles.placeholders}
               />
               </View>

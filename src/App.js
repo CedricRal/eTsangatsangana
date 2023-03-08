@@ -132,7 +132,7 @@ function DrawerStackScreen(){
   return(
     <>
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
-        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
         <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>

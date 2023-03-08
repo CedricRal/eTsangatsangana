@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from '../src/views/Composant/couleur';
+import { useTranslation } from 'react-i18next';
 
 
 export default UserProfile = ({navigation}) => {
 
+    const { t } = useTranslation();
     const route = useRoute();
 
     const [value, setValue] = useState('');
@@ -17,15 +19,15 @@ export default UserProfile = ({navigation}) => {
     
     <View style={styles.distance}> 
         <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={25} color={design.Marron} />    {route.params? route.params.nom : 'nom'}</TextInput>
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={22} color={design.Marron} />    {route.params? route.params.nom : t('langues:lastname')}</TextInput>
         <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={25} color={design.Marron} />    {route.params? route.params.prenom : 'prenom'}</TextInput>
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'user'} size={22} color={design.Marron} />    {route.params? route.params.prenom : t('langues:firstname')}</TextInput>
         <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}>     <Icon name={'map-marker-alt'} size={25} color={design.Marron} />    {route.params? route.params.adresse : 'adresse'}</TextInput>
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'map-marker-alt'} size={22} color={design.Marron} />    {route.params? route.params.adresse : t('langues:adress')}</TextInput>
         <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}>     <Icon name={'envelope'} size={25} color={design.Marron} />    {route.params? route.params.email : 'email'}</TextInput>
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'envelope'} size={22} color={design.Marron} />    {route.params? route.params.email : t('langues:email')}</TextInput>
         <TextInput editable={false} activeUnderlineColor='transparent'
-            underlineColor='disabled' style={styles.textInput}>     <Icon name={'phone'} size={25} color={design.Marron} />    {route.params? route.params.phone : 'phone'}</TextInput>
+            underlineColor='disabled' style={styles.textInput}>     <Icon name={'phone-alt'} size={22} color={design.Marron} style={{ transform: [{ rotate: '90deg' }] }}/>    {route.params? route.params.phone : t('langues:phoneNumber')}</TextInput>
     </View>
     
     )
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         height:45,
         width: '75%',
-        marginBottom: '2%',
+        marginBottom: '5%',
         alignSelf: 'center',
         backgroundColor: 'whitesmoke',
         borderColor: design.Marron,
