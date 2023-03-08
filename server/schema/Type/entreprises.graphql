@@ -14,7 +14,8 @@ type entreprise{
     type_abonnement: String!
     mode_payement: String!
     date_payement: Date!
-    id_users: String!
+    status: Int
+    users: String
 }
 
 type getOneEtp{
@@ -32,7 +33,8 @@ type getOneEtp{
     type_abonnement: String
     mode_payement: String
     date_payement: Date
-    users:users
+    status: Int
+    users: String
 }
 
 type getAllEtp{
@@ -60,8 +62,7 @@ type Mutation{
     date_abonnement: Date
     type_abonnement: String
     mode_payement: String
-    date_payement: Date
-    id_users: String!):entreprise
+    date_payement: Date):entreprise
 
     delEtp(id: String!):entreprise!
 
@@ -79,8 +80,7 @@ type Mutation{
     date_abonnement: Date
     type_abonnement: String
     mode_payement: String
-    date_payement: Date
-    id_users: String):entreprise
+    date_payement: Date):entreprise
 }
 
 

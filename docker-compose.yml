@@ -2,6 +2,7 @@ version: "3.1"
 services:
   postgres:
     image: postgres:14.1
+    container_name: postgres-etsangatsangana
     environment:
       POSTGRES_USER: etsangatsangana
       POSTGRES_PASSWORD: vinamaster
@@ -11,9 +12,16 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:6
+    container_name: pgadmin-etsangatsangana
     environment:
       PGADMIN_DEFAULT_EMAIL: andovinamaster@gmail.com
       PGADMIN_DEFAULT_PASSWORD: 12345678
     ports:
       - "98:80"
+  
+  redis:
+    image: redis
+    container_name: redis-etsangatsangana
+    ports:
+      - "127.0.0.1:6379:6379"
       

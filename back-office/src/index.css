@@ -1,0 +1,35 @@
+.bgc-primary{
+  background-color: #6b3b1e;
+}
+
+.bgc-secondary{
+  background-color: #ffffff;
+}
+
+.bgc-tertiary{
+  background-color: #44751e;
+}
+
+.text-primary{
+  color: #6b3b1e;
+}
+
+.text-secondary{
+  color: #ffffff;
+}
+
+.text-tertiary{
+  color: #44751e;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

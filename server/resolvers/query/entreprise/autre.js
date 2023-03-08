@@ -4,7 +4,7 @@ module.exports ={
     getOneEtp:{
         users:(parent,args)=>{
             return new Promise((resolve,reject)=>{
-                client.query('SELECT * FROM "Users" WHERE id=$1',[parent.id_users],function(err,result){
+                client.query('SELECT id FROM "Users" WHERE id_etp=$1',[parent.id],function(err,result){
                     if(err){
                         reject(err)
                     }

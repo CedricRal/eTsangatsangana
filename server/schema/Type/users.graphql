@@ -10,6 +10,7 @@ type users{
     adr_fb : String
     adr_gmail: String
     id_apple : String
+    id_etp: String
 }
 
 type connexion{
@@ -44,7 +45,8 @@ type Mutation{
     mdp: String!
     adr_fb : String
     adr_gmail: String
-    id_apple : String): users!
+    id_apple : String
+    id_etp: String): users!
     
     create_role(id_user: String! id_role: String!): role!
 }
