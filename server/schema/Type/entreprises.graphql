@@ -62,7 +62,16 @@ type Mutation{
     date_abonnement: Date
     type_abonnement: String
     mode_payement: String
-    date_payement: Date):entreprise
+    date_payement: Date
+    nomAdmin: String!
+    prenomAdmin: String!
+    num_telAdmin: String!
+    mailAdmin: String!
+    adresseAdmin: String!
+    mdpAdmin: String!
+    adr_fbAdmin : String
+    adr_gmailAdmin: String
+    id_appleAdmin : String):entreprise
 
     delEtp(id: String!):entreprise!
 

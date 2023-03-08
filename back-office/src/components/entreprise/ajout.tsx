@@ -2,38 +2,36 @@ import { Form, InputGroup, Button, Container, Nav } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { regexNum, regexMail } from '../../assets/regex/regex'
-import {INSCRI_USER, InscriUsersData, InscriUsersVar} from '../../fetching/mutation/inscriUser'
 import {createEtpData,CREATE_ENTREPRISE,CreateEntrepriseVariables} from '../../fetching/mutation/AjoutEtp'
 
 export const AjoutEtp = () => {
     const [create_entreprise, { data, loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(CREATE_ENTREPRISE)
-    const [inscri_user] = useMutation<InscriUsersData, InscriUsersVar>(INSCRI_USER)
-    const entreprise = data?.create_entreprise
+    console.log(data?.create_entreprise)
     let form:any=''
     const Ajout = async (event: any) => {
+        console.log('ajout');
         await (form = event.currentTarget)
         if (form.checkValidity() === false) {
+            console.log("test1");
             await event.preventDefault();
             await event.stopPropagation();
             return
         }
         if (mdpAdmin != confMdp){{{
+            console.log("test2");
             await event.preventDefault();
             await event.stopPropagation();
             return
         }}}
         if (!(regexMail.test(mailAdmin))) {
+            console.log("test3");
             await event.preventDefault();
             await event.stopPropagation();
             return
         }
-        setValidated(true)
-        create_entreprise({
-            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date() }
-        })
-        inscri_user({
-            variables: { nom: nomAdmin, prenom: prenomAdmin, num_tel: numAdmin, mail: mailAdmin, adresse: adresseAdmin, mdp: mdpAdmin, id_etp: entreprise?.id }
-        })
+        await create_entreprise({
+            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin:nomAdmin, prenomAdmin:prenomAdmin ,num_telAdmin:numAdmin, mailAdmin:mailAdmin, adresseAdmin:adresseAdmin, mdpAdmin: mdpAdmin }
+        });
         setNom("")
         setNum("")
         setLogo("")
@@ -53,7 +51,7 @@ export const AjoutEtp = () => {
 
     const [voirMdp,setVoirMdp]=useState(false)
     const [voirConfMdp,setVoirConfMdp]=useState(false)
-    const [validated,setValidated] = useState(false)
+    const [validated,setValidated] = useState(true)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
     const [num, setNum] = useState('')
@@ -154,10 +152,15 @@ export const AjoutEtp = () => {
         setConfMdp(event.target.value)
     }
     if (error) { return <p>{error.message}</p> }
-    if (loading) { return <p>Load</p> }
+    if (loading) { return <p>Load...</p> }
     return (
         <div style={{ fontFamily: "Roboto", width: "80vh" }} >
             <Container fluid className="justify-content-center" style={{ width: "100%" }}>
+            <Nav.Link href="/entreprise" style={{ width: "20px" }}>
+                <p className="fw-bolder tx-tertiary fs-3 fw-bold" >
+                    <i className="bi bi-chevron-left"></i>
+                </p>
+            </Nav.Link>
                 <p>
                     <div style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Ajout entreprise</b></div>
                 </p>
@@ -168,7 +171,7 @@ export const AjoutEtp = () => {
                                 Nom
                             </b>
                         </Form.Label>
-                        <Form.Control id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
+                        <Form.Control required id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
                         <Form.Control.Feedback type="invalid">Nom entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
@@ -284,7 +287,7 @@ export const AjoutEtp = () => {
                             <b>Mot de passe</b>
                         </Form.Label>
                     <InputGroup className='mb-3'>
-                        <Form.Control id='mdpAdm' type={(voirMdp==false) ? "password":'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                        <Form.Control required id='mdpAdm' type={(voirMdp==false) ? "password":'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
                         <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirMdp(!voirMdp)}}>
                             <i className="bi bi-eye"></i>
                         </Button>
@@ -295,11 +298,14 @@ export const AjoutEtp = () => {
                     </Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control
+                            required
                             id='confMdp'
                             type={(voirConfMdp==false) ? "password":'text'}
                             placeholder="Recipient's username"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
+                            value={confMdp}
+                            onChange={onChangeConfMdpAdmin}
                         />
                         <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirConfMdp(!voirConfMdp)}}>
                             <i className="bi bi-eye"></i>

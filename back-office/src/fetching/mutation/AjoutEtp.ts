@@ -33,6 +33,15 @@ export type CreateEntrepriseVariables = {
     type_abonnement: string;
     mode_payement: string;
     date_payement: Date;
+    nomAdmin: string
+    prenomAdmin: string
+    num_telAdmin: string
+    mailAdmin: string
+    adresseAdmin: string
+    mdpAdmin: string
+    adr_fbAdmin?: string | null
+    adr_gmailAdmin?: string | null
+    id_appleAdmin?: string | null
 }
 
 export const CREATE_ENTREPRISE = gql`
@@ -50,6 +59,15 @@ export const CREATE_ENTREPRISE = gql`
     $type_abonnement: String!
     $mode_payement: String!
     $date_payement: Date!
+    $nomAdmin: String!
+    $prenomAdmin: String!
+    $num_telAdmin: String!
+    $mailAdmin: String!
+    $adresseAdmin: String!
+    $mdpAdmin: String!
+    $adr_fbAdmin: String
+    $adr_gmailAdmin: String
+    $id_appleAdmin: String
   ) {
     create_entreprise(
       nom: $nom
@@ -65,6 +83,15 @@ export const CREATE_ENTREPRISE = gql`
       type_abonnement: $type_abonnement
       mode_payement: $mode_payement
       date_payement: $date_payement
+      nomAdmin: $nomAdmin
+      prenomAdmin: $prenomAdmin
+      num_telAdmin: $num_telAdmin
+      mailAdmin: $mailAdmin
+      adresseAdmin: $adresseAdmin
+      mdpAdmin: $mdpAdmin
+      adr_fbAdmin: $adr_fbAdmin
+      adr_gmailAdmin: $adr_gmailAdmin
+      id_appleAdmin: $id_appleAdmin
     ) {
       id
       nom

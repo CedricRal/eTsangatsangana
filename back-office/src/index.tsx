@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: 'http://192.168.1.125:4000',
   cache: new InMemoryCache(),
   headers:{
     "authorization":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZmMDMwZDE0LTI1ZmYtNDRmZi05ZTg3LThmNmQ2YTRmMmYxMyIsImlhdCI6MTY3NzczMTQyNn0.vMmRcSKwx-nxWZ9kZJcUAaTyVGqCf75m3saZjvkB4LI"

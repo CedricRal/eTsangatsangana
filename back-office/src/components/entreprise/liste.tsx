@@ -28,7 +28,7 @@ type GetOneEtp = {
 
 type GetAllEtp = {
   nbr_page: number;
-  items: GetOneEtp[];
+  items: Array<GetOneEtp>;
 };
 
 type GetAllEntrepriseResponse = {
@@ -64,9 +64,18 @@ const GET_ALL_ENTREPRISE_QUERY = gql`
 
 
 const détails = (eventKey: any) => {
-  const id: string = eventKey
-  localStorage.setItem("idEtp", eventKey)
-
+  console.log('details');
+  const id = localStorage.getItem("idEtp")
+  console.log(id);
+  if (id!=null){
+    console.log('gppp')
+    localStorage.removeItem("idEtp")
+    localStorage.setItem("idEtp", eventKey)
+  }
+  else{
+    localStorage.setItem("idEtp", eventKey)
+  }
+  
 }
 export const Liste = () => {
   const { loading, error, data } = useQuery<GetAllEntrepriseResponse>(
@@ -76,7 +85,8 @@ export const Liste = () => {
     }
   );
 
-  const entreprises = data?.getAllEntreprise.items;
+  const entreprises: Array<GetOneEtp> = data?.getAllEntreprise.items || [];
+  console.log(entreprises);
   const [photoTmp, setPhotoTmp] = useState('')
   const [id, setId] = useState('')
   const [num, setNum] = useState('')
@@ -177,6 +187,8 @@ export const Liste = () => {
   if (loading) return (<div className="center"><Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
   </Spinner></div>)
+  console.log(error);
+  
   if (error) return <p>Error: {error.message}</p>;
   return (
     <div style={{ fontFamily: "roboto" }}>
@@ -186,8 +198,8 @@ export const Liste = () => {
             return(
               <Col key={entreprise.id}>
                 <Card border="success" style={{ width: '22rem'}}>
-                  <Nav>
-                    <Nav.Link to='/entreprise/détails' as={NavLink} style={{width:"100%"}}>
+                  <Nav onSelect={détails}>
+                    <Nav.Link to='/entreprise/détails' as={NavLink} style={{width:"100%"}} eventKey={entreprise.id}>
                       <Card.Img variant="top" src={entreprise.logo} width={250} height={250}/>
                     </Nav.Link>
                   </Nav>
