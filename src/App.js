@@ -146,8 +146,9 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: SV_ENDPOINT
+    uri: 'http://192.168.43.239:4000'
   });
+  console.log(SV_ENDPOINT);
 
   // Create an auth link
   const authLink = setContext(async (_, { headers }) => {

@@ -15,7 +15,6 @@ function SingIn({navigation}) {
 
     const {t} = useTranslation();
     const route = useRoute();
-    const type = route.params.type;
     const [inputs, setInputs] = React.useState({  //etat pour la validation
         email: '',
         nom:'',
@@ -41,6 +40,15 @@ function SingIn({navigation}) {
             return <ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>
         }
     };
+    const handleMutation = async () => {
+        try {
+          const result = await inscri_user();
+          if(result){setModalVisible(!modalVisible);}
+          console.log(result); // Afficher le résultat de la mutation réussie
+        } catch (e) {
+          console.log(e); // Gérer les erreurs éventuelles
+        }
+      };
 
     const [modalVisible, setModalVisible] = useState(false)
     const [errors, setErrors] = React.useState({})    //etat pour l'erreur
@@ -87,7 +95,8 @@ const validate = () => { //fonction de validation des information
         valid = false
     };
     if (valid == true) {
-        setModalVisible(!modalVisible);
+        handleMutation();
+        //setModalVisible(!modalVisible);
     }
 };
 
@@ -148,8 +157,16 @@ return(
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            inscri_user();
-                            navigation.navigate('LogIn', {type:type})}}
+                            //inscri_user();
+                            navigation.navigate('LogIn', {
+                                type:route.params.type,
+                                produit:route.params.produit,
+                                entreprise:route.params.entreprise,
+                                prix:route.params.prix,
+                                idPub:route.params.idPub,
+                                idEtp:route.params.idEtp,
+                                idProduit:route.params.idProduit
+                            })}}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
@@ -214,7 +231,15 @@ return(
                         handleError(null, 'confirm')
                     }}/>
                 <Button title={t('langues:signIn')} onPress={validate}/>
-                <Text style={styles.other} onPress={() => navigation.navigate('LogIn')}>
+                <Text style={styles.other} onPress={() => navigation.navigate('LogIn',{
+                    type:route.params.type,
+                    produit:route.params.produit,
+                    entreprise:route.params.entreprise,
+                    prix:route.params.prix,
+                    idPub:route.params.idPub,
+                    idEtp:route.params.idEtp,
+                    idProduit:route.params.idProduit
+                })}>
                     {t('langues:already')}
                 </Text>
                 </View>
