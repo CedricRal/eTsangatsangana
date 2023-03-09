@@ -1,9 +1,10 @@
-import React, { useLayoutEffect } from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, ActivityIndicator } from 'react-native';
+import React, { useLayoutEffect, useEffect } from 'react';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView,TouchableOpacity, Keyboard, ActivityIndicator, Modal } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { GET_USER } from '../../hooks/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,45 +18,76 @@ function LogIn({navigation}) {
     const entreprise = route.params.entreprise;
     const prix = route.params.prix;
     const idPub = route.params.idPub;
-const [inputs, setInputs] = React.useState({  //etat pour la validation
-    email: '',
-    password:''
-});
-
-    const [get_user,{ error, loading, data, called }] = useLazyQuery(GET_USER, {
-        variables: {
-            mail:inputs.email, mdp:inputs.password
-        }
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [user, setUser] = React.useState({
+        email:'',
+        mdp:'',
+    });
+    const [inputs, setInputs] = React.useState({  //etat pour la validation
+        email: '',
+        password:''
     });
 
-const [errors, setErrors] = React.useState({})    //etat pour l'erreur
-const validate = () => { //fonction de validation des information
-    Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
-    let valid = true;
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    if (!inputs.email){
-        handleError(t('langues:noEmail'), 'email')
-        valid = false
-    } else if (reg.test(inputs.email)===false){
-        handleError(t('langues:incorrectEmail'), 'email')
-        valid = false
-    };
-    if (!inputs.password){
-        handleError(t('langues:noPassword'), 'password')
-        valid = false
-    } else if (strongRegex.test(inputs.password)===false){
-        handleError(t('langues:incorrectPassword'), 'password')
-        valid = false
-    };
-    if (valid == true) {
-        get_user();
-        if(data){handleSave()};
-    }
-};
+    const [get_user,{ loading, data, called, error }] = useLazyQuery(GET_USER, {
+        onCompleted: (data) => {
+            console.log('onCompletedData =>',data);
+            handleSave(data);
+        },
+        onError: (error) => {
+            console.log('on error =>', error);
+            setModalVisible(!modalVisible);
+        },
+        fetchPolicy: 'cache-and-network',
+        variables: {
+            mail:user.email, mdp:user.mdp
+        }
+    });
+    console.log( 'called =>',called, 'loading =>', loading, user);
 
-    const handleSave = async() => {
-        try {
+    const [errors, setErrors] = React.useState({})    //etat pour l'erreur
+    const validate = () => { //fonction de validation des information
+        Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
+        let valid = false;
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        if (!inputs.email){
+            handleError(t('langues:noEmail'), 'email')
+            valid = false
+        } else if (reg.test(inputs.email)===false){
+            handleError(t('langues:incorrectEmail'), 'email')
+            valid = false
+        } else valid = true;
+        if (!inputs.password){
+            handleError(t('langues:noPassword'), 'password')
+            valid = false
+        } else if (strongRegex.test(inputs.password)===false){
+            handleError(t('langues:incorrectPassword'), 'password')
+            valid = false
+        } else valid = true;
+        if (valid == true) {
+            handleUser();
+            get_user();
+        };
+        /*if(error) {
+            valid = false;
+            setValid(false);
+        }*/
+    };
+    function handleUser() {
+        // Créer une copie de l'objet existant
+        const updatedUser = { ...user };
+    
+        // Modifier les propriétés "email" et "mdp" de la copie
+        updatedUser['email'] = inputs.email;
+        updatedUser['mdp'] = inputs.password;
+    
+        // Mettre à jour le state avec la nouvelle copie
+        setUser(updatedUser);
+    };
+
+    const handleSave = async(data) => {
+        console.log('handleSave data =>',data)
+        if(data){try {
             AsyncStorage.setItem("myToken", data.auth_user.token);  //sauvegarder token dans la variable myToken dans AsyncStorage
             AsyncStorage.setItem("myId", data.auth_user.id);
             navigation.navigate('detailCmd',{
@@ -69,8 +101,9 @@ const validate = () => { //fonction de validation des information
             });
         }catch (error) {
             alert(error)
-        }
+        }}
     };
+
     const loadToken = async() => {
         try {
             const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
@@ -88,21 +121,44 @@ const validate = () => { //fonction de validation des information
         } catch (error) {
             alert(error);
         }
-    }
+    };
     useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+        console.log('Screen opened')
         loadToken();
     },[]);
 
-const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
-    setInputs(prevState => ({...prevState, [input]: text}));
-}
-const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
-    setErrors(prevState => ({...prevState, [input]: errorMessage}));
-}
+    const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
+        setInputs(prevState => ({...prevState, [input]: text}));
+    }
+    const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
+        setErrors(prevState => ({...prevState, [input]: errorMessage}));
+    }
     if(loading) return <ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>
+    //if(error){() => setValid(false);}
 
+    
     return(
         <SafeAreaView style={styles.container}>
+            <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.circle}>
+                        <Icon name='times' size={35} color={design.Vert} style={styles.check}/>
+                        </View>
+                        <Text style={styles.modalText}>Authentification invalid</Text>
+                        <TouchableOpacity
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}
+                        >
+                        <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
 
             <ScrollView style={styles.scroll_view}>
                 <Text style={styles.title}>{t('langues:titleLogIn')}</Text>
@@ -125,7 +181,9 @@ const handleError = (errorMessage, input) => {       //prend les etat de l'erreu
                 <Text style={styles.other2} onPress={() => navigation.navigate('Recup')}>
                     {t('langues:forgot')}
                 </Text>
-                <Button title={t('langues:logIn')} onPress={validate}/>
+                <Button title={t('langues:logIn')} onPress={() => {
+                        validate();
+                    }}/>
                 <Text style={styles.other} onPress={ () => navigation.navigate('SingIn',{
                     type:type,
                     produit:produit,
@@ -182,6 +240,63 @@ const styles = StyleSheet.create({
     loader: {
         alignSelf: 'center',
         justifyContent: 'center',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      button: {
+        width: 50,
+        borderRadius: 10,
+        padding: 10,
+        elevation: 2
+      },
+      buttonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      buttonClose: {
+        backgroundColor: design.Marron,
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontFamily:design.police
+      },
+      modalText: {
+        color:'black',
+        marginBottom: 15,
+        fontSize:16,
+        textAlign: "center",
+        fontFamily:design.police
+      },
+      circle: {
+        width:52,
+        height:52,
+        borderWidth:4,
+        borderRadius:45,
+        borderColor:design.Vert
+    },
+    check:{
+        alignSelf:'center',
+        marginTop:'10%'
     }
 })
 
