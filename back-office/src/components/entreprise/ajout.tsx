@@ -1,13 +1,29 @@
 import { Form, InputGroup, Button, Container, Nav } from 'react-bootstrap'
 import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { regexNum, regexMail } from '../../assets/regex/regex'
-import {createEtpData,CREATE_ENTREPRISE,CreateEntrepriseVariables} from '../../fetching/mutation/AjoutEtp'
+import { createEtpData, CREATE_ENTREPRISE, CreateEntrepriseVariables } from '../../fetching/mutation/AjoutEtp'
+import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 
 export const AjoutEtp = () => {
-    const [create_entreprise, { data, loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(CREATE_ENTREPRISE)
-    console.log(data?.create_entreprise)
-    let form:any=''
+    const { refetch } = useQuery<GetAllEntrepriseResponse>(
+        GET_ALL_ENTREPRISE_QUERY,
+        {
+            variables: { page: 0 },
+            pollInterval: 200
+        },
+    );
+    const [create_entreprise, { loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(
+        CREATE_ENTREPRISE,
+        {
+            refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+            onQueryUpdated(observableQuery) {
+                // Define any custom logic for determining whether to refetch
+                return observableQuery.refetch();
+            }
+        }
+    )
+    let form: any = ''
     const Ajout = async (event: any) => {
         console.log('ajout');
         await (form = event.currentTarget)
@@ -17,12 +33,16 @@ export const AjoutEtp = () => {
             await event.stopPropagation();
             return
         }
-        if (mdpAdmin != confMdp){{{
-            console.log("test2");
-            await event.preventDefault();
-            await event.stopPropagation();
-            return
-        }}}
+        if (mdpAdmin != confMdp) {
+            {
+                {
+                    console.log("test2");
+                    await event.preventDefault();
+                    await event.stopPropagation();
+                    return
+                }
+            }
+        }
         if (!(regexMail.test(mailAdmin))) {
             console.log("test3");
             await event.preventDefault();
@@ -30,7 +50,7 @@ export const AjoutEtp = () => {
             return
         }
         await create_entreprise({
-            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin:nomAdmin, prenomAdmin:prenomAdmin ,num_telAdmin:numAdmin, mailAdmin:mailAdmin, adresseAdmin:adresseAdmin, mdpAdmin: mdpAdmin }
+            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin: nomAdmin, prenomAdmin: prenomAdmin, num_telAdmin: numAdmin, mailAdmin: mailAdmin, adresseAdmin: adresseAdmin, mdpAdmin: mdpAdmin }
         });
         setNom("")
         setNum("")
@@ -46,12 +66,12 @@ export const AjoutEtp = () => {
         setMailAdmin('')
         setAdresseAdmin('')
         setMdpAdmin('')
-        setConfMdp('')  
+        setConfMdp('')
     }
 
-    const [voirMdp,setVoirMdp]=useState(false)
-    const [voirConfMdp,setVoirConfMdp]=useState(false)
-    const [validated,setValidated] = useState(true)
+    const [voirMdp, setVoirMdp] = useState(false)
+    const [voirConfMdp, setVoirConfMdp] = useState(false)
+    const [validated, setValidated] = useState(true)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
     const [num, setNum] = useState('')
@@ -122,7 +142,7 @@ export const AjoutEtp = () => {
     }
 
     const onChangeService = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setService(event.target.value)       
+        setService(event.target.value)
     }
 
     const onChangeAbonnement = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -156,11 +176,11 @@ export const AjoutEtp = () => {
     return (
         <div style={{ fontFamily: "Roboto", width: "80vh" }} >
             <Container fluid className="justify-content-center" style={{ width: "100%" }}>
-            <Nav.Link href="/entreprise" style={{ width: "20px" }}>
-                <p className="fw-bolder tx-tertiary fs-3 fw-bold" >
-                    <i className="bi bi-chevron-left"></i>
-                </p>
-            </Nav.Link>
+                <Nav.Link href="/entreprise" style={{ width: "20px" }}>
+                    <p className="fw-bolder tx-tertiary fs-3 fw-bold" >
+                        <i className="bi bi-chevron-left"></i>
+                    </p>
+                </Nav.Link>
                 <p>
                     <div style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Ajout entreprise</b></div>
                 </p>
@@ -194,7 +214,7 @@ export const AjoutEtp = () => {
                         <Form.Control.Feedback type="invalid">Adresse entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                    <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
+                        <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
                             <Form.Control id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
@@ -262,10 +282,10 @@ export const AjoutEtp = () => {
                         <Form.Control.Feedback type="invalid">Prenom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                    <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
+                        <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control id="numAdm"required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
+                            <Form.Control id="numAdm" required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">Téléphone admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
@@ -284,11 +304,11 @@ export const AjoutEtp = () => {
                         <Form.Control.Feedback type="invalid">Adresse admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Label htmlFor='mdpAdm'>
-                            <b>Mot de passe</b>
-                        </Form.Label>
+                        <b>Mot de passe</b>
+                    </Form.Label>
                     <InputGroup className='mb-3'>
-                        <Form.Control required id='mdpAdm' type={(voirMdp==false) ? "password":'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
-                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirMdp(!voirMdp)}}>
+                        <Form.Control required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                        <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirMdp(!voirMdp) }}>
                             <i className="bi bi-eye"></i>
                         </Button>
                         <Form.Control.Feedback type="invalid">Mot de passe admin obligatoire</Form.Control.Feedback>
@@ -300,20 +320,20 @@ export const AjoutEtp = () => {
                         <Form.Control
                             required
                             id='confMdp'
-                            type={(voirConfMdp==false) ? "password":'text'}
+                            type={(voirConfMdp == false) ? "password" : 'text'}
                             placeholder="Recipient's username"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
                             value={confMdp}
                             onChange={onChangeConfMdpAdmin}
                         />
-                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirConfMdp(!voirConfMdp)}}>
+                        <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirConfMdp(!voirConfMdp) }}>
                             <i className="bi bi-eye"></i>
                         </Button>
                     </InputGroup>
                     <div>
                         <Button variant="success" className='text-center' style={{ height: "40px", color: "#ffffff" }} type="submit">Ajouter</Button>{' '}
-                        <Nav.Link href="/entreprise" style={{ display:"inline" }}>
+                        <Nav.Link href="/entreprise" style={{ display: "inline" }}>
                             <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Annuler</Button>
                         </Nav.Link>
                     </div>

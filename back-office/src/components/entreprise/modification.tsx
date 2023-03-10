@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { Modal, Button, Form, InputGroup } from "react-bootstrap"
 import { UPDATE_ETP, UpdateEtpData, UpdateEtpVar } from '../../fetching/mutation/updateEtp'
-import { useMutation } from "@apollo/client";
+import { useMutation,useQuery } from "@apollo/client";
 import { Valide } from './pop-up'
+import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 
 type propsEtp = {
     id: string
@@ -33,7 +34,22 @@ type propsEtp = {
 }
 
 export const Modif = (props: propsEtp) => {
-    const [updateEtp, { data, loading, error }] = useMutation<UpdateEtpData, UpdateEtpVar>(UPDATE_ETP)
+    const { refetch } = useQuery<GetAllEntrepriseResponse>(
+        GET_ALL_ENTREPRISE_QUERY,
+        {
+            variables: { page: 0 },
+            pollInterval: 200
+        },
+    );
+    const [updateEtp, { data, loading, error }] = useMutation<UpdateEtpData, UpdateEtpVar>(
+        UPDATE_ETP, {
+        refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+        onQueryUpdated(observableQuery) {
+            // Define any custom logic for determining whether to refetch
+            return observableQuery.refetch();
+        }
+    }
+    )
     const [showModal, setShowModal] = useState<boolean>(false)
     const [showToast, setShowToast] = useState<boolean>(false)
     const modifValide = (event: any) => {

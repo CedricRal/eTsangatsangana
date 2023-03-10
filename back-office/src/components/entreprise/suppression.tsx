@@ -1,8 +1,9 @@
 import { Modal, Button } from "react-bootstrap"
 import { useState } from "react"
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { DelEtpData, DEL_ETP, DelEtpVar } from "../../fetching/mutation/supprEtp"
 import { Valide } from './pop-up'
+import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 
 type propsEtp = {
   Nom: string,
@@ -12,7 +13,22 @@ type propsEtp = {
 }
 
 export const Suppr = (props: propsEtp) => {
-  const [delEtp, { data, loading, error }] = useMutation<DelEtpData, DelEtpVar>(DEL_ETP)
+  const { refetch } = useQuery<GetAllEntrepriseResponse>(
+    GET_ALL_ENTREPRISE_QUERY,
+    {
+        variables: { page: 0 },
+        pollInterval: 200
+    },
+);
+  const [delEtp, { data, loading, error }] = useMutation<DelEtpData, DelEtpVar>(
+    DEL_ETP,{
+      refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+      onQueryUpdated(observableQuery) {
+          // Define any custom logic for determining whether to refetch
+          return observableQuery.refetch();
+      }
+  }
+    )
   const validate = (event: any) => {
     event.preventDefault()
     delEtp({

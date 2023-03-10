@@ -6,62 +6,8 @@ import { Valide } from './pop-up'
 import { Modif } from './modification'
 import { gql, useQuery } from '@apollo/client'
 import { Détails } from '../entreprise/détails'
-
-type GetOneEtp = {
-  id: string;
-  nom: string;
-  logo: string;
-  adresse: string;
-  tel: string;
-  adr_fb: string;
-  type_service: string;
-  NIF_STAT: string;
-  slogan: string;
-  description: string;
-  date_abonnement: Date;
-  type_abonnement: string;
-  mode_payement: string;
-  date_payement: Date;
-  status: number;
-  users: string
-};
-
-type GetAllEtp = {
-  nbr_page: number;
-  items: Array<GetOneEtp>;
-};
-
-type GetAllEntrepriseResponse = {
-  getAllEntreprise: GetAllEtp;
-};
-
-
-const GET_ALL_ENTREPRISE_QUERY = gql`
-  query GetAllEntreprise($page: Int!) {
-    getAllEntreprise(page: $page) {
-      nbr_page
-      items {
-        id
-        nom
-        logo
-        adresse
-        tel
-        adr_fb
-        type_service
-        NIF_STAT
-        slogan
-        description
-        date_abonnement
-        type_abonnement
-        mode_payement
-        date_payement
-        status
-        users
-      }
-    }
-  }
-`;
-
+import {GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp} from '../../fetching/query/listeEtp'
+import {regexNum} from '../../assets/regex/regex'
 
 const détails = (eventKey: any) => {
   console.log('details');
@@ -78,11 +24,12 @@ const détails = (eventKey: any) => {
   
 }
 export const Liste = () => {
-  const { loading, error, data } = useQuery<GetAllEntrepriseResponse>(
+  const { loading, error, data, refetch } = useQuery<GetAllEntrepriseResponse>(
     GET_ALL_ENTREPRISE_QUERY,
     {
       variables: { page: 0 },
-    }
+      pollInterval: 200
+    },
   );
 
   const entreprises: Array<GetOneEtp> = data?.getAllEntreprise.items || [];
@@ -108,8 +55,7 @@ export const Liste = () => {
   }
 
   const onChangeNum = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const regex = /^[0-9\b]+$/;
-    if (regex.test(event.target.value)) {
+    if (regexNum.test(event.target.value)) {
       setNum(event.target.value);
     }
   }
@@ -186,7 +132,8 @@ export const Liste = () => {
 
   if (loading) return (<div className="center"><Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
-  </Spinner></div>)
+  </Spinner></div>
+  )
   console.log(error);
   
   if (error) return <p>Error: {error.message}</p>;
@@ -211,8 +158,9 @@ export const Liste = () => {
                     </Card.Body>
                 </Card>
               </Col>
+              
             )
-        })
+            })
         )
       } 
       </Row>
