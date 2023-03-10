@@ -127,6 +127,7 @@ export default {
     noFirstname: 'Please enter your firstname!',
     matchingPassword: 'Password does not match',
     neededPassword: 'Password must have 8 characters including capital letters, tiny letters, numbers and special characters',
+    invalidCredential: 'The credentials are invalid. Try Again.',
     //-------------------------------navigation--------------------------
     home: 'Home',
     profile: 'Profile',

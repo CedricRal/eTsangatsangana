@@ -34,8 +34,15 @@ function LogIn({navigation}) {
             handleSave(data);
         },
         onError: (error) => {
-            console.log('on error =>', error);
-            setModalVisible(!modalVisible);
+            console.log('on error =>', error.clientErrors);
+            {
+                console.log('reset inputs')
+                const updatedInputs = { ...inputs };
+                // Modifier les propriétés "email" et "mdp" de la copie
+                updatedInputs['email'] = null;
+                updatedInputs['password'] = null;
+                setInputs(updatedInputs);
+            };
         },
         fetchPolicy: 'cache-and-network',
         variables: {
@@ -49,21 +56,29 @@ function LogIn({navigation}) {
         Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
         let valid = false;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        console.log(valid);
         if (!inputs.email){
             handleError(t('langues:noEmail'), 'email')
             valid = false
         } else if (reg.test(inputs.email)===false){
+            console.log('test email avant erreur,  valid=>', valid)
             handleError(t('langues:incorrectEmail'), 'email')
             valid = false
-        } else valid = true;
-        if (!inputs.password){
+            console.log('test email,  valid=>', valid)
+        } if (!inputs.password){
             handleError(t('langues:noPassword'), 'password')
             valid = false
-        } else valid = true;
+        } if (reg.test(inputs.email) && inputs.email && inputs.password){
+            valid = true;
+            console.log('Les champs sont valide')
+        };
+        console.log(valid, inputs.email, inputs.password);
         if (valid == true) {
             handleUser();
             get_user();
+            valid = false;
         };
+        console.log(valid);
     };
     function handleUser() {
         // Créer une copie de l'objet existant
@@ -140,7 +155,7 @@ function LogIn({navigation}) {
                         <View style={styles.circle}>
                         <Icon name='times' size={35} color={design.Vert} style={styles.check}/>
                         </View>
-                        <Text style={styles.modalText}>Authentification invalid</Text>
+                        <Text style={styles.modalText}>{t('langues:invalidCredential')}</Text>
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}
