@@ -49,7 +49,6 @@ function LogIn({navigation}) {
         Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
         let valid = false;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
         if (!inputs.email){
             handleError(t('langues:noEmail'), 'email')
             valid = false
@@ -60,18 +59,11 @@ function LogIn({navigation}) {
         if (!inputs.password){
             handleError(t('langues:noPassword'), 'password')
             valid = false
-        } else if (strongRegex.test(inputs.password)===false){
-            handleError(t('langues:incorrectPassword'), 'password')
-            valid = false
         } else valid = true;
         if (valid == true) {
             handleUser();
             get_user();
         };
-        /*if(error) {
-            valid = false;
-            setValid(false);
-        }*/
     };
     function handleUser() {
         // Créer une copie de l'objet existant
@@ -134,7 +126,6 @@ function LogIn({navigation}) {
         setErrors(prevState => ({...prevState, [input]: errorMessage}));
     }
     if(loading) return <ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>
-    //if(error){() => setValid(false);}
 
     
     return(
@@ -158,7 +149,7 @@ function LogIn({navigation}) {
                         </TouchableOpacity>
                     </View>
                     </View>
-                </Modal>
+            </Modal>
 
             <ScrollView style={styles.scroll_view}>
                 <Text style={styles.title}>{t('langues:titleLogIn')}</Text>
