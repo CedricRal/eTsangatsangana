@@ -127,7 +127,7 @@ export default {
     noFirstname: 'Entrer votre  prénom svp!',
     matchingPassword: 'Mot de passe ne correspond pas',
     neededPassword: 'Le mot de passe doit comporter 8 caractères comprenant des majuscules, des minuscules, des chiffres et des caractères spéciaux',
-    invalidCredential: 'Les informations d\'identification ne sont pas valides. Essayer à nouveau.',
+    invalidCredential: 'Revérifier votre e-mail et mot de passe s\'il vous plaît.',
     //------------------------navigation----------------
     home: 'Accueil',
     profile: 'Profil',
