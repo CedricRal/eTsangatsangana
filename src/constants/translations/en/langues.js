@@ -148,4 +148,5 @@ export default {
     theOrder: 'The orders',
     modifProfile: 'Modification profile',
     chooseLanguage: 'Choose a language',
+    languages: 'Languages',
 }

@@ -36,8 +36,8 @@ const ProfilEdit = () => {
     }
 
     return (
+      <ScrollView>
         <View style={styles.mainContainer}>
-          <ScrollView>
             <TextInput 
             value={username}
             activeUnderlineColor='transparent'
@@ -80,12 +80,12 @@ const ProfilEdit = () => {
             activeUnderlineColor='transparent'
             underlineColor='disabled'
             style={styles.textInputPwd}
-            placeholder='saisir ancien mot de passe'
+            placeholder={t('langues:password')}
             onChangeText={(text) => setUserPassword(text)}
             secureTextEntry={passwordVisible}
             />
             <Icon name={passwordVisible ? "eye-slash" : "eye"}
-             onPress={() => setPasswordVisible(!passwordVisible)} size={20} style={styles.eyeIconStyle}/>
+             onPress={() => setPasswordVisible(!passwordVisible)} size={20}/>
         </View>
 
           <View style={styles.viewIconPass}>
@@ -94,19 +94,19 @@ const ProfilEdit = () => {
             style={styles.textInputPwd}
             activeUnderlineColor='transparent'
             underlineColor='disabled'
-            placeholder='saisir nouveau mot de passe'
+            placeholder={t('langues:newPassword')}
             onChangeText={(text) => setUserNewPassword(text)}
             secureTextEntry={passwordVisibleVerif}
             />
             <Icon name={passwordVisibleVerif ? "eye-slash" : "eye"}
-             onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20} style={styles.eyeIconStyle}/>
+             onPress={() => setPasswordVisibleVerif(!passwordVisibleVerif)} size={20}/>
           </View>
 
           <Pressable style={styles.button} onPress={modifier}>
             <Text style={styles.text}>{t('langues:buttonModify')}</Text>
-          </Pressable> 
-          </ScrollView>              
+          </Pressable>               
         </View>
+      </ScrollView>
     )
 }
 
@@ -114,7 +114,7 @@ const ProfilEdit = () => {
 const styles = StyleSheet.create({
 
     mainContainer: {
-        paddingTop: '20%',
+        paddingVertical: '20%',
         backgroundColor: design.Blanc,
         width: '100%',
         height: '100%',
@@ -122,8 +122,10 @@ const styles = StyleSheet.create({
 
     textInput: {
         borderWidth: 1,
-        width: '75%',
-        marginBottom: '2%',
+        width: '80%',
+        height: 45,
+        marginBottom: '5%',
+        paddingHorizontal:30,
         alignSelf: 'center',
         backgroundColor: 'whitesmoke',
         borderColor: design.Marron,
@@ -133,7 +135,8 @@ const styles = StyleSheet.create({
     },
 
     textInputPwd : {
-        width: '80%',      
+        width: '82%',
+        height: 45,
         alignSelf: 'center',
         marginLeft: '1%',
         backgroundColor: 'whitesmoke',
@@ -141,20 +144,15 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
     },
-
-    eyeIconStyle: {
-    marginLeft: '5%',
-    height: '80%', 
-    paddingTop: '7%'
-    },
-
     viewIconPass: {
+      flex:1,
       flexDirection: 'row',
       alignSelf: 'center',
       borderWidth: 1,
-      width: '75%',
-      marginBottom: '2%',
-      alignSelf: 'center',
+      width: '80%',
+      marginBottom: '5%',
+      justifyContent:'center',
+      alignItems:'center',
       backgroundColor: 'whitesmoke',
       borderColor: design.Marron,
       borderRadius: 8,
