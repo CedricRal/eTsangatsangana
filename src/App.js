@@ -134,7 +134,7 @@ function DrawerStackScreen(){
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
         <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
-        <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:chooseLanguage')}}/>
+        <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:languages'), headerTitle:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>
     </>
   )
@@ -146,7 +146,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.43.239:4000'
+    uri: 'https://9116-154-126-12-245.eu.ngrok.io'
   });
   console.log(SV_ENDPOINT);
 
