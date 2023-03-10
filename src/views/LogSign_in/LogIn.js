@@ -35,6 +35,7 @@ function LogIn({navigation}) {
         },
         onError: (error) => {
             console.log('on error =>', error.clientErrors);
+            setModalVisible(!modalVisible)
             {
                 console.log('reset inputs')
                 const updatedInputs = { ...inputs };
