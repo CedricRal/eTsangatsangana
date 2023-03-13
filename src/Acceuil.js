@@ -88,7 +88,7 @@ import { useAllPub } from './hooks/query';
           <View style={AppStyles.textImage}>
             <Text style={AppStyles.produit}>{item.titre}</Text>
             <Text style={AppStyles.entreprise}>{item.entreprise.nom}</Text>
-            <Text style={AppStyles.prix}>{item.prix} Ar</Text>
+            <Text style={AppStyles.prix}>{item.prix.toLocaleString('fr-FR')} Ar</Text>
           </View>
           </View>
         </TouchableOpacity>

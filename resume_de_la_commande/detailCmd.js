@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
 import { SelectList } from 'react-native-dropdown-select-list';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GET_PROFIL, useProfil } from '../src/hooks/query';
+import { useProfil } from '../src/hooks/query';
+import { formatPhoneNumber } from '../src/views/Composant/Format';
 
 export default DetailCmd = ({navigation}) => {
     const {t} = useTranslation();
@@ -60,7 +61,7 @@ export default DetailCmd = ({navigation}) => {
             <Text style={styles.text}>{t('langues:detailsCommand')}</Text>
             
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:name')}: </Text><Text style={styles.label}>{cmd.nom} </Text></View>
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{cmd.tel}</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{formatPhoneNumber(cmd.tel)}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:order')}: </Text><Text style={styles.label}>{cmd.commande}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:company')}: </Text><Text style={styles.label}>{cmd.entreprise}</Text></View>
             <View style={[styles.field_command,{flexDirection:'row', flex:1}]}>
@@ -75,8 +76,8 @@ export default DetailCmd = ({navigation}) => {
                 data={nbr} 
                 save="value"
             /></View>
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:unitPrice')}:</Text><Text style={styles.label}>{cmd.prix} ariary</Text></View> 
-            <View style={styles.aligner}><Text style={styles.field_command}>Total: </Text><Text style={styles.label}>{total} ariary</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:unitPrice')}:</Text><Text style={styles.label}>{cmd.prix.toLocaleString('fr-FR')} ariary</Text></View> 
+            <View style={styles.aligner}><Text style={styles.field_command}>Total: </Text><Text style={styles.label}>{total.toLocaleString('fr-FR')} ariary</Text></View>
             
             <View style={styles.button}>
                 <Button title='Valider ma commande' onPress={validate}/>
@@ -89,8 +90,8 @@ export default DetailCmd = ({navigation}) => {
 const styles = StyleSheet.create({
     label: {
         fontWeight: 'bold',
-        fontSize: 18,
-        marginRight: '10%',
+        fontSize: 16,
+        marginRight: '8%',
         textAlign:'right',
         flex: 1,
         color:'black',
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
     rightDropdown: {
         width:80,
         height:42,
-        marginRight:'10%',
+        marginRight:'8%',
         alignItems:'flex-end',
         borderWidth:1,
         borderColor:'black',
@@ -119,9 +120,9 @@ const styles = StyleSheet.create({
     },
 
     field_command : {
-        marginLeft: '10%',
+        marginLeft: '8%',
         marginBottom: '8%',
-        fontSize: 18,
+        fontSize: 16,
         flex: 1,
         color:'black',
     },
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     },
     fieldOther : {
         marginTop: 5,
-        fontSize: 18,
+        fontSize: 16,
         flex:1,
         color:'black',
     },

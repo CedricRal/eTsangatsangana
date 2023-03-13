@@ -146,7 +146,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'https://9116-154-126-12-245.eu.ngrok.io'
+    uri: 'http://192.168.43.239:4000'
   });
   console.log(SV_ENDPOINT);
 

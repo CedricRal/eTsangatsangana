@@ -15,6 +15,7 @@ import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { formatPhoneNumber } from '../Composant/Format';
 
 function Hotel({navigation}) {
 
@@ -26,7 +27,7 @@ function Hotel({navigation}) {
     name : route.params.entreprise,
     prix : route.params.prix,
     produit: route.params.produit,
-    tel : 261367364744,
+    tel : 1327364744,
     desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Enim esse occaecat nisi fugiat est quis duis consequat officia.',
     lieu : 'II J htg Anosy',
     horaire : 'Lundi au Vendredi',
@@ -89,8 +90,8 @@ function Hotel({navigation}) {
       <View style={styles.body_container}>
         <Text style={styles.title_details}>{hotel.produit}</Text>
         <Text style={styles.text_title}>{hotel.name}</Text>
-        <Text style={styles.prix}>{hotel.prix} ar</Text>
-        <Text style={styles.texte_center}>{t('langues:contact')}: +{hotel.tel}</Text>
+        <Text style={styles.prix}>{hotel.prix.toLocaleString('fr-FR')} ar</Text>
+        <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(hotel.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {hotel.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {hotel.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {hotel.cat_srv}</Text>

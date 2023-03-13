@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { formatPhoneNumber } from '../Composant/Format';
 
 function Restaurant({navigation}) {
 
@@ -29,7 +30,7 @@ function Restaurant({navigation}) {
     produit: route.params.produit,
     prix: route.params.prix,
     def : 'restaurant spécialiste en poulet',
-    tel : 261367364744,
+    tel : 1327364744,
     desc : 'Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Do ut amet sit mollit commodo elit.',
     lieu : 'II J htg Ankorondrano',
     horaire : 'Lundi au Vendredi',
@@ -95,9 +96,9 @@ function Restaurant({navigation}) {
       <View style={styles.body_container}>
       <Text style={styles.title_details}>{restaurant.produit}</Text>
         <Text style={styles.text_title}>{restaurant.name}</Text>
-        <Text style={styles.prix}>{restaurant.prix}</Text>
+        <Text style={styles.prix}>{restaurant.prix.toLocaleString('fr-FR')} ar</Text>
         <Text style={styles.texte_center}>{restaurant.def}</Text>
-        <Text style={styles.texte_center}>{t('langues:contact')}: +{restaurant.tel}</Text>
+        <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(restaurant.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {restaurant.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {restaurant.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
