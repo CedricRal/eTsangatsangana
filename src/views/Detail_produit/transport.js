@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { formatPhoneNumber } from '../Composant/Format';
 
 function Transport({navigation}) {
 
@@ -28,7 +29,7 @@ function Transport({navigation}) {
     name : route.params.entreprise,
     produit: route.params.produit,
     prix: route.params.prix,
-    tel : 261367364744,
+    tel : 1327364744,
     direction : 'Tana - Antsirabe - Fianarantsoa',
     desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Sit pariatur anim in ex officia Lorem veniam non fugiat dolor. Quis in sit id mollit tempor ipsum.',
     lieu : 'II J htg Ambodivona',
@@ -93,9 +94,9 @@ function Transport({navigation}) {
       <View style={styles.body_container}>
         <Text style={styles.title_details}>{transport.produit}</Text>
         <Text style={styles.text_title}>{transport.name}</Text>
-        <Text style={styles.prix}>{transport.prix}</Text>
+        <Text style={styles.prix}>{transport.prix.toLocaleString('fr-FR')} ar</Text>
         <Text style={styles.texte_center}>{t('langues:line')}: {transport.direction}</Text>
-        <Text style={styles.texte_center}>{t('langues:contact')}: +{transport.tel}</Text>
+        <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(transport.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {transport.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {transport.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>

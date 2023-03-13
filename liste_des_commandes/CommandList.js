@@ -81,6 +81,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   }
 
   const renderItem = ({item}) => {
+    const dateObj = (new Date(item.date)).toLocaleDateString();
+    console.log('date =>' ,dateObj)
     return (
     <View style={styles.bodyContainer}>
      <TouchableOpacity onPress={() => 
@@ -102,9 +104,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
      <View style={styles.nameAndDetailStyle}>
       <View style={styles.nameAndPriceStyle}>
         <Text style={styles.fontTextName}>{item.produit.titre}</Text>
-        <Text style={styles.fontTextPrice}>{item.qt*item.produit.prix} ar</Text>
+        <Text style={styles.fontTextPrice}>{(item.qt*item.produit.prix).toLocaleString('fr-FR')} ar</Text>
       </View>
-        <Text style={styles.fontTextDetails}>{item.date}</Text>
+        <Text style={styles.fontTextDetails}>{dateObj}</Text>
         <Text style={styles.fontTextDetails}>{item.entreprise.nom}</Text>
       </View>
       </TouchableOpacity>

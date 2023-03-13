@@ -15,7 +15,7 @@ export default ResumeCommande = ({navigation}) => {
 
     const route = useRoute();
 
-    const date = new Date().toLocaleDateString();
+    const date = new Date();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [userId, setUserId] = React.useState();
     const loadId = async() => {
@@ -56,7 +56,7 @@ export default ResumeCommande = ({navigation}) => {
             id_etp:cmd.idEtp,
             id_produits:cmd.idProduit,
         }
-    })
+    });
     
     const nbr = cmd.nombre
     console.log(JSON.stringify(error, null, 2))
@@ -97,7 +97,7 @@ export default ResumeCommande = ({navigation}) => {
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:order')}</Text>: {cmd.commande}</Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:company')}</Text>: {cmd.entreprise} </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{(cmd.type=='hotel')? t('langues:nb') : (cmd.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}</Text>: {cmd.nombre} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {cmd.prix} ariary </Text>
+            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {cmd.prix.toLocaleString('fr-FR')} ariary </Text>
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:mod')}</Text>: {cmd.modePaiement} </Text>
 
             
