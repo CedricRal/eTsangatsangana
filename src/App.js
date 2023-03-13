@@ -161,7 +161,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.88.10:4000'
+    uri: 'http://192.168.43.239:4000'
   });
   console.log(SV_ENDPOINT);
 
