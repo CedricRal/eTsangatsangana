@@ -1,6 +1,6 @@
 
-import React, {useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useEffect, useLayoutEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import Hotel from './views/Detail_produit/hotel';
 import Transport from './views/Detail_produit/transport';
@@ -38,7 +38,6 @@ import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLi
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SV_ENDPOINT } from "@env";
-
 
 
 const HomeStack = createNativeStackNavigator();
@@ -132,7 +131,7 @@ function DrawerStackScreen(){
   return(
     <>
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
-        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (tabBarButtonProps) => <EditIconHeader {...tabBarButtonProps} />, title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
         <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:languages'), headerTitle:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>
@@ -143,10 +142,26 @@ function DrawerStackScreen(){
   const Tab = createBottomTabNavigator();
 
   export default function App() {
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
+  
+    const loadToken = async() => {
+    try {
+        const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+        if(token !== null){    //condition si token existe déjà dans AsyncStorage
+          setIsUserLoggedIn(true);
+        };
+    } catch (error) {
+        alert(error);
+    }
+    };
+  useEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+      console.log('Screen refreshed')
+      loadToken();
+  },[]);
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.43.239:4000'
+    uri: 'http://192.168.88.10:4000'
   });
   console.log(SV_ENDPOINT);
 
@@ -195,6 +210,24 @@ function DrawerStackScreen(){
               iconName = 'scroll'
           }
         return <Icon name={iconName} size={25} color={focused? design.Vert : design.Blanc} />
+        },
+        tabBarButton: (tabBarButtonProps) => {
+          if (route.name === 'Profil' && !isUserLoggedIn) {
+            return (
+              <View
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <Icon name="user-circle" size={25} color={design.Blanc} />
+                <Text style={{fontSize:11, color:design.Blanc}}>{t('langues:profile')}</Text>
+              </View>
+            );
+          } else {
+            return (
+              <TouchableWithoutFeedback onPress={() => {}}>
+                <TouchableOpacity {...tabBarButtonProps} />
+              </TouchableWithoutFeedback>
+            );
+          }
         },
         tabBarStyle: tabBarStyles,
         tabBarActiveTintColor : design.Vert,
