@@ -1,4 +1,4 @@
-import { Modal, Button } from "react-bootstrap"
+import { Modal, Button, Form, Spinner } from "react-bootstrap"
 import { useState } from "react"
 import { useMutation, useQuery } from '@apollo/client'
 import { DelEtpData, DEL_ETP, DelEtpVar } from "../../fetching/mutation/supprEtp"
@@ -16,36 +16,36 @@ export const Suppr = (props: propsEtp) => {
   const { refetch } = useQuery<GetAllEntrepriseResponse>(
     GET_ALL_ENTREPRISE_QUERY,
     {
-        variables: { page: 0 },
-        pollInterval: 200
+      variables: { page: 0 },
+      pollInterval: 200
     },
-);
+  );
   const [delEtp, { data, loading, error }] = useMutation<DelEtpData, DelEtpVar>(
-    DEL_ETP,{
-      refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
-      onQueryUpdated(observableQuery) {
-          // Define any custom logic for determining whether to refetch
-          return observableQuery.refetch();
-      }
+    DEL_ETP, {
+    refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+    onQueryUpdated(observableQuery) {
+      return observableQuery.refetch();
+    }
   }
-    )
+  )
   const validate = (event: any) => {
     event.preventDefault()
     delEtp({
       variables: { id: props.id }
     })
-    setShowModal(true)
     setShowToast(true)
-    console.log("Success")
   }
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showToast, setShowToast] = useState<boolean>(false)
-  if (loading) { return <p>loading</p> }
+  if (loading) { <Spinner animation="border" role="status">
+  <span className="visually-hidden">Loading...</span>
+</Spinner> }
   if (error) { return <p>{error.message}</p> }
   return (
     <div style={{ fontFamily: "roboto" }}>
+
       <Modal
-        show={(showModal == true) ? false : props.show}
+        show={props.show}
         onHide={props.onHide}
         backdrop="static"
         keyboard={false}
@@ -53,22 +53,38 @@ export const Suppr = (props: propsEtp) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
+        <Form onSubmit={validate}>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Suppression
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              Souhaitez-vous vraiment supprimer cette entreprise?
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="success" onClick={props.onHide}>Annuler</Button>
+            <Button variant="success" type="submit" onClick={props.onHide}>Supprimer</Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+      <Modal
+        show={showToast}
+        onHide={() => { setShowToast(false) }}
+        size="sm"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Suppression
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <p>
-            Souhaitez-vous vraiment supprimer cette entreprise ""?
-          </p>
+        <Modal.Body style={{ fontSize: "medium" }}>
+          Suppression réussie <i style={{ color: '#44751e' }} className="bi bi-check-lg"></i>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={props.onHide}>Annuler</Button>
-          <Button variant="success" onClick={validate}>Supprimer</Button>
-        </Modal.Footer>
       </Modal>
-      <Valide show={showToast} onClose={() => { setShowToast(false) }} message="Suppression" />
     </div>
   )
 }

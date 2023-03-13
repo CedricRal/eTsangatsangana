@@ -60,7 +60,7 @@ export const Détails = ()=>{
             </Form.Group>
             <div>
                 <Nav.Link href="/produits" style={{ display: "inline" }}>
-                    <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Liste produits</Button>
+                    <Button variant="light" style={{ backgroundColor: "#6b3b1e", color: "white" , height:'md'}}>Liste produits</Button>
                 </Nav.Link>
             </div>
         </div>
