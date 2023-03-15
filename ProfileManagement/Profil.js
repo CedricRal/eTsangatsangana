@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useProfil } from '../src/hooks/query';
 import { formatPhoneNumber } from '../src/views/Composant/Format';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export default UserProfile = ({navigation}) => {
@@ -25,10 +26,17 @@ export default UserProfile = ({navigation}) => {
             alert(error);
         }
     }
-    useLayoutEffect(() => {     //execute la fonction loadId dès que la page LogIn se lance
+    useLayoutEffect(() => {     //execute la fonction loadId dès que la page se lance
         loadId();
     },[]);
-    const {profilError, profilData, profilLoading} = useProfil(userId);
+    const {profilError, profilData, profilLoading, refetch} = useProfil(userId);
+    useFocusEffect(
+        React.useCallback(() => {
+          // code pour exécuter la requête Apollo Client
+          console.log('refetch data')
+          refetch();
+        }, [])
+    );
     
 
     return (

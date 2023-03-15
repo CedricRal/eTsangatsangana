@@ -46,13 +46,14 @@ const GET_PROFIL = gql`
     }
 `
 export const useProfil = (id) => {
-    const {data, loading, error} = useQuery(GET_PROFIL, {
+    const {data, loading, error, refetch} = useQuery(GET_PROFIL, {
         variables:{id}
     });
     const profilData = data;
     const profilLoading = loading;
     const profilError = error
     return{
+        refetch,
         profilError,
         profilData,
         profilLoading

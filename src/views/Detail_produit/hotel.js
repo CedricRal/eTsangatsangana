@@ -16,7 +16,7 @@ import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { formatPhoneNumber } from '../Composant/Format';
+import { formatPhoneNumber, formatTime } from '../Composant/Format';
 import { useOneEtp } from '../../hooks/query';
 import AppStyles from '../../../styles/App_style';
 
@@ -35,7 +35,7 @@ function Hotel({navigation}) {
     tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
     desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
     lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
-    horaire : 'De ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
+    horaire : 'De ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Chambre classique à 280 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   }

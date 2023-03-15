@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { formatPhoneNumber } from '../Composant/Format';
+import { formatPhoneNumber, formatTime } from '../Composant/Format';
 import { useOneEtp } from '../../hooks/query';
 import AppStyles from '../../../styles/App_style';
 
@@ -38,7 +38,7 @@ function Transport({navigation}) {
     desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
     lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
     direction : 'Tana - Antsirabe - Fianarantsoa',
-    horaire : 'De ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
+    horaire : 'De ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Tanà Antsirabe à 10 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   };
