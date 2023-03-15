@@ -11,11 +11,16 @@ export type produits = {
     place_dispo: number
     entreprise: string
     image: string
+    status:number
+}
+
+type GetAllProd = {
+    nbr_page: number;
+    produits: Array<produits>
 }
 
 export type GetAllProduitsResponse = {
-    nbr_page: number;
-    produits: Array<produits>
+    getAllProduit: GetAllProd
 }
 
 export const LISTE_PROD = gql`
@@ -35,6 +40,7 @@ export const LISTE_PROD = gql`
                 place_dispo
                 entreprise
                 image
+                status
             }
         }
     }

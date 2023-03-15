@@ -7,6 +7,7 @@ type produits{
     livraison: String
     place_dispo: Int
     id_etp: String!
+    status: Int
 }
 
 
@@ -24,6 +25,7 @@ type getOneProd{
     place_dispo: Int
     entreprise:String
     image:String
+    status:Int
 }
 
 

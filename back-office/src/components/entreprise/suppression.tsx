@@ -37,9 +37,11 @@ export const Suppr = (props: propsEtp) => {
   }
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showToast, setShowToast] = useState<boolean>(false)
-  if (loading) { <Spinner animation="border" role="status">
-  <span className="visually-hidden">Loading...</span>
-</Spinner> }
+  if (loading) {
+    return (<Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>)
+  }
   if (error) { return <p>{error.message}</p> }
   return (
     <div style={{ fontFamily: "roboto" }}>

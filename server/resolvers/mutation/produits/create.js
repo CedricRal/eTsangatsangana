@@ -43,7 +43,7 @@ module.exports = {
                                 }
                                 else{
                                     resolve(new Promise((resolve,reject)=>{
-                                        client.query('INSERT INTO "Produits" ("id","titre", "resume", "qt", "prix", "livraison", "place_dispo", "id_etp") VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',[id, args.titre, args.resume, args.qt, args.prix, args.livraison, args.place_dispo, args.id_etp], function (err, result) {
+                                        client.query('INSERT INTO "Produits" ("id","titre", "resume", "qt", "prix", "livraison", "place_dispo", "id_etp","status") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',[id, args.titre, args.resume, args.qt, args.prix, args.livraison, args.place_dispo, args.id_etp, 0], function (err, result) {
                                             if (err) {
                                                 console.log(err)
                                                 reject(new Error("Insert failed : " + err))
