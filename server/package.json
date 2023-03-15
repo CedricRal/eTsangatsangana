@@ -22,6 +22,8 @@
     "graphql-tools": "^8.3.12",
     "jsonwebtoken": "^9.0.0",
     "jwt-check-expiration": "^1.0.5",
+    "lodash": "^4.17.21",
+    "nodemailer": "^6.9.1",
     "pg": "^8.8.0",
     "redis": "^4.0.6",
     "stripe": "^11.7.0",
