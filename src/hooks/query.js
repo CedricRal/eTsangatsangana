@@ -80,3 +80,25 @@ export const useCommandeList = (id_users) => {
         commandeListError
     }
 }
+//---------------------------------------------------------------------------------//
+
+const GET_ONE_ETP = gql`
+    query getOneEntreprise($id:String!){
+        getOneEntreprise(id:$id){
+            nom, adresse, tel, type_service, description
+        }
+    }
+`
+export const useOneEtp = (id) => {
+    const {data, loading, error} = useQuery(GET_ONE_ETP, {
+        variables:{id}
+    });
+    const oneEtpData = data;
+    const oneEtpLoading = loading;
+    const oneEtpError = error;
+    return{
+        oneEtpData,
+        oneEtpLoading,
+        oneEtpError
+    }
+}

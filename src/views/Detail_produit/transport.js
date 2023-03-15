@@ -9,7 +9,8 @@ import {
   Dimensions,
   Image,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native'; 
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
@@ -18,6 +19,8 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { formatPhoneNumber } from '../Composant/Format';
+import { useOneEtp } from '../../hooks/query';
+import AppStyles from '../../../styles/App_style';
 
 function Transport({navigation}) {
 
@@ -25,31 +28,31 @@ function Transport({navigation}) {
   const [index, setIndex] = React.useState(0);
   const route = useRoute();
   
+  const { oneEtpData, oneEtpLoading, oneEtpError } = useOneEtp(route.params.idEtp);
+  
   const transport = {
     name : route.params.entreprise,
     produit: route.params.produit,
     prix: route.params.prix,
-    tel : 1327364744,
+    tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
+    desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
+    lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
     direction : 'Tana - Antsirabe - Fianarantsoa',
-    desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Sit pariatur anim in ex officia Lorem veniam non fugiat dolor. Quis in sit id mollit tempor ipsum.',
-    lieu : 'II J htg Ambodivona',
     horaire : 'Lundi au Vendredi',
     promo : 'Tanà Antsirabe à 10 000ar',
-    cat_srv : 'hdtd',
+    cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   };
-  const images = [
-    require('../../assets/images/TanaAmpefy/IMG1.jpg'),
-    require('../../assets/images/TanaAmpefy/IMG2.jpg'),
-    require('../../assets/images/TanaAmpefy/IMG3.jpg'),
-  ]
+  const images = route.params.images;
 
   renderItem = ({item,index}) => {
     return (
       <View style={styles.img_container}>
-      <Image source={item} style={styles.images}/>
+      <Image source={{uri:item}} style={styles.images}/>
       </View>
     )
   };
+
+  if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
   return (  
     <>

@@ -34,7 +34,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import './constants/DCSlocalize';
 import { useTranslation } from 'react-i18next';
-import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLink, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SV_ENDPOINT } from "@env";
