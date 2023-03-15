@@ -38,7 +38,7 @@ function Restaurant({navigation}) {
     tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
     desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
     lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
-    horaire : 'Lundi au Vendredi',
+    horaire : 'De ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Nuggets  -15% soit 21 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   } 
@@ -98,12 +98,10 @@ function Restaurant({navigation}) {
       <Text style={styles.title_details}>{restaurant.produit}</Text>
         <Text style={styles.text_title}>{restaurant.name}</Text>
         <Text style={styles.prix}>{restaurant.prix.toLocaleString('fr-FR')} ar</Text>
-        <Text style={styles.texte_center}>{restaurant.def}</Text>
         <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(restaurant.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {restaurant.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {restaurant.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('langues:offer')}: {restaurant.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {restaurant.desc}</Text>
         <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn', {
           type:'restaurant',

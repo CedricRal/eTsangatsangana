@@ -38,7 +38,7 @@ function Transport({navigation}) {
     desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
     lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
     direction : 'Tana - Antsirabe - Fianarantsoa',
-    horaire : 'Lundi au Vendredi',
+    horaire : 'De ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + (oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Tanà Antsirabe à 10 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   };
@@ -98,12 +98,10 @@ function Transport({navigation}) {
         <Text style={styles.title_details}>{transport.produit}</Text>
         <Text style={styles.text_title}>{transport.name}</Text>
         <Text style={styles.prix}>{transport.prix.toLocaleString('fr-FR')} ar</Text>
-        <Text style={styles.texte_center}>{t('langues:line')}: {transport.direction}</Text>
         <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(transport.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {transport.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {transport.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('langues:offer')}: {transport.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
         <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
           type:'transport',

@@ -85,7 +85,7 @@ export const useCommandeList = (id_users) => {
 const GET_ONE_ETP = gql`
     query getOneEntreprise($id:String!){
         getOneEntreprise(id:$id){
-            nom, adresse, tel, type_service, description
+            nom, adresse, tel, type_service, description, heure_ouverture, heure_fermeture
         }
     }
 `
