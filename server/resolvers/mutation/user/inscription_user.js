@@ -2,6 +2,7 @@ const client = require('../../../services/connection')
 const bcrypt = require('bcryptjs')
 const { v4: uuidv4 } = require('uuid')
 const { GraphQLError } = require('graphql')
+const regexMail = require('../../../regex/mail')
 
 module.exports = {
     inscri_user: (parent,args,context) => {
@@ -10,8 +11,7 @@ module.exports = {
                 const salt = bcrypt.genSaltSync(10)
                 const hash = bcrypt.hashSync(args.mdp, salt)
                 const id = uuidv4()
-                const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                if(!(regex.test(args.mail))){
+                if(!(regexMail.test(args.mail))){
                     reject(new GraphQLError('mail invalid',{
                         extensions:{
                             code:"Input invalide"

@@ -1,4 +1,5 @@
 scalar Date
+scalar Time
 type entreprise{
     id: String!
     nom: String!
@@ -15,6 +16,7 @@ type entreprise{
     mode_payement: String!
     date_payement: Date!
     status: Int
+    heure_ouverture: Time
     users: String
 }
 
@@ -34,6 +36,7 @@ type getOneEtp{
     mode_payement: String
     date_payement: Date
     status: Int
+    heure_ouverture: Time
     users: String
 }
 
@@ -62,7 +65,8 @@ type Mutation{
     date_abonnement: Date
     type_abonnement: String
     mode_payement: String
-    date_payement: Date):entreprise
+    date_payement: Date
+    heure_ouverture: Time):entreprise
 
     delEtp(id: String!):entreprise!
 
@@ -80,7 +84,8 @@ type Mutation{
     date_abonnement: Date
     type_abonnement: String
     mode_payement: String
-    date_payement: Date):entreprise
+    date_payement: Date
+    heure_ouverture: Time):entreprise
 }
 
 
