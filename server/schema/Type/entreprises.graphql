@@ -17,6 +17,7 @@ type entreprise{
     date_payement: Date!
     status: Int
     heure_ouverture: Time
+    heure_fermeture: Time
     users: String
 }
 
@@ -37,6 +38,7 @@ type getOneEtp{
     date_payement: Date
     status: Int
     heure_ouverture: Time
+    heure_fermeture: Time
     users: String
 }
 
@@ -66,7 +68,8 @@ type Mutation{
     type_abonnement: String
     mode_payement: String
     date_payement: Date
-    heure_ouverture: Time):entreprise
+    heure_ouverture: Time
+    heure_fermeture: Time):entreprise
 
     delEtp(id: String!):entreprise!
 
@@ -85,7 +88,8 @@ type Mutation{
     type_abonnement: String
     mode_payement: String
     date_payement: Date
-    heure_ouverture: Time):entreprise
+    heure_ouverture: Time
+    heure_fermeture: Time):entreprise
 }
 
 

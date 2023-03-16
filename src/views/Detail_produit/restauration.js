@@ -9,7 +9,8 @@ import {
   Dimensions,
   Image,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native'; 
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
@@ -17,7 +18,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { formatPhoneNumber } from '../Composant/Format';
+import { formatPhoneNumber, formatTime } from '../Composant/Format';
+import { useOneEtp } from '../../hooks/query';
+import AppStyles from '../../../styles/App_style';
 
 function Restaurant({navigation}) {
 
@@ -25,33 +28,31 @@ function Restaurant({navigation}) {
   const [index, setIndex] = React.useState(0);
   const route = useRoute();
   
+  const { oneEtpData, oneEtpLoading, oneEtpError } = useOneEtp(route.params.idEtp);
+  
   const restaurant = {
     name : route.params.entreprise,
     produit: route.params.produit,
     prix: route.params.prix,
     def : 'restaurant spécialiste en poulet',
-    tel : 1327364744,
-    desc : 'Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Do ut amet sit mollit commodo elit.',
-    lieu : 'II J htg Ankorondrano',
-    horaire : 'Lundi au Vendredi',
+    tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
+    desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
+    lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
+    horaire : 'De ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Nuggets  -15% soit 21 000ar',
-    cat_srv : 'hdtd',
-    boutton : 'Passer une commande' 
+    cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   } 
-
-  const images = [
-    require('../../assets/images/Burger/IMG_5765.jpg'),
-    require('../../assets/images/Burger/IMG_5781.jpg'),
-    require('../../assets/images/Burger/IMG_5782.jpg'),
-  ]
+  const images = route.params.images;
 
   renderItem = ({item,index}) => {
     return (
       <View style={styles.img_container}>
-      <Image source={item} style={styles.images}/>
+      <Image source={{uri:item}} style={styles.images}/>
       </View>
     )
   };
+
+  if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
   return (  
     <>
@@ -97,12 +98,10 @@ function Restaurant({navigation}) {
       <Text style={styles.title_details}>{restaurant.produit}</Text>
         <Text style={styles.text_title}>{restaurant.name}</Text>
         <Text style={styles.prix}>{restaurant.prix.toLocaleString('fr-FR')} ar</Text>
-        <Text style={styles.texte_center}>{restaurant.def}</Text>
         <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(restaurant.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {restaurant.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {restaurant.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {restaurant.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('langues:offer')}: {restaurant.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {restaurant.desc}</Text>
         <Button title={t('langues:passCommand')} onPress={() => navigation.navigate('LogIn', {
           type:'restaurant',

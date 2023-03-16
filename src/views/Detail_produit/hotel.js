@@ -7,7 +7,8 @@ import {
   Image,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native'; 
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Button from '../Composant/bouton';
@@ -15,7 +16,9 @@ import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { formatPhoneNumber } from '../Composant/Format';
+import { formatPhoneNumber, formatTime } from '../Composant/Format';
+import { useOneEtp } from '../../hooks/query';
+import AppStyles from '../../../styles/App_style';
 
 function Hotel({navigation}) {
 
@@ -23,30 +26,30 @@ function Hotel({navigation}) {
   const [index, setIndex] = React.useState(0);
   const route = useRoute();
 
+  const { oneEtpData, oneEtpLoading, oneEtpError } = useOneEtp(route.params.idEtp);
+
   const hotel = {
     name : route.params.entreprise,
     prix : route.params.prix,
     produit: route.params.produit,
-    tel : 1327364744,
-    desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Lorem commodo culpa ullamco incididunt minim fugiat velit pariatur officia. Enim esse occaecat nisi fugiat est quis duis consequat officia.',
-    lieu : 'II J htg Anosy',
-    horaire : 'Lundi au Vendredi',
+    tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
+    desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
+    lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
+    horaire : 'De ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Chambre classique à 280 000ar',
-    cat_srv : 'hdtd',
+    cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   }
-  const images = [
-    require('../../assets/images/Chambre_Hôtel/IMG_5783.jpg'),
-    require('../../assets/images/Chambre_Hôtel/IMG_5784.jpg'),
-    require('../../assets/images/Chambre_Hôtel/IMG_5785.jpg'),
-  ]
+  const images = route.params.images;
 
   renderItem = ({item,index}) => {
     return (
       <View style={styles.img_container}>
-      <Image source={item} style={styles.images}/>
+      <Image source={{uri:item}} style={styles.images}/>
       </View>
     )
   };
+
+  if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
   return (  
     <>
@@ -95,7 +98,6 @@ function Hotel({navigation}) {
         <Text style={styles.texte_center}>{t('langues:seat')}: {hotel.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {hotel.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {hotel.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('langues:offer')}: {hotel.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {hotel.desc}</Text>
         <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
           type:'hotel',

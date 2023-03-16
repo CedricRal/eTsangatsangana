@@ -46,13 +46,14 @@ const GET_PROFIL = gql`
     }
 `
 export const useProfil = (id) => {
-    const {data, loading, error} = useQuery(GET_PROFIL, {
+    const {data, loading, error, refetch} = useQuery(GET_PROFIL, {
         variables:{id}
     });
     const profilData = data;
     const profilLoading = loading;
     const profilError = error
     return{
+        refetch,
         profilError,
         profilData,
         profilLoading
@@ -78,5 +79,27 @@ export const useCommandeList = (id_users) => {
         commandeListData,
         commandeListLoading,
         commandeListError
+    }
+}
+//---------------------------------------------------------------------------------//
+
+const GET_ONE_ETP = gql`
+    query getOneEntreprise($id:String!){
+        getOneEntreprise(id:$id){
+            nom, adresse, tel, type_service, description, heure_ouverture, heure_fermeture
+        }
+    }
+`
+export const useOneEtp = (id) => {
+    const {data, loading, error} = useQuery(GET_ONE_ETP, {
+        variables:{id}
+    });
+    const oneEtpData = data;
+    const oneEtpLoading = loading;
+    const oneEtpError = error;
+    return{
+        oneEtpData,
+        oneEtpLoading,
+        oneEtpError
     }
 }
