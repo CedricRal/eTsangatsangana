@@ -26,6 +26,7 @@ function Hotel({navigation}) {
   const [index, setIndex] = React.useState(0);
   const route = useRoute();
 
+  console.log('route =' ,route.params.idEtp);
   const { oneEtpData, oneEtpLoading, oneEtpError } = useOneEtp(route.params.idEtp);
 
   const hotel = {
@@ -39,6 +40,7 @@ function Hotel({navigation}) {
     promo : 'Chambre classique à 280 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   }
+  console.log(oneEtpData, oneEtpLoading, oneEtpError)
   const images = route.params.images;
 
   renderItem = ({item,index}) => {

@@ -69,13 +69,14 @@ const GET_COMMANDE_LIST = gql`
     }
 `
 export const useCommandeList = (id_users) => {
-    const {data, loading, error} = useQuery(GET_COMMANDE_LIST, {
+    const {data, loading, error, refetch} = useQuery(GET_COMMANDE_LIST, {
         variables:{id_users}
     });
     const commandeListData = data;
     const commandeListLoading = loading;
     const commandeListError = error
     return{
+        refetch,
         commandeListData,
         commandeListLoading,
         commandeListError

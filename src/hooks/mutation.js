@@ -46,3 +46,30 @@ mutation update_user($id_user:String!, $nom:String, $prenom:String, $num_tel:Str
     ){ nom, prenom, num_tel, mail, photo, adresse, mdp}
 }
 `
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+export const SEND_MAIL = gql`
+mutation send_mail($mail:String!){
+    send_mail(
+        mail:$mail
+    ){ id }
+}
+`
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+export const VERIFY_CODE = gql`
+mutation verification_code($id:String!, $code:String){
+    verification_code(
+        id:$id, code:$code
+    ){ id }
+}
+`
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+export const UPDATE_MDP = gql`
+mutation update_mdp($id:String!, $mdp:String!){
+    update_mdp(
+        id:$id, mdp:$mdp
+    ){nom, prenom, mail, mdp}
+}
+`

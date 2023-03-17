@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { useCommandeList } from '../src/hooks/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
  export default CommandList = ({navigation}) => { 
   const {t} = useTranslation();
@@ -22,7 +23,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
           alert(error);
       }
   }
-  const {commandeListData, commandeListLoading, commandeListError} = useCommandeList(userId);
+  const {commandeListData, commandeListLoading, commandeListError, refetch} = useCommandeList(userId);
+  useFocusEffect(
+    React.useCallback(() => {
+      // code pour exécuter la requête Apollo Client
+      console.log('refetch data')
+      refetch();
+    }, [])
+  );
   useLayoutEffect(() => {
     loadId();//execute la fonction loadId dès que la page liste des commandes se lance
     if(commandeListData){
@@ -116,7 +124,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   }
 
   if(commandeListLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
-  if(commandeListError) return(<View><Text>Connexion error when fetching data</Text></View>)
   return (
     <View>
 

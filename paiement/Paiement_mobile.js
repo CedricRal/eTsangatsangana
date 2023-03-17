@@ -66,7 +66,6 @@ export default function Mobile({navigation}) {
 const champ = () => {
     let valid = true;
     let reg_phone_number = /^(\+|00)[0-9]*$/
-    console.log('num =>',inputEnvoyeur.length)
 
     if (!value){   // l'utilisateur ne complète pas le champ de la CARTE
         valid = false
