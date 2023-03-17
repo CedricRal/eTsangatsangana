@@ -1,52 +1,69 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Modal, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, SafeAreaView, Keyboard, Modal, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Input from '../Composant/input';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/client';
+import { UPDATE_MDP } from '../../hooks/mutation';
+import { useRoute } from '@react-navigation/native';
+import AppStyles from '../../../styles/App_style';
 
 function NewPass({navigation}) {
+
     const {t} = useTranslation();
-const [inputs, setInputs] = React.useState({  //etat pour la validation
-    password:'',
-    confirm:'',
-});
-const [modalVisible, setModalVisible] = useState(false)
-const [errors, setErrors] = React.useState({})    //etat pour l'erreur
-const validate = () => { //fonction de validation des information
-    Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
-    let valid = true;
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    if (!inputs.password){
-        handleError(t('langues:noPassword'), 'password')
-        valid = false
-    } else if (strongRegex.test(inputs.password)===false){
-        handleError(t('langues:neededPassword'), 'password')
-        valid = false
+    const route = useRoute();
+
+    const [inputs, setInputs] = React.useState({  //etat pour la validation
+        password:'',
+        confirm:'',
+    });
+    console.log(route.params.id);
+
+    const [ update_mdp, {data, loading, error } ] = useMutation(UPDATE_MDP, {
+        onCompleted: (data) => {
+            setModalVisible(!modalVisible);
+        },
+        onError: (error) => {
+            console.log(JSON.stringify(error, null, 2));
+        },
+        variables: { id:route.params.id, mdp:inputs.password}
+    })
+
+    const [modalVisible, setModalVisible] = useState(false)
+    const [errors, setErrors] = React.useState({})    //etat pour l'erreur
+    const validate = () => { //fonction de validation des information
+        Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
+        let valid = true;
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        if (!inputs.password){
+            handleError(t('langues:noPassword'), 'password')
+            valid = false
+        } else if (strongRegex.test(inputs.password)===false){
+            handleError(t('langues:neededPassword'), 'password')
+            valid = false
+        };
+        if (!inputs.password){
+            handleError(t('langues:noPassword'), 'password')
+            valid = false
+        } else if (inputs.confirm != inputs.password){
+            handleError(t('langues:matchingPassword'), 'confirm')
+            valid = false
+        };
+        if (valid == true) {
+            update_mdp();
+        }
     };
-    if (!inputs.password){
-        handleError(t('langues:noPassword'), 'password')
-        valid = false
-    } else if (inputs.confirm != inputs.password){
-        handleError(t('langues:matchingPassword'), 'confirm')
-        valid = false
-    };
-    if (valid == true) {
-        register()
+
+    const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
+        setInputs(prevState => ({...prevState, [input]: text}));
     }
-};
-
-const register = () => {
-    setModalVisible(!modalVisible);
-};
-
-const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
-    setInputs(prevState => ({...prevState, [input]: text}));
-}
-const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
-    setErrors(prevState => ({...prevState, [input]: errorMessage}));
-}
+    const handleError = (errorMessage, input) => {       //prend les etat de l'erreur
+        setErrors(prevState => ({...prevState, [input]: errorMessage}));
+    }
+    
+    if(loading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
 return(
         <SafeAreaView style={styles.container}>
@@ -66,7 +83,15 @@ return(
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            navigation.navigate('LogIn')}}
+                            navigation.navigate('LogIn',{
+                                type:route.params.type,
+                                produit:route.params.produit,
+                                entreprise:route.params.entreprise,
+                                prix:route.params.prix,
+                                idPub:route.params.idPub,
+                                idEtp:route.params.idEtp,
+                                idProduit:route.params.idProduit
+                            })}}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>

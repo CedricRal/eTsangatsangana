@@ -72,6 +72,7 @@ export default DetailCmd = ({navigation}) => {
                 dropdownStyles={{width:80}}
                 dropdownTextStyles={{alignSelf:'center'}}
                 placeholder='0'
+                maxHeight={100}
                 search={false}
                 data={nbr} 
                 save="value"

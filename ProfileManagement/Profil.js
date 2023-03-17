@@ -1,4 +1,4 @@
-import { Image, Text, View , StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import { Image, Text, View , StyleSheet, ActivityIndicator, ScrollView} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import React, { useState, useLayoutEffect } from 'react';
 import { TextInput } from 'react-native-paper';
@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useProfil } from '../src/hooks/query';
 import { formatPhoneNumber } from '../src/views/Composant/Format';
 import { useFocusEffect } from '@react-navigation/native';
+import AppStyles from '../styles/App_style';
 
 
 export default UserProfile = ({navigation}) => {
@@ -38,6 +39,7 @@ export default UserProfile = ({navigation}) => {
         }, [])
     );
     
+    if(profilLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
     return (
     
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
       textInput: {
         borderWidth: 1,
         height:45,
-        width: '75%',
+        width: '80%',
         marginBottom: '5%',
         alignSelf: 'center',
         backgroundColor: 'whitesmoke',

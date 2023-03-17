@@ -141,10 +141,11 @@ function DrawerStackScreen(){
 
   const Tab = createBottomTabNavigator();
 
-  export default function App() {
+  export default function App({navigation}) {
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
   
     const loadToken = async() => {
+      console.log('execution de loadToken')
     try {
         const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
         if(token !== null){    //condition si token existe déjà dans AsyncStorage
@@ -161,7 +162,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.43.239:4000'
+    uri: 'https://e4c7-154-126-11-54.eu.ngrok.io'
   });
   console.log(SV_ENDPOINT);
 
@@ -212,14 +213,15 @@ function DrawerStackScreen(){
         return <Icon name={iconName} size={25} color={focused? design.Vert : design.Blanc} />
         },
         tabBarButton: (tabBarButtonProps) => {
-          if (route.name === 'Profil' && !isUserLoggedIn) {
+          if ((route.name === 'Profil' || route.name === 'Commandes') && !isUserLoggedIn) {
             return (
-              <View
+              <TouchableOpacity
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => {loadToken()}}
               >
-                <Icon name="user-circle" size={25} color={design.Blanc} />
-                <Text style={{fontSize:11, color:design.Blanc}}>{t('langues:profile')}</Text>
-              </View>
+                <Icon name="user-circle" size={25} color={'grey'} />
+                <Text style={{fontSize:11, color:'grey'}}>{t('langues:profile')}</Text>
+              </TouchableOpacity>
             );
           } else {
             return (
@@ -234,6 +236,7 @@ function DrawerStackScreen(){
         tabBarInactiveTintColor : design.Blanc,
         headerShown : false,
         tabBarHideOnKeyboard: true,
+        tabPress: loadToken(),
        })}>
           <Tab.Screen name="Accueil" component={HomeStackScreen} options={{title: t('langues:home')}}/>
           <Tab.Screen name="Profil" component={DrawerStackScreen} options={{title: t('langues:profile')}}/>

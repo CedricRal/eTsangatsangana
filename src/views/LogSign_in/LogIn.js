@@ -10,9 +10,11 @@ import { GET_USER } from '../../hooks/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLazyQuery } from '@apollo/client';
 
+
 function LogIn({navigation}) {
     const {t} = useTranslation();
     const route = useRoute();
+
     const type = route.params.type;
     const produit = route.params.produit;
     const entreprise = route.params.entreprise;
@@ -185,7 +187,15 @@ function LogIn({navigation}) {
                     onFocus={() => {
                         handleError(null, 'password')
                     }}/>
-                <Text style={styles.other2} onPress={() => navigation.navigate('Recup')}>
+                <Text style={styles.other2} onPress={() => navigation.navigate('Recup',{
+                    type:type,
+                    produit:produit,
+                    entreprise:entreprise,
+                    prix:prix,
+                    idPub:idPub,
+                    idEtp:route.params.idEtp,
+                    idProduit:route.params.idProduit
+                })}>
                     {t('langues:forgot')}
                 </Text>
                 <Button title={t('langues:logIn')} onPress={() => {

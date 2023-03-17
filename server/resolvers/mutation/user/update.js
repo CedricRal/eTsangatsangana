@@ -1,5 +1,6 @@
 const client = require('../../../services/connection')
 const { GraphQLError } = require('graphql')
+const bcrypt = require('bcryptjs')
 const regexMail = require('../../../regex/mail')
 
 module.exports = {
@@ -43,8 +44,10 @@ module.exports = {
                                             }))
                                         }
                                         else {
+                                            const salt = bcrypt.genSaltSync(10)
+                                            const hash = bcrypt.hashSync(args.mdp, salt)
                                             resolve(new Promise((resolve, reject) => {
-                                                client.query('UPDATE "Users" SET ("nom", "prenom", "num_tel", "mail", "adresse", "photo", "mdp", "adr_fb", "adr_gmail", "id_apple")=($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) WHERE id=$11 RETURNING *', [args.nom, args.prenom, args.num_tel, args.mail, args.adresse, args.photo, args.mdp, args.adr_fb, args.adr_gmail, args.id_apple, args.id_user], function (err, result) {
+                                                client.query('UPDATE "Users" SET ("nom", "prenom", "num_tel", "mail", "adresse", "photo", "mdp", "adr_fb", "adr_gmail", "id_apple")=($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) WHERE id=$11 RETURNING *', [args.nom, args.prenom, args.num_tel, args.mail, args.adresse, args.photo, hash, args.adr_fb, args.adr_gmail, args.id_apple, args.id_user], function (err, result) {
                                                     if (err) {
                                                         reject(new Error(err))
                                                     }
