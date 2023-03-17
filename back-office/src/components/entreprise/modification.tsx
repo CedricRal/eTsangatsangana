@@ -4,6 +4,7 @@ import { UPDATE_ETP, UpdateEtpData, UpdateEtpVar } from '../../fetching/mutation
 import { useMutation, useQuery } from "@apollo/client";
 import { Valide } from './pop-up'
 import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
+import { regexNum } from '../../assets/regex/regex'
 
 type propsEtp = {
     id: string
@@ -75,9 +76,11 @@ export const Modif = (props: propsEtp) => {
         }
         setShowToast(true);
     }
-    if (loading) { return (<Spinner animation="border" role="status" className='text-center'>
+    if (loading) { return (<div style={{position:'absolute',top:'50%',left:'50%', color:'white'}}>
+        <Spinner variant="light" animation="border" role="status" className='text-center'>
     <span className="visually-hidden">Loading...</span>
-  </Spinner>) }
+  </Spinner>
+    </div>) }
     if (error) { return <p>{error.message}</p> }
     return (
         <div style={{ fontFamily: "roboto" }}>
@@ -127,7 +130,7 @@ export const Modif = (props: propsEtp) => {
                         <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={props.numero_telephone} onChange={props.onChangeNum} />
+                            <Form.Control pattern="^[0-9]+$" id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={props.numero_telephone} onChange={props.onChangeNum} />
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">Téléphone entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>

@@ -3,10 +3,11 @@ import {useQuery} from '@apollo/client'
 import { Card, Row, Col, Button, Spinner, Nav } from "react-bootstrap"
 import {GetAllProduitsResponse,LISTE_PROD, produits} from '../../fetching/query/listeProd'
 import { NavLink, Route, Routes } from 'react-router-dom'
+import {Suppr} from "./suppression"
+import { useState } from 'react'
 
 export const ListeProduit = ()=>{
     const id = localStorage.getItem("idEtp")
-    console.log(id)
     const {data,error,loading} = useQuery<GetAllProduitsResponse>(
         LISTE_PROD,
         {
@@ -16,7 +17,16 @@ export const ListeProduit = ()=>{
             }
         }
     )
-    const produits = data?.getAllProduit.produits
+    const [showmodal,setShowModal] = useState(false)
+    const [id_,setId_] = useState('')
+    const suppr = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      setShowModal(true)
+      setId_(event.currentTarget.id)
+      console.log(event.currentTarget.id)
+      console.log(id_);
+    }
+    const produits: Array<produits> = data?.getAllProduit.produits || []
     console.log(produits);
     if (loading) return (<p>Loading...</p>)
     if (error) return (<p>{error.message}</p>)
@@ -43,7 +53,7 @@ export const ListeProduit = ()=>{
                       {produit.prix} MGA
                     </Card.Text>
                     <span> <Button id={produit.id} variant="success" >Modifier</Button> </span>
-                    <span> <Button id={produit.id} variant="success" className='button' style={{ transition:"all 0.3s ease-out"}}><i style={{display:"inline-block"}} className="bi bi-trash"></i><span style={{display:"inline-block"}}>Supprimer</span></Button> </span>
+                    <span> <Button id={produit.id} variant="success" className='button' style={{ transition:"all 0.3s ease-out"}} onClick={suppr}><i style={{display:"inline-block"}} className="bi bi-trash"></i><span style={{display:"inline-block"}}>Supprimer</span></Button> </span>
                     <span> <Button id={produit.id} variant={(produit.status == 0) ? "light" : "warning"} className='button' style={{ transition:"all 0.3s ease-out"}}><i style={{display:"inline-block"}} className="bi bi-bag-check"></i><span style={{display:"inline-block"}}>Publicité</span></Button> </span>
                   </Card.Body>
                 </Card>
@@ -53,8 +63,8 @@ export const ListeProduit = ()=>{
         )
       } 
       </Row>
-  {/* <Suppr show={} onHide={} Nom={''} id={''}/>
-  <Modif show={''} onHide={} image={image} logoTmp={photoTmp} nom={nom} id={id} logo={logo} adresse={adresse} numero_telephone={num} nom_fb={nom_fb} type_service={service} slogan={slogan} description={descriprion} type_abonnement={abonnement} onChangeNum={onChangeNum} onChangeNom={onChangeNom} onChangeLogo={onChangeLogo} onChangeAdresse={onChangeAdresse} onChangeNomfb={onChangeNomfb} onChangeService={onChangeService} onChangeNif={onChangeNif} onChangeSlogan={onChangeSlogan} onChangeDescription={onChangeDescription} onChangeAbonnement={onChangeAbonnement}/> */}
+  <Suppr show={showmodal} onHide={()=>{setShowModal(false)}} id={id_}/>
+  {/* <Modif show={''} onHide={} image={image} logoTmp={photoTmp} nom={nom} id={id} logo={logo} adresse={adresse} numero_telephone={num} nom_fb={nom_fb} type_service={service} slogan={slogan} description={descriprion} type_abonnement={abonnement} onChangeNum={onChangeNum} onChangeNom={onChangeNom} onChangeLogo={onChangeLogo} onChangeAdresse={onChangeAdresse} onChangeNomfb={onChangeNomfb} onChangeService={onChangeService} onChangeNif={onChangeNif} onChangeSlogan={onChangeSlogan} onChangeDescription={onChangeDescription} onChangeAbonnement={onChangeAbonnement}/> */}
 
     </div>
     </>

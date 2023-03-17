@@ -21,7 +21,7 @@ module.exports = {
                         reject(err)
                     }
                     else{
-                        console.log(result.rows);
+                        console.log(result.rows[0]['titre']);
                         resolve(result.rows[0]['titre'])
                     }
                 })

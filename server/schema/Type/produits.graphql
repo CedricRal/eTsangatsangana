@@ -2,22 +2,23 @@ type produits{
     id: String!
     titre: String!
     resume: String!
+    description: String
     qt: Int!
     prix: Int!
     livraison: String
     place_dispo: Int
-    id_etp: String!
+    id_etp: String
     status: Int
 }
 
-
 type createProd{
-    image:String!
-    items:produits!
+    image:String
+    items:produits
 }
 type getOneProd{
     id: String!
     titre: String!
+    description: String
     resume: String!
     qt: Int!
     prix: Int!
@@ -45,11 +46,13 @@ type Mutation{
         image:String!
         titre: String!
         resume: String!
+        description: String
         qt: Int!
         prix: Int!
         livraison: String
         place_dispo: Int
-        id_etp: String!
+        id_etp: String
+        status: Int
     ):createProd!
 
     delProduit(id: String!):produits
@@ -58,6 +61,7 @@ type Mutation{
         id: String!
         titre: String!
         resume: String!
+        description: String
         qt: Int!
         prix: Int!
         livraison: String

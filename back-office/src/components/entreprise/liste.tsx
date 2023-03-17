@@ -125,6 +125,8 @@ export const Liste = () => {
     event.preventDefault();
     setShowModal(true)
     setId(event.target.id)
+    console.log(event.target.id);
+    
   }
 
   if (loading) return (<div className="center"><Spinner animation="border" role="status">
@@ -134,7 +136,7 @@ export const Liste = () => {
 
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <div style={{ fontFamily: "roboto" }}>
+    <div style={{ fontFamily: "roboto"}}>
       <Row xs={1} mg={2} lg={3} className='g-4'>
         {entreprises && (
           entreprises.map((entreprise) => {

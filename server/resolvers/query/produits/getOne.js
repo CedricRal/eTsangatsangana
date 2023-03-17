@@ -13,7 +13,7 @@ module.exports = {
             }
             else{
                 return new Promise((resolve,reject) => {
-                    client.query('SELECT * FROM "Produits" WHERE ("id" = $1)',[args.id],function(err,result){
+                    client.query('SELECT * FROM "Produits" WHERE ("id" = $1 AND archive <> $2)',[args.id, 0],function(err,result){
                         if (!(result.rows[0])){
                             reject(new GraphQLError('Id produits invalid',{
                                 extensions:{
@@ -22,6 +22,7 @@ module.exports = {
                         }))
                         }
                         else{
+                            console.log("-------------"+result.rows[0]);
                             resolve(result.rows[0])
                         }
                         })

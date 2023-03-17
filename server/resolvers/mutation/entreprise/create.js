@@ -26,7 +26,7 @@ module.exports = {
                 else {
                     return (new Promise((resolve, reject) => {
                         console.log(args.mailAdmin);
-                        client.query('SELECT * FROM "Users" WHERE (mail=$1)', [args.mailAdmin], function (err, result) {
+                        client.query('SELECT * FROM "Users" WHERE (mail=$1 AND status=$2)', [args.mailAdmin,0], function (err, result) {
                             if (result.rows[0]) {
                                 reject(new GraphQLError('mail déja existé', {
                                     extensions: {
@@ -65,7 +65,7 @@ module.exports = {
                                                             const res = result.rows[0]
                                                             console.log(result.rows[0]);
                                                             const idAdmin = uuidv4()
-                                                            client.query('INSERT INTO "Users" ("id","nom", "prenom", "num_tel", "mail", "adresse", "mdp", "adr_fb", "adr_gmail", "id_apple", "id_etp") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11) RETURNING *', [idAdmin, args.nomAdmin, args.prenomAdmin, args.num_telAdmin, args.mailAdmin, args.adresseAdmin, hash, args.adr_fbAdmin, args.adr_gmailAdmin, args.id_appleAdmin, result.rows[0]['id']], function (err, result) {
+                                                            client.query('INSERT INTO "Users" ("id","nom", "prenom", "num_tel", "mail", "adresse", "mdp", "adr_fb", "adr_gmail", "id_apple", "id_etp", "status") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,$12) RETURNING *', [idAdmin, args.nomAdmin, args.prenomAdmin, args.num_telAdmin, args.mailAdmin, args.adresseAdmin, hash, args.adr_fbAdmin, args.adr_gmailAdmin, args.id_appleAdmin, result.rows[0]['id'],0], function (err, result) {
                                                                 if (err) {
                                                                     console.log(err)
                                                                     reject(new Error("Insert failed : " + err))

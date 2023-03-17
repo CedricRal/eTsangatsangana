@@ -2,35 +2,38 @@ import { Modal, Button, Form, Spinner } from "react-bootstrap"
 import { useState } from "react"
 import { useMutation, useQuery } from '@apollo/client'
 import { DelEtpData, DEL_ETP, DelEtpVar } from "../../fetching/mutation/supprEtp"
-import { Valide } from './pop-up'
-import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
+import {DEL_PRODUITS,delProduitVar,delProduitsResponse} from "../../fetching/mutation/supprProd"
+import {GetAllProduitsResponse,LISTE_PROD, produits} from '../../fetching/query/listeProd'
 
 type propsEtp = {
-  Nom: string,
   id: string,
   show: boolean,
   onHide: any,
 }
 
 export const Suppr = (props: propsEtp) => {
-  const { refetch } = useQuery<GetAllEntrepriseResponse>(
-    GET_ALL_ENTREPRISE_QUERY,
+  const id = localStorage.getItem("idEtp") || ''
+  const {refetch} = useQuery<GetAllProduitsResponse>(
+    LISTE_PROD,
     {
-      variables: { page: 0 },
-      pollInterval: 200
-    },
-  );
-  const [delEtp, { data, loading, error }] = useMutation<DelEtpData, DelEtpVar>(
-    DEL_ETP, {
-    refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+        variables:{
+            page:0,
+            id_etp:id
+        }
+    }
+)
+  const [delProduit, { data, loading, error }] = useMutation<delProduitsResponse, delProduitVar>(
+    DEL_PRODUITS, {
+    refetchQueries: [{ query: LISTE_PROD, variables: { page: 0, id_etp: id } }],
     onQueryUpdated(observableQuery) {
       return observableQuery.refetch();
     }
   }
   )
   const validate = (event: any) => {
+    console.log("iddddddd"+props.id);
     event.preventDefault()
-    delEtp({
+    delProduit({
       variables: { id: props.id }
     })
     setShowToast(true)
@@ -65,7 +68,7 @@ export const Suppr = (props: propsEtp) => {
           </Modal.Header>
           <Modal.Body>
             <p>
-              Souhaitez-vous vraiment supprimer cette entreprise?
+              Souhaitez-vous vraiment supprimer ce produit?
             </p>
           </Modal.Body>
           <Modal.Footer>
