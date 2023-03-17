@@ -213,7 +213,7 @@ function DrawerStackScreen(){
         return <Icon name={iconName} size={25} color={focused? design.Vert : design.Blanc} />
         },
         tabBarButton: (tabBarButtonProps) => {
-          if ((route.name === 'Profil' || route.name === 'Commandes') && !isUserLoggedIn) {
+          if ((route.name === 'Profil') && !isUserLoggedIn) {
             return (
               <TouchableOpacity
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
@@ -221,6 +221,16 @@ function DrawerStackScreen(){
               >
                 <Icon name="user-circle" size={25} color={'grey'} />
                 <Text style={{fontSize:11, color:'grey'}}>{t('langues:profile')}</Text>
+              </TouchableOpacity>
+            );
+          } else if ((route.name === 'Commandes') && !isUserLoggedIn) {
+            return (
+              <TouchableOpacity
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => {loadToken()}}
+              >
+                <Icon name="scroll" size={25} color={'grey'} />
+                <Text style={{fontSize:8, color:'grey'}}>{t('langues:orders')}</Text>
               </TouchableOpacity>
             );
           } else {
@@ -236,6 +246,7 @@ function DrawerStackScreen(){
         tabBarInactiveTintColor : design.Blanc,
         headerShown : false,
         tabBarHideOnKeyboard: true,
+        tabBarLabelStyle: { fontSize: 8 },
         tabPress: loadToken(),
        })}>
           <Tab.Screen name="Accueil" component={HomeStackScreen} options={{title: t('langues:home')}}/>

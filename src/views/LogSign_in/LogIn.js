@@ -114,29 +114,6 @@ function LogIn({navigation}) {
         }}
     };
 
-    const loadToken = async() => {
-        try {
-            const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
-            if(token !== null){    //condition si token existe déjà dans AsyncStorage
-                navigation.navigate('detailCmd',{
-                    type:type,
-                    produit:produit,
-                    entreprise:entreprise,
-                    prix:prix,
-                    idPub:idPub,
-                    idEtp:route.params.idEtp,
-                    idProduit:route.params.idProduit
-                });
-            };
-        } catch (error) {
-            alert(error);
-        }
-    };
-    useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
-        console.log('Screen opened')
-        loadToken();
-    },[]);
-
     const handleOnChange = (text, input) => {       //prend les valeurs saisi aux input
         setInputs(prevState => ({...prevState, [input]: text}));
     }

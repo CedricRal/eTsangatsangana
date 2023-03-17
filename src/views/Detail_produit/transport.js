@@ -1,17 +1,6 @@
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Image,
-  View,
-  TouchableOpacity,
-  ActivityIndicator
-} from 'react-native'; 
+import React, { useLayoutEffect } from 'react';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, Dimensions, Image, View, TouchableOpacity, ActivityIndicator } from 'react-native'; 
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -21,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { formatPhoneNumber, formatTime } from '../Composant/Format';
 import { useOneEtp } from '../../hooks/query';
 import AppStyles from '../../../styles/App_style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Transport({navigation}) {
 
@@ -51,6 +41,22 @@ function Transport({navigation}) {
       </View>
     )
   };
+  const [token, setToken] = React.useState(null);
+
+  const loadToken = async() => {
+      try {
+          const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+          if(token !== null){    //condition si token existe déjà dans AsyncStorage
+            setToken(token);
+          };
+      } catch (error) {
+          alert(error);
+      }
+  };
+  useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+      console.log('Screen opened')
+      loadToken();
+  },[]);
 
   if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
@@ -103,15 +109,27 @@ function Transport({navigation}) {
         <Text style={styles.texte_center}>{t('langues:schedule')}: {transport.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
-          type:'transport',
-          entreprise:transport.name,
-          produit:transport.produit,
-          prix:transport.prix,
-          idPub:route.params.idPub,
-          idEtp:route.params.idEtp,
-          idProduit:route.params.idProduit
-        })}/>
+        <Button title={t('langues:reserv')} onPress={() => {
+          if(token !== null){
+            navigation.navigate('detailCmd',{
+              type:'transport',
+              entreprise:transport.name,
+              produit:transport.produit,
+              prix:transport.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+          });
+          } else{
+            navigation.navigate('LogIn', {
+              type:'transport',
+              entreprise:transport.name,
+              produit:transport.produit,
+              prix:transport.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+        });}}}/>
       </View>
     </View>
     </ScrollView>
