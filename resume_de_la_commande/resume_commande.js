@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from '../src/views/Composant/couleur';
 import AppStyles from '../styles/App_style';
+import { formatPhoneNumber } from '../src/views/Composant/Format';
 
 export default ResumeCommande = ({navigation}) => {
     const {t} = useTranslation();
@@ -98,7 +99,7 @@ export default ResumeCommande = ({navigation}) => {
             <Text style={styles.text}>{t('langues:yourOrder')}</Text>
             
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:name')}: </Text><Text style={styles.label}>{cmd.nom} </Text></View>
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{cmd.tel}</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{formatPhoneNumber(cmd.tel)}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:order')}: </Text><Text style={styles.label}>{cmd.commande}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:company')}: </Text><Text style={styles.label}>{cmd.entreprise} </Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{(cmd.type=='hotel')? t('langues:nb') : (cmd.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}: </Text><Text style={styles.label}>{cmd.nombre} </Text></View>
