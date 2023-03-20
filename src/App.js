@@ -1,6 +1,6 @@
 
-import React, {useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useEffect, useLayoutEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import Hotel from './views/Detail_produit/hotel';
 import Transport from './views/Detail_produit/transport';
@@ -34,11 +34,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import design from './views/Composant/couleur';
 import './constants/DCSlocalize';
 import { useTranslation } from 'react-i18next';
-import { ApolloClient, InMemoryCache, ApolloProvider, concat, HttpLink, ApolloLink, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SV_ENDPOINT } from "@env";
-
 
 
 const HomeStack = createNativeStackNavigator();
@@ -132,9 +131,9 @@ function DrawerStackScreen(){
   return(
     <>
       <Drawer.Navigator initialRouteName='AffichageProfile' screenOptions={myHeader} >
-        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (props) => <EditIconHeader {...props} />, headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
+        <Drawer.Screen name='AffichageProfile' component={ UserProfile } options={{headerTitle: (tabBarButtonProps) => <EditIconHeader {...tabBarButtonProps} />, title: t('langues:profile'), headerTitleAlign:firstScreen.headerTitleAlign, headerTitleStyle:firstScreen.headerTitleStyle}}/>
         <Drawer.Screen name='ModificationProfile' component={ ProfilEdit } options={{title: t('langues:modifProfile')}}/>
-        <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:chooseLanguage')}}/>
+        <Drawer.Screen name='Languages' component={ Languages } options={{title:t('langues:languages'), headerTitle:t('langues:chooseLanguage')}}/>
       </Drawer.Navigator>
     </>
   )
@@ -142,11 +141,28 @@ function DrawerStackScreen(){
 
   const Tab = createBottomTabNavigator();
 
-  export default function App() {
+  export default function App({navigation}) {
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
+  
+    const loadToken = async() => {
+      console.log('execution de loadToken')
+    try {
+        const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+        if(token !== null){    //condition si token existe déjà dans AsyncStorage
+          setIsUserLoggedIn(true);
+        };
+    } catch (error) {
+        alert(error);
+    }
+    };
+  useEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+      console.log('Screen refreshed')
+      loadToken();
+  },[]);
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.43.239:4000'
+    uri: 'http://192.168.1.122:4000' //url endpoint graphql ici
   });
   console.log(SV_ENDPOINT);
 
@@ -196,11 +212,42 @@ function DrawerStackScreen(){
           }
         return <Icon name={iconName} size={25} color={focused? design.Vert : design.Blanc} />
         },
+        tabBarButton: (tabBarButtonProps) => {
+          if ((route.name === 'Profil') && !isUserLoggedIn) {
+            return (
+              <TouchableOpacity
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => {loadToken()}}
+              >
+                <Icon name="user-circle" size={25} color={'grey'} />
+                <Text style={{fontSize:11, color:'grey'}}>{t('langues:profile')}</Text>
+              </TouchableOpacity>
+            );
+          } else if ((route.name === 'Commandes') && !isUserLoggedIn) {
+            return (
+              <TouchableOpacity
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                onPress={() => {loadToken()}}
+              >
+                <Icon name="scroll" size={25} color={'grey'} />
+                <Text style={{fontSize:8, color:'grey'}}>{t('langues:orders')}</Text>
+              </TouchableOpacity>
+            );
+          } else {
+            return (
+              <TouchableWithoutFeedback onPress={() => {}}>
+                <TouchableOpacity {...tabBarButtonProps} />
+              </TouchableWithoutFeedback>
+            );
+          }
+        },
         tabBarStyle: tabBarStyles,
         tabBarActiveTintColor : design.Vert,
         tabBarInactiveTintColor : design.Blanc,
         headerShown : false,
         tabBarHideOnKeyboard: true,
+        tabBarLabelStyle: { fontSize: 8 },
+        tabPress: loadToken(),
        })}>
           <Tab.Screen name="Accueil" component={HomeStackScreen} options={{title: t('langues:home')}}/>
           <Tab.Screen name="Profil" component={DrawerStackScreen} options={{title: t('langues:profile')}}/>

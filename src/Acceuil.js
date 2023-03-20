@@ -12,7 +12,7 @@ import { useAllPub } from './hooks/query';
 
   export default function App({navigation}) {
     const { allPubError, allPubLoading, allPubData } = useAllPub();
-    console.log(allPubError)
+    console.log(JSON.stringify(allPubError, null, 2))
 
     const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
 
@@ -46,13 +46,16 @@ import { useAllPub } from './hooks/query';
       setQuery(textTypedByTheUser);
     }
   }  
+    //console.log('image 4 =',dataS[0].image[3].titre)
     const numColumn = 2
     const renderItem = ({ item }) => {
     return (
         <TouchableOpacity onPress={() => 
           {if(item.resume == 'Hotel') {
             navigation.navigate('Hotel', {
+              images:[item.image[1].titre, item.image[2].titre, item.image[3].titre],
               idPub:item.id,
+              idEtp:item.entreprise.id,
               produit:item.titre,
               entreprise:item.entreprise.nom,
               idEtp:item.entreprise.id,
@@ -61,7 +64,9 @@ import { useAllPub } from './hooks/query';
             })}
           else if(item.resume == 'Restaurant'){
             navigation.navigate('Restaurant', {
+              images:[item.image[1].titre, item.image[2].titre, item.image[3].titre],
               idPub:item.id,
+              idEtp:item.entreprise.id,
               produit:item.titre,
               entreprise:item.entreprise.nom,
               idEtp:item.entreprise.id,
@@ -70,7 +75,9 @@ import { useAllPub } from './hooks/query';
             })}
           else if(item.resume == 'Transport'){
             navigation.navigate('Transport', {
+              images:[item.image[1].titre, item.image[2].titre, item.image[3].titre],
               idPub:item.id,
+              idEtp:item.entreprise.id,
               produit:item.titre,
               entreprise:item.entreprise.nom,
               idEtp:item.entreprise.id,
@@ -88,7 +95,7 @@ import { useAllPub } from './hooks/query';
           <View style={AppStyles.textImage}>
             <Text style={AppStyles.produit}>{item.titre}</Text>
             <Text style={AppStyles.entreprise}>{item.entreprise.nom}</Text>
-            <Text style={AppStyles.prix}>{item.prix} Ar</Text>
+            <Text style={AppStyles.prix}>{item.prix.toLocaleString('fr-FR')} Ar</Text>
           </View>
           </View>
         </TouchableOpacity>

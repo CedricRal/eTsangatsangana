@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import design from '../src/views/Composant/couleur';
 import Button from '../src/views/Composant/bouton';
 import { useRoute } from '@react-navigation/native';
+import { formatPhoneNumber } from '../src/views/Composant/Format';
 
 export default function Mobile({navigation}) {
   const {t} = useTranslation();
@@ -65,7 +66,6 @@ export default function Mobile({navigation}) {
 const champ = () => {
     let valid = true;
     let reg_phone_number = /^(\+|00)[0-9]*$/
-    console.log('num =>',inputEnvoyeur.length)
 
     if (!value){   // l'utilisateur ne complète pas le champ de la CARTE
         valid = false
@@ -125,7 +125,7 @@ const champ = () => {
           style={styles.input}
           keyboardType={'decimal-pad'}
           editable={false}
-        >+261340425936</TextInput>
+        >{formatPhoneNumber(1340425936)}</TextInput>
 
         <View style={styles.rowName}>
             <Text style={styles.label}>{t('langues:name')}</Text><Text style={styles.inputMontant}>Rakoto Francis</Text>

@@ -127,6 +127,7 @@ export default {
     noFirstname: 'Please enter your firstname!',
     matchingPassword: 'Password does not match',
     neededPassword: 'Password must have 8 characters including capital letters, tiny letters, numbers and special characters',
+    invalidCredential: 'Please recheck your email and password.',
     //-------------------------------navigation--------------------------
     home: 'Home',
     profile: 'Profile',
@@ -148,4 +149,5 @@ export default {
     theOrder: 'The orders',
     modifProfile: 'Modification profile',
     chooseLanguage: 'Choose a language',
+    languages: 'Languages',
 }

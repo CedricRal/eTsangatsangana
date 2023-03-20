@@ -26,7 +26,7 @@ module.exports = {
                             if (!args.logo) {
                                 resolve(
                                     resolve(new Promise((resolve, reject) => {
-                                        client.query('UPDATE "Entreprises" SET ("nom", "adresse", "tel", "adr_fb", "type_service", "NIFSTAT", "slogan", "description", "date_abonnement", "type_abonnement", "mode_payement", "date_payement")=($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) WHERE id=$13 RETURNING *', [args.nom, args.adresse, args.tel, args.adr_fb, args.type_service, args.NIF_STAT, args.slogan, args.description, args.date_abonnement, args.type_abonnement, args.mode_payement, args.date_payement, args.id], function (err, result) {
+                                        client.query('UPDATE "Entreprises" SET ("nom", "adresse", "tel", "adr_fb", "type_service", "NIFSTAT", "slogan", "description", "date_abonnement", "type_abonnement", "mode_payement", "date_payement","heure_ouverture","heure_fermeture")=($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) WHERE id=$15 RETURNING *', [args.nom, args.adresse, args.tel, args.adr_fb, args.type_service, args.NIF_STAT, args.slogan, args.description, args.date_abonnement, args.type_abonnement, args.mode_payement, args.date_payement,args.heure_ouverture,args.heure_fermeture, args.id], function (err, result) {
                                             if (err) {
                                                 reject(new Error(err))
                                             }
@@ -62,7 +62,7 @@ module.exports = {
                                                             }
                                                             else {
                                                                 resolve(new Promise((resolve, reject) => {
-                                                                    client.query('UPDATE "Entreprises" SET ("nom", "logo", "adresse", "tel", "adr_fb", "type_service", "NIFSTAT", "slogan", "description", "date_abonnement", "type_abonnement", "mode_payement", "date_payement")=($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) WHERE id=$14 RETURNING *', [args.nom, results['url'], args.adresse, args.tel, args.adr_fb, args.type_service, args.NIF_STAT, args.slogan, args.description, args.date_abonnement, args.type_abonnement, args.mode_payement, args.date_payement, args.id], function (err, result) {
+                                                                    client.query('UPDATE "Entreprises" SET ("nom", "logo", "adresse", "tel", "adr_fb", "type_service", "NIFSTAT", "slogan", "description", "date_abonnement", "type_abonnement", "mode_payement", "date_payement","heure_ouverture","heure_fermeture")=($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15) WHERE id=$16 RETURNING *', [args.nom, results['url'], args.adresse, args.tel, args.adr_fb, args.type_service, args.NIF_STAT, args.slogan, args.description, args.date_abonnement, args.type_abonnement, args.mode_payement, args.date_payement,args.heure_ouverture, args.heure_fermeture, args.id], function (err, result) {
                                                                         if (err) {
                                                                             reject(new Error(err))
                                                                         }

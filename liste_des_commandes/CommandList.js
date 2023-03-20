@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions, ActivityIndicator } from 'react-native';
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 import { useCommandeList } from '../src/hooks/query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
  export default CommandList = ({navigation}) => { 
   const {t} = useTranslation();
@@ -22,8 +23,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
           alert(error);
       }
   }
-  const {commandeListData, commandeListLoading, commandeListError} = useCommandeList(userId);
-  useLayoutEffect(() => {
+  const {commandeListData, commandeListLoading, commandeListError, refetch} = useCommandeList(userId);
+  useFocusEffect(
+    React.useCallback(() => {
+      // code pour exécuter la requête Apollo Client
+      console.log('refetch data')
+      refetch();
+    }, [])
+  );
+  const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
+  
+  const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
+  
+  const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
+  useEffect(() => {
     loadId();//execute la fonction loadId dès que la page liste des commandes se lance
     if(commandeListData){
       setDataS(commandeListData.listeCommandeUsers);
@@ -33,11 +46,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
-  const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
-  
-  const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
-  
-  const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
   const datePicker = {
     mode:'date',
     locale:'fr',
@@ -59,14 +67,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
       return (<Text style={{textAlign:'center'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
   
-  
 
      // Mandray ny frappe utilisateur @ barre dia manao filtrage
   const handleSearch = (textTypedByTheUser) => { // textTypedByTheUser dia paramètre mandray ny avy @ <Textinput onChangeText={} />
         
       if (textTypedByTheUser) {
           const filteredData = fullData.filter((itemTofilter) => { // fullData dia mis an'ny Donnée rehetra
-          const itemData = itemTofilter.titre ? itemTofilter.titre.toUpperCase() : ''.toUpperCase();
+          const itemData = itemTofilter.produit.titre ? itemTofilter.produit.titre.toUpperCase() : ''.toUpperCase();
           const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
           return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
       // ra mis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
@@ -81,6 +88,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
   }
 
   const renderItem = ({item}) => {
+    const dateObj = (new Date(item.date)).toLocaleDateString();
     return (
     <View style={styles.bodyContainer}>
      <TouchableOpacity onPress={() => 
@@ -102,9 +110,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
      <View style={styles.nameAndDetailStyle}>
       <View style={styles.nameAndPriceStyle}>
         <Text style={styles.fontTextName}>{item.produit.titre}</Text>
-        <Text style={styles.fontTextPrice}>{item.qt*item.produit.prix} ar</Text>
+        <Text style={styles.fontTextPrice}>{(item.qt*item.produit.prix).toLocaleString('fr-FR')} ar</Text>
       </View>
-        <Text style={styles.fontTextDetails}>{item.date}</Text>
+        <Text style={styles.fontTextDetails}>{dateObj}</Text>
         <Text style={styles.fontTextDetails}>{item.entreprise.nom}</Text>
       </View>
       </TouchableOpacity>
@@ -113,9 +121,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     )
   }
 
-  if(commandeListLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
-  if(commandeListError) return(<View><Text>Connexion error when fetching data</Text></View>)
-  return (
+  if((commandeListLoading || fullData==[] || dataS==[]) && !commandeListError) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
+  if(commandeListData)return (
     <View>
 
                 <Modal

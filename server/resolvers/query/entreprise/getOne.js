@@ -4,14 +4,6 @@ const { GraphQLError } = require('graphql')
 module.exports = {
     getOneEntreprise(root, args, context) {
         try {
-            if (!(context.userId)) {
-                return new GraphQLError('token invalid', {
-                    extensions: {
-                        code: "token invalide"
-                    }
-                })
-            }
-            else {
                 return new Promise((resolve, reject) => {
                     client.query('SELECT status FROM "Entreprises" WHERE (id=$1)', [args.id], function (err, result) {
                         if (!(result.rows[0])) {
@@ -48,7 +40,6 @@ module.exports = {
                         }
                     })
                 })
-            }
         }
         catch (err) {
             console.log(err)

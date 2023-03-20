@@ -2,6 +2,10 @@ const {auth_user} = require('./query/user/authentification_user')
 const {profil_user} = require('./query/user/profil_user')
 const {inscri_user} = require('./mutation/user/inscription_user')
 const {create_role} = require('./mutation/user/create_roles')
+const {update_user} = require('./mutation/user/update')
+const {send_mail} = require('./mutation/user/send_mail')
+const {verification_code} = require('./mutation/user/verification_code')
+const {update_mdp} = require('./mutation/user/update_mdp')
 const {listeCommandeUsers} = require('./query/user/liste_commande')
 const {get_role} = require('./query/user/get_role')
 const {create_entreprise} = require('./mutation/entreprise/create')
@@ -54,6 +58,7 @@ const Query = {
 
 const Mutation = {
     inscri_user,
+    update_user,
     create_role,
     create_entreprise,
     delEtp,
@@ -69,7 +74,10 @@ const Mutation = {
     createImg,
     delImg,
     editImg,
-    CreatePayement
+    CreatePayement,
+    send_mail,
+    verification_code,
+    update_mdp
 }
 
 module.exports = {Query,Mutation,getOnePub,getAllPub,getAllProd,getOneProd,getAllEtp,getOneEtp,listeCmdEtp,getCmd,listeCmdUsers}

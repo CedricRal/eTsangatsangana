@@ -24,6 +24,10 @@ type role{
     id_role: String!
 }
 
+type send_mail{
+    id: String
+}
+
 type get_roles{
     description: String!
 }
@@ -49,4 +53,25 @@ type Mutation{
     id_etp: String): users!
     
     create_role(id_user: String! id_role: String!): role!
+
+    update_user(
+        id_user: String!
+        nom: String
+        prenom: String
+        num_tel: String
+        mail: String
+        adresse: String
+        photo: String
+        mdp: String
+        adr_fb : String
+        adr_gmail: String
+        id_apple : String
+        id_etp: String 
+        ): users
+
+    send_mail(mail: String!):send_mail
+
+    verification_code(id:String code: String):send_mail
+
+    update_mdp(id: String mdp:String):users
 }

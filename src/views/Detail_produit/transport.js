@@ -1,22 +1,16 @@
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Image,
-  View,
-  TouchableOpacity
-} from 'react-native'; 
+import React, { useLayoutEffect } from 'react';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, Dimensions, Image, View, TouchableOpacity, ActivityIndicator } from 'react-native'; 
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { formatPhoneNumber, formatTime } from '../Composant/Format';
+import { useOneEtp } from '../../hooks/query';
+import AppStyles from '../../../styles/App_style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Transport({navigation}) {
 
@@ -24,31 +18,47 @@ function Transport({navigation}) {
   const [index, setIndex] = React.useState(0);
   const route = useRoute();
   
+  const { oneEtpData, oneEtpLoading, oneEtpError } = useOneEtp(route.params.idEtp);
+  
   const transport = {
     name : route.params.entreprise,
     produit: route.params.produit,
     prix: route.params.prix,
-    tel : 261367364744,
+    tel : oneEtpData? oneEtpData.getOneEntreprise.tel : '',
+    desc : oneEtpData? oneEtpData.getOneEntreprise.description : '',
+    lieu : oneEtpData? oneEtpData.getOneEntreprise.adresse : '',
     direction : 'Tana - Antsirabe - Fianarantsoa',
-    desc : 'Nostrud enim dolor minim eu mollit cillum commodo magna. Sit pariatur anim in ex officia Lorem veniam non fugiat dolor. Quis in sit id mollit tempor ipsum.',
-    lieu : 'II J htg Ambodivona',
-    horaire : 'Lundi au Vendredi',
+    horaire : 'De ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_ouverture : '') + ' à ' + formatTime(oneEtpData? oneEtpData.getOneEntreprise.heure_fermeture : ''),
     promo : 'Tanà Antsirabe à 10 000ar',
-    cat_srv : 'hdtd',
+    cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   };
-  const images = [
-    require('../../assets/images/TanaAmpefy/IMG1.jpg'),
-    require('../../assets/images/TanaAmpefy/IMG2.jpg'),
-    require('../../assets/images/TanaAmpefy/IMG3.jpg'),
-  ]
+  const images = route.params.images;
 
   renderItem = ({item,index}) => {
     return (
       <View style={styles.img_container}>
-      <Image source={item} style={styles.images}/>
+      <Image source={{uri:item}} style={styles.images}/>
       </View>
     )
   };
+  const [token, setToken] = React.useState(null);
+
+  const loadToken = async() => {
+      try {
+          const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+          if(token !== null){    //condition si token existe déjà dans AsyncStorage
+            setToken(token);
+          };
+      } catch (error) {
+          alert(error);
+      }
+  };
+  useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+      console.log('Screen opened')
+      loadToken();
+  },[]);
+
+  if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
   return (  
     <>
@@ -93,23 +103,33 @@ function Transport({navigation}) {
       <View style={styles.body_container}>
         <Text style={styles.title_details}>{transport.produit}</Text>
         <Text style={styles.text_title}>{transport.name}</Text>
-        <Text style={styles.prix}>{transport.prix}</Text>
-        <Text style={styles.texte_center}>{t('langues:line')}: {transport.direction}</Text>
-        <Text style={styles.texte_center}>{t('langues:contact')}: +{transport.tel}</Text>
+        <Text style={styles.prix}>{transport.prix.toLocaleString('fr-FR')} ar</Text>
+        <Text style={styles.texte_center}>{t('langues:contact')}: {formatPhoneNumber(transport.tel)}</Text>
         <Text style={styles.texte_center}>{t('langues:seat')}: {transport.lieu}</Text>
         <Text style={styles.texte_center}>{t('langues:schedule')}: {transport.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {transport.cat_srv}</Text>
-        <Text style={styles.texte_center}>{t('langues:offer')}: {transport.promo}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {transport.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
-          type:'transport',
-          entreprise:transport.name,
-          produit:transport.produit,
-          prix:transport.prix,
-          idPub:route.params.idPub,
-          idEtp:route.params.idEtp,
-          idProduit:route.params.idProduit
-        })}/>
+        <Button title={t('langues:reserv')} onPress={() => {
+          if(token !== null){
+            navigation.navigate('detailCmd',{
+              type:'transport',
+              entreprise:transport.name,
+              produit:transport.produit,
+              prix:transport.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+          });
+          } else{
+            navigation.navigate('LogIn', {
+              type:'transport',
+              entreprise:transport.name,
+              produit:transport.produit,
+              prix:transport.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+        });}}}/>
       </View>
     </View>
     </ScrollView>
