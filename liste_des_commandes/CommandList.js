@@ -67,14 +67,13 @@ import { useFocusEffect } from '@react-navigation/native';
       return (<Text style={{textAlign:'center'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
   
-  
 
      // Mandray ny frappe utilisateur @ barre dia manao filtrage
   const handleSearch = (textTypedByTheUser) => { // textTypedByTheUser dia paramètre mandray ny avy @ <Textinput onChangeText={} />
         
       if (textTypedByTheUser) {
           const filteredData = fullData.filter((itemTofilter) => { // fullData dia mis an'ny Donnée rehetra
-          const itemData = itemTofilter.titre ? itemTofilter.titre.toUpperCase() : ''.toUpperCase();
+          const itemData = itemTofilter.produit.titre ? itemTofilter.produit.titre.toUpperCase() : ''.toUpperCase();
           const formattedQuery = textTypedByTheUser.toUpperCase(); // Ilay zvtr frappen utilisateur ef vo-formaty(vovadika upperCase)
           return itemData.indexOf(formattedQuery) > -1 // indexOf dia mireturn -1 ra ohtr ts mahita occurence iz 
       // ra mis occurence dia X.indexOf(Y) = 0+ ka mi-return TRUE satria 0+ > -1 
