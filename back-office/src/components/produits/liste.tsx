@@ -8,6 +8,17 @@ import { useState } from 'react'
 import { Modif } from './modification'
 import { regexNum } from '../../assets/regex/regex'
 
+const détails = (eventKey: any) => {
+  const id = localStorage.getItem("idProd")
+  if (id != null) {
+    localStorage.removeItem("idProd")
+    localStorage.setItem("idProd", eventKey)
+  }
+  else {
+    localStorage.setItem("idProd", eventKey)
+  }
+}
+
 export const ListeProduit = ()=>{
     const id = localStorage.getItem("idEtp")
     const {data,error,loading} = useQuery<GetAllProduitsResponse>(
@@ -112,8 +123,8 @@ export const ListeProduit = ()=>{
             return(
               <Col key={produit.id}>
                 <Card border="success" style={{ width: '100%', height: '99%' }}>
-                  <Nav>
-                    <Nav.Link to='/entreprise/détails' as={NavLink} style={{ width: "100%" }} eventKey={produit.id}>
+                  <Nav onSelect={détails}>
+                    <Nav.Link to='/produits/détails' as={NavLink} style={{ width: "100%" }} eventKey={produit.id}>
                       <Card.Img variant="top" src={produit.image} width={250} height={220} />
                     </Nav.Link>
                   </Nav>
