@@ -133,7 +133,7 @@ function LogIn({navigation}) {
                     <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <View style={styles.circle}>
-                        <Icon name='times' size={35} color={design.Vert} style={styles.check}/>
+                        <Icon name='times' size={35} color='red' style={styles.check}/>
                         </View>
                         <Text style={styles.modalText}>{t('langues:invalidCredential')}</Text>
                         <TouchableOpacity
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
         height:52,
         borderWidth:4,
         borderRadius:45,
-        borderColor:design.Vert
+        borderColor:'red'
     },
     check:{
         alignSelf:'center',
