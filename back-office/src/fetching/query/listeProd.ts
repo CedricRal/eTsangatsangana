@@ -5,6 +5,7 @@ export type produits = {
     id: string
     titre: string
     resume: string
+    description: string
     qt: number
     prix: number
     livraison: string
@@ -34,6 +35,7 @@ export const LISTE_PROD = gql`
                 id
                 titre
                 resume
+                description
                 qt
                 prix
                 livraison

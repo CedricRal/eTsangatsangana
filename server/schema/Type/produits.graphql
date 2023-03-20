@@ -59,6 +59,7 @@ type Mutation{
 
     updateProduit(
         id: String!
+        image:String
         titre: String!
         resume: String!
         description: String
@@ -66,6 +67,7 @@ type Mutation{
         prix: Int!
         livraison: String
         place_dispo: Int
+        status: Int
         id_etp: String!
     ):produits
 }
