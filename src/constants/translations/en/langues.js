@@ -128,6 +128,7 @@ export default {
     matchingPassword: 'Password does not match',
     neededPassword: 'Password must have 8 characters including capital letters, tiny letters, numbers and special characters',
     invalidCredential: 'Please recheck your email and password.',
+    invalidCode:'Your code has expired. Please resend the code',
     //-------------------------------navigation--------------------------
     home: 'Home',
     profile: 'Profile',

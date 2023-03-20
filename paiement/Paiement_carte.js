@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
 import design from '../src/views/Composant/couleur';
 import { useRoute } from '@react-navigation/native';
+import { SelectList } from 'react-native-dropdown-select-list';
 
 export default function Carte({navigation}) {
   const {t} = useTranslation();
@@ -344,18 +345,19 @@ if (!value){                                                // l'utilisateur ne 
         <Text style={styles.label}>{t('langues:country')}</Text>
         <Dropdown
           style={[styles.dropdown, isFocus && { borderColor: design.Vert }]}
-          containerStyle={{top:'45%', marginBottom: '30%', backgroundColor: 'whitesmoke', height: '20%'}}
+          containerStyle={{ backgroundColor: 'whitesmoke'}}
 
           iconStyle={{marginRight: '1%', width: '10%'}}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+          dropdownPosition='bottom'
           data={data}
-          maxHeight={300}
+          maxHeight={150}
           labelField="label"
           valueField="value"
           placeholder={!isFocus ? '' : ''}
           value={value}
+          inverted={false}
           onFocus={() => {handleCountryError(null),setIsFocus(true)}}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
@@ -490,6 +492,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderWidth: 1,
+    marginBottom:50
   },
 
   placeholderStyle: {
@@ -502,7 +505,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: '25%',
     alignSelf: 'center',
-    marginBottom: '10%',
+    marginBottom: '20%',
     marginTop: '10%',
   },
   slash: {

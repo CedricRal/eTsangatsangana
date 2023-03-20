@@ -58,8 +58,9 @@ function CodeRecup({navigation}) {
             })
         },
         onError: (error) => {
-            console.log(JSON.stringify(error,null,2));
+            console.log(JSON.stringify(error.graphQLErrors[0].message,null,2));
             setLoading2(false);
+            setModalVisible2(!modalVisible2);
         },
         variables: {id:idCode, code:concatenatedCode}
     });
@@ -72,6 +73,7 @@ function CodeRecup({navigation}) {
     const thirdInput = useRef();
 
     const [modalVisible, setModalVisible] = useState(true);
+    const [modalVisible2, setModalVisible2] = useState(false);
 
     const validate = () => { //fonction de validation des information
         Keyboard.dismiss(); //ferme le clavier quand on appui sur le boutton 'valider'
@@ -117,6 +119,26 @@ function CodeRecup({navigation}) {
                         <TouchableOpacity
                         style={[styles.button, styles.buttonClose]}
                         onPress={() => setModalVisible(!modalVisible)}
+                        >
+                        <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible2}
+                >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.circleRed}>
+                        <Icon name='times' size={35} color='red' style={styles.check}/>
+                        </View>
+                        <Text style={styles.modalText}>{t('langues:invalidCode')}</Text>
+                        <TouchableOpacity
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible2(!modalVisible2)}
                         >
                         <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
@@ -313,6 +335,13 @@ const styles = StyleSheet.create({
         borderRadius:45,
         borderColor:design.Vert
     },
+    circleRed: {
+      width:52,
+      height:52,
+      borderWidth:4,
+      borderRadius:45,
+      borderColor:'red'
+  },
     check:{
         alignSelf:'center',
         marginTop:'10%'
