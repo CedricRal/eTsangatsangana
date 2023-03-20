@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions, ActivityIndicator } from 'react-native';
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
@@ -31,7 +31,12 @@ import { useFocusEffect } from '@react-navigation/native';
       refetch();
     }, [])
   );
-  useLayoutEffect(() => {
+  const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
+  
+  const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
+  
+  const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
+  useEffect(() => {
     loadId();//execute la fonction loadId dès que la page liste des commandes se lance
     if(commandeListData){
       setDataS(commandeListData.listeCommandeUsers);
@@ -41,11 +46,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
-  const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
-  
-  const [query, setQuery] = useState(''); // ilay frappern user @ barre de recherche (String)
-  
-  const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
   const datePicker = {
     mode:'date',
     locale:'fr',
@@ -90,7 +90,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
   const renderItem = ({item}) => {
     const dateObj = (new Date(item.date)).toLocaleDateString();
-    console.log('date =>' ,dateObj)
     return (
     <View style={styles.bodyContainer}>
      <TouchableOpacity onPress={() => 
@@ -123,8 +122,8 @@ import { useFocusEffect } from '@react-navigation/native';
     )
   }
 
-  if(commandeListLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
-  return (
+  if((commandeListLoading || fullData==[] || dataS==[]) && !commandeListError) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
+  if(commandeListData)return (
     <View>
 
                 <Modal

@@ -1,7 +1,6 @@
 import React, {useLayoutEffect} from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Modal, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import styles from '../details_des_commandes/styles';
 import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
 import { useMutation } from '@apollo/client';
@@ -68,26 +67,26 @@ export default ResumeCommande = ({navigation}) => {
     if(loading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor:design.Blanc}}>
             <Modal
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
                 >
-                    <View style={style.centeredView}>
-                    <View style={style.modalView}>
-                        <View style={style.circle}>
-                        <Icon name='check' size={35} color={design.Vert} style={style.check}/>
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.circle}>
+                        <Icon name='check' size={35} color={design.Vert} style={styles.check}/>
                         </View>
-                        <Text style={style.modalText}>{t('langues:orderSucced')}</Text>
+                        <Text style={styles.modalText}>{t('langues:orderSucced')}</Text>
                         <TouchableOpacity
-                        style={[style.button, style.buttonClose]}
+                        style={[styles.button, styles.buttonClose]}
                         onPress={() => {
                             setModalVisible(!modalVisible);
                             navigation.popToTop();
                         }}
                         >
-                        <Text style={style.textStyle}>Ok</Text>
+                        <Text style={styles.textStyle}>Ok</Text>
                         </TouchableOpacity>
                     </View>
                     </View>
@@ -98,23 +97,24 @@ export default ResumeCommande = ({navigation}) => {
             
             <Text style={styles.text}>{t('langues:yourOrder')}</Text>
             
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:name')}</Text>: {cmd.nom} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:phone')}</Text>: {cmd.tel}</Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:order')}</Text>: {cmd.commande}</Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:company')}</Text>: {cmd.entreprise} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{(cmd.type=='hotel')? t('langues:nb') : (cmd.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}</Text>: {cmd.nombre} </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:price')}</Text>: {cmd.prix.toLocaleString('fr-FR')} ariary </Text>
-            <Text style={styles.field_command}><Text style={styles.label}>{t('langues:mod')}</Text>: {cmd.modePaiement} </Text>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:name')}: </Text><Text style={styles.label}>{cmd.nom} </Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{cmd.tel}</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:order')}: </Text><Text style={styles.label}>{cmd.commande}</Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:company')}: </Text><Text style={styles.label}>{cmd.entreprise} </Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{(cmd.type=='hotel')? t('langues:nb') : (cmd.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}: </Text><Text style={styles.label}>{cmd.nombre} </Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:price')}: </Text><Text style={styles.label}>{cmd.prix.toLocaleString('fr-FR')} ariary </Text></View>
+            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:mod')}: </Text><Text style={styles.label}>{cmd.modePaiement} </Text></View>
 
-            
+            <View style={styles.buttonValider}>
             <Button title='Valider ma commande' onPress={() => { create_commande()}}/>
-            
+            </View>
+
         </View>
         </ScrollView>
 
     )
 }
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: "center",
@@ -171,5 +171,43 @@ const style = StyleSheet.create({
     check:{
         alignSelf:'center',
         marginTop:'10%'
-    }
+    },
+    text: {
+        color:design.Marron,
+        fontSize: 28,
+        fontWeight:'bold',
+        textAlign:'center',
+        fontFamily: design.police,
+        marginVertical:'10%'
+    },
+    field_command : {
+        marginLeft: '3%',
+        marginBottom: '5%',
+        fontSize: 16,
+        flex: 1,
+        color:'black',
+    },
+    label: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginRight: '3%',
+        textAlign:'right',
+        flex: 1,
+        color:'black',
+    },
+    aligner: {
+        flexDirection:'row',
+        flex: 1,
+        marginVertical:4
+    },
+    container: {
+        flex:1,
+        backgroundColor: design.Blanc,
+        position:'relative',
+    },
+    buttonValider: {
+        marginTop: '5%',
+        marginBottom: '10%',
+        alignSelf: 'center',
+    },
 })
