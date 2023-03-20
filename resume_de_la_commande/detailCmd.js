@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Button from '../src/views/Composant/bouton';
+import design from '../src/views/Composant/couleur';
 import { SelectList } from 'react-native-dropdown-select-list';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useProfil } from '../src/hooks/query';
@@ -64,20 +65,23 @@ export default DetailCmd = ({navigation}) => {
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:phone')}: </Text><Text style={styles.label}>{formatPhoneNumber(cmd.tel)}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:order')}: </Text><Text style={styles.label}>{cmd.commande}</Text></View>
             <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:company')}: </Text><Text style={styles.label}>{cmd.entreprise}</Text></View>
-            <View style={[styles.field_command,{flexDirection:'row', flex:1}]}>
-            <Text style={styles.fieldOther}>{(route.params.type=='hotel')? t('langues:nb') : (route.params.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}: </Text>
+            <View style={styles.aligner}>
+            <Text style={styles.field_command}>{(route.params.type=='hotel')? t('langues:nb') : (route.params.type=='restaurant')? t('langues:nbOrder') : t('langues:nbPlace')}: </Text>
+            <View style={styles.selectContainer}>
             <SelectList 
                 setSelected={(val) => {setSelected(val); setTotal(val*cmd.prix)}}
                 boxStyles={styles.rightDropdown}
-                dropdownStyles={{width:80}}
+                dropdownStyles={{width:80, position:'absolute', backgroundColor:'white', zIndex:200, marginTop:40 }}
                 dropdownTextStyles={{alignSelf:'center'}}
                 placeholder='0'
-                maxHeight={100}
+                maxHeight={145}
                 search={false}
                 data={nbr} 
                 save="value"
-            /></View>
-            <View style={styles.aligner}><Text style={styles.field_command}>{t('langues:unitPrice')}:</Text><Text style={styles.label}>{cmd.prix.toLocaleString('fr-FR')} ariary</Text></View> 
+            />
+            </View>
+            </View>
+            <View style={[styles.aligner, {marginTop:-126}]}><Text style={styles.field_command}>{t('langues:unitPrice')}:</Text><Text style={styles.label}>{cmd.prix.toLocaleString('fr-FR')} ariary</Text></View> 
             <View style={styles.aligner}><Text style={styles.field_command}>Total: </Text><Text style={styles.label}>{total.toLocaleString('fr-FR')} ariary</Text></View>
             
             <View style={styles.button}>
@@ -89,6 +93,11 @@ export default DetailCmd = ({navigation}) => {
     )
 }
 const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        backgroundColor: design.Blanc,
+        position:'relative',
+    },
     label: {
         fontWeight: 'bold',
         fontSize: 16,
@@ -101,18 +110,18 @@ const styles = StyleSheet.create({
     text: {
         marginTop: '15%',
         textAlign: 'center',
-        fontSize: 28,
+        fontSize: 26,
         marginBottom: '10%',
-        color:'black',
+        color:design.Marron,
     },
     rightDropdown: {
         width:80,
         height:42,
         marginRight:'8%',
-        alignItems:'flex-end',
+        alignItems:'center',
         borderWidth:1,
         borderColor:'black',
-        flex:1
+        zIndex:150
     },
     button: {
         marginTop: '5%',
@@ -126,6 +135,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flex: 1,
         color:'black',
+        height:30,
+        zIndex:50
     },
     justifySpaceBetween: {
         justifyContent: 'space-between',
@@ -140,5 +151,11 @@ const styles = StyleSheet.create({
     aligner: {
         flexDirection:'row',
         flex: 1,
-    }
+    },
+    selectContainer: {
+        position: 'relative',
+        flex: 0,
+        height:190,
+        zIndex:200
+    },
 })

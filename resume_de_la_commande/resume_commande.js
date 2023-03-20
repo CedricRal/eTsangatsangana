@@ -1,5 +1,5 @@
 import React, {useLayoutEffect} from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Modal, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import styles from '../details_des_commandes/styles';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,8 @@ import { useMutation } from '@apollo/client';
 import { CREATE_COMMANDE } from '../src/hooks/mutation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import design from '../src/views/Composant/couleur'
+import design from '../src/views/Composant/couleur';
+import AppStyles from '../styles/App_style';
 
 export default ResumeCommande = ({navigation}) => {
     const {t} = useTranslation();
@@ -46,6 +47,9 @@ export default ResumeCommande = ({navigation}) => {
         type:route.params.information.type
     };
     const [ create_commande, {data, loading, error } ] = useMutation(CREATE_COMMANDE, {
+        onCompleted: () => {
+            setModalVisible(!modalVisible);
+        },
         variables: {
             qt:cmd.nombre,
             livraison:'',
@@ -60,6 +64,8 @@ export default ResumeCommande = ({navigation}) => {
     
     const nbr = cmd.nombre
     console.log(JSON.stringify(error, null, 2))
+
+    if(loading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
     return (
         <ScrollView>
@@ -78,7 +84,7 @@ export default ResumeCommande = ({navigation}) => {
                         style={[style.button, style.buttonClose]}
                         onPress={() => {
                             setModalVisible(!modalVisible);
-                            if(!loading)navigation.popToTop()
+                            navigation.popToTop();
                         }}
                         >
                         <Text style={style.textStyle}>Ok</Text>
@@ -101,7 +107,7 @@ export default ResumeCommande = ({navigation}) => {
             <Text style={styles.field_command}><Text style={styles.label}>{t('langues:mod')}</Text>: {cmd.modePaiement} </Text>
 
             
-            <Button title='Valider ma commande' onPress={() => {setModalVisible(!modalVisible); create_commande()}}/>
+            <Button title='Valider ma commande' onPress={() => { create_commande()}}/>
             
         </View>
         </ScrollView>

@@ -1,15 +1,6 @@
 
-import React, {useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator
-} from 'react-native'; 
+import React, {useState, useLayoutEffect} from 'react';
+import { ScrollView, StyleSheet, Text, Image, View, Dimensions, TouchableOpacity,  ActivityIndicator } from 'react-native'; 
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
@@ -19,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { formatPhoneNumber, formatTime } from '../Composant/Format';
 import { useOneEtp } from '../../hooks/query';
 import AppStyles from '../../../styles/App_style';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Hotel({navigation}) {
 
@@ -50,6 +42,23 @@ function Hotel({navigation}) {
       </View>
     )
   };
+
+  const [token, setToken] = React.useState(null);
+
+  const loadToken = async() => {
+      try {
+          const token = await AsyncStorage.getItem("myToken");    //prendre myToken dans AsyncStorage
+          if(token !== null){    //condition si token existe déjà dans AsyncStorage
+            setToken(token);
+          };
+      } catch (error) {
+          alert(error);
+      }
+  };
+  useLayoutEffect(() => {     //execute la fonction loadToken dès que la page LogIn se lance
+      console.log('Screen opened')
+      loadToken();
+  },[]);
 
   if(oneEtpLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
 
@@ -101,15 +110,27 @@ function Hotel({navigation}) {
         <Text style={styles.texte_center}>{t('langues:schedule')}: {hotel.horaire}</Text>
         <Text style={styles.texte_center}>{t('langues:category')}: {hotel.cat_srv}</Text>
         <Text style={styles.description}> {t('langues:description')}:    {hotel.desc}</Text>
-        <Button title={t('langues:reserv')} onPress={() => navigation.navigate('LogIn', {
-          type:'hotel',
-          entreprise:hotel.name,
-          produit:hotel.produit,
-          prix:hotel.prix,
-          idPub:route.params.idPub,
-          idEtp:route.params.idEtp,
-          idProduit:route.params.idProduit
-        })}/>
+        <Button title={t('langues:reserv')} onPress={() => {
+          if(token !== null){
+            navigation.navigate('detailCmd',{
+              type:'hotel',
+              entreprise:hotel.name,
+              produit:hotel.produit,
+              prix:hotel.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+          });
+          } else{
+            navigation.navigate('LogIn', {
+              type:'hotel',
+              entreprise:hotel.name,
+              produit:hotel.produit,
+              prix:hotel.prix,
+              idPub:route.params.idPub,
+              idEtp:route.params.idEtp,
+              idProduit:route.params.idProduit
+        });}}}/>
       </View>
     </View>
     </ScrollView>

@@ -58,7 +58,8 @@ function CodeRecup({navigation}) {
             })
         },
         onError: (error) => {
-            console.log(JSON.stringify(error,null,2))
+            console.log(JSON.stringify(error,null,2));
+            setLoading2(false);
         },
         variables: {id:idCode, code:concatenatedCode}
     });
