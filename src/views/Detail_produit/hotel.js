@@ -32,7 +32,7 @@ function Hotel({navigation}) {
     promo : 'Chambre classique à 280 000ar',
     cat_srv : oneEtpData? oneEtpData.getOneEntreprise.type_service : '',
   }
-  console.log(oneEtpData, oneEtpLoading, oneEtpError)
+  console.log(oneEtpData, oneEtpLoading, JSON.stringify(oneEtpError, null, 2))
   const images = route.params.images;
 
   renderItem = ({item,index}) => {

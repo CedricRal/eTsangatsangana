@@ -162,7 +162,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'https://e4c7-154-126-11-54.eu.ngrok.io'
+    uri: 'https://3ef5-154-120-163-38.ap.ngrok.io' //url endpoint graphql ici
   });
   console.log(SV_ENDPOINT);
 
