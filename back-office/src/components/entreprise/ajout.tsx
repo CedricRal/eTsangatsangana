@@ -1,14 +1,15 @@
-import { Form, InputGroup, Button, Container, Nav } from 'react-bootstrap'
+import { Form, InputGroup, Button, Container, Nav, Spinner, Modal } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { regexNum, regexMail } from '../../assets/regex/regex'
 import { createEtpData, CREATE_ENTREPRISE, CreateEntrepriseVariables } from '../../fetching/mutation/AjoutEtp'
 import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import {PopUp} from './pop-up'
 
 export const AjoutEtp = () => {
     const { refetch } = useQuery<GetAllEntrepriseResponse>(
-        GET_ALL_ENTREPRISE_QUERY,                         
+        GET_ALL_ENTREPRISE_QUERY,
         {
             variables: { page: 0 },
             pollInterval: 200
@@ -54,7 +55,10 @@ export const AjoutEtp = () => {
         await create_entreprise({
             variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin: nomAdmin, prenomAdmin: prenomAdmin, num_telAdmin: numAdmin, mailAdmin: mailAdmin, adresseAdmin: adresseAdmin, mdpAdmin: mdpAdmin }
         });
-        setNom("")
+        
+        if (!loading){
+            navigate('/entreprise');
+            setNom("")
         setNum("")
         setLogo("")
         setAdresse("")
@@ -69,11 +73,15 @@ export const AjoutEtp = () => {
         setAdresseAdmin('')
         setMdpAdmin('')
         setConfMdp('')
-        navigate('/entreprise');
+        }
     }
 
     const [voirMdp, setVoirMdp] = useState(false)
+    const [voirError, setVoirError] = useState(true)
+    const [messageError, setMessageError] = useState('')
     const [voirConfMdp, setVoirConfMdp] = useState(false)
+    const [isValidMailAdmin, setIsValidMailAdmin] = useState(true);
+    const [isValidMdp, setIsValidMdp] = useState(true);
     const [validated, setValidated] = useState(false)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
@@ -162,21 +170,60 @@ export const AjoutEtp = () => {
             setNumAdmin(event.target.value);
         }
     }
-    const onChangeMailAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setMailAdmin(event.target.value)
+    function onChangeMailAdmin(event: React.ChangeEvent<HTMLInputElement>) {
+        const value = event.target.value;
+        const isValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+        setMailAdmin(value);
+        setIsValidMailAdmin(isValid);
     }
+
     const onChangeAdresseAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAdresseAdmin(event.target.value)
     }
+
     const onChangeMdpAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setMdpAdmin(event.target.value)
     }
+
     const onChangeConfMdpAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value == mdpAdmin) {
+            setIsValidMdp(false)
+        }
+        else {
+            setIsValidMdp(true)
+        }
         setConfMdp(event.target.value)
     }
-    if (error) { return <p>{error.message}</p> }
-    if (loading) { return <p>Load...</p> }
-    
+
+    if (loading){
+        return (<>Loading...</>)
+    }
+    const onHideError = ()=>{
+        setVoirError(false)
+        navigate('/entreprise');
+    }
+    if (error) {
+        return (
+        <div style={{ fontFamily: "roboto" }}>
+            <Modal
+                show={voirError}
+                onHide={onHideError}
+                size="sm"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Error
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ fontSize: "medium" }}>
+                    {error.message} <i style={{ color: '#44751e' }} className="bi bi-check-lg"></i>
+                </Modal.Body>
+            </Modal>
+        </div>)
+    }
+
+
     return (
         <div style={{ fontFamily: "Roboto", width: "80vh" }} >
             <Container fluid className="justify-content-center" style={{ width: "100%" }}>
@@ -186,7 +233,7 @@ export const AjoutEtp = () => {
                     </p>
                 </Nav.Link>
                 <p>
-                    <div className='text-center' style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e"}}><b>Ajout entreprise</b></div>
+                    <div className='text-center' style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Ajout entreprise</b></div>
                 </p>
                 <Form noValidate validated={validated} onSubmit={Ajout}>
                     <Form.Group className='mb-3'>
@@ -297,8 +344,19 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='mailAdm'>
                             <b>E-mail</b>
                         </Form.Label>
-                        <Form.Control id='mailAdm' required type="mail" placeholder="email@domaine.com" value={mailAdmin} onChange={onChangeMailAdmin} />
-                        <Form.Control.Feedback type="invalid">E-mail de l'admin obligatoire</Form.Control.Feedback>
+                        <Form.Control
+                            pattern='^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+                            id='mailAdm'
+                            required
+                            type="email"
+                            placeholder="email@domaine.com"
+                            value={mailAdmin}
+                            onChange={onChangeMailAdmin}
+                            isInvalid={!isValidMailAdmin}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Veuillez saisir une adresse e-mail valide
+                        </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='adrAdm'>
@@ -313,7 +371,7 @@ export const AjoutEtp = () => {
                     <InputGroup className='mb-3'>
                         <Form.Control required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
                         <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirMdp(!voirMdp) }}>
-                        {(voirMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                            {(voirMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
                         </Button>
                         <Form.Control.Feedback type="invalid">Mot de passe de l'admin obligatoire</Form.Control.Feedback>
                     </InputGroup>
@@ -330,17 +388,17 @@ export const AjoutEtp = () => {
                             aria-describedby="basic-addon2"
                             value={confMdp}
                             onChange={onChangeConfMdpAdmin}
+                            isInvalid={isValidMdp}
                         />
                         <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirConfMdp(!voirConfMdp) }}>
                             {(voirConfMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
-                            
                         </Button>
+                        <Form.Control.Feedback type="invalid">Confirmation mot de passe invalide</Form.Control.Feedback>
                     </InputGroup>
                     <div>
                         <Nav.Link href="/entreprise" style={{ display: "inline" }}>
                             <Button variant="success" style={{ height: "40px", color: "#ffffff" }} type='submit'>Ajouter</Button>{' '}
                         </Nav.Link>
-                        
                         <Nav.Link href="/entreprise" style={{ display: "inline" }}>
                             <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Annuler</Button>
                         </Nav.Link>

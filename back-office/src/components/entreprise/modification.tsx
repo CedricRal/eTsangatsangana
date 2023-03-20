@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { Modal, Button, Form, InputGroup, Spinner } from "react-bootstrap"
 import { UPDATE_ETP, UpdateEtpData, UpdateEtpVar } from '../../fetching/mutation/updateEtp'
 import { useMutation, useQuery } from "@apollo/client";
-import { Valide } from './pop-up'
 import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 import { regexNum } from '../../assets/regex/regex'
 

@@ -2,7 +2,6 @@ import { Modal, Button, Form, Spinner } from "react-bootstrap"
 import { useState } from "react"
 import { useMutation, useQuery } from '@apollo/client'
 import { DelEtpData, DEL_ETP, DelEtpVar } from "../../fetching/mutation/supprEtp"
-import { Valide } from './pop-up'
 import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 
 type propsEtp = {

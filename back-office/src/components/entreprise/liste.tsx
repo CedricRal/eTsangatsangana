@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { Card, Row, Col, Button, Spinner, Nav } from "react-bootstrap"
 import { Suppr } from './suppression'
-import { Valide } from './pop-up'
 import { Modif } from './modification'
 import { gql, useQuery } from '@apollo/client'
 import { Détails } from '../entreprise/détails'
