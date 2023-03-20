@@ -1,20 +1,19 @@
 import { NavLink} from 'react-router-dom'
 import { Nav, Navbar, Container, Button, Form } from "react-bootstrap"
-import { Liste } from "./liste"
-import { data } from '../../data/entreprise'
 import React, { ReactNode, useState } from "react"
+
 
 interface props {
     children: ReactNode
 }
 
-export const Entreprise = ({ children }: props) => {
+export const Produits = ({ children }: props) => {
     return (
         <>
-            <div style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }} className="text-center"><b>Liste des entreprises</b></div>
+            <div style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }} className="text-center"><b>Liste des produits</b></div>
             <Navbar>
-                <Navbar.Brand style={{paddingLeft:'2.5%',paddingBottom:'20px'}}>
-                    <Nav.Link to="/entreprise/ajouter" as={NavLink} className="text-center" style={{ height: "25px", color: "#44751e" }}>
+                <Navbar.Brand>
+                    <Nav.Link to="/produits/ajouter" as={NavLink} className="text-center" style={{ height: "25px", color: "#44751e" }}>
                         <Button variant="outline-success">
                             <i className="bi bi-plus-circle-fill"></i>  Ajouter
                         </Button>

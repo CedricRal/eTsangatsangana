@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react"
 import { Link, useLocation, NavLink } from 'react-router-dom'
 import { Nav, Navbar, Container, Button, Offcanvas, Image } from "react-bootstrap"
-import logo from '../assets/logo/logo etsangatsangana.png'
+import logo from '../assets/logo/ET_0F.png'
 import abonnement from '../assets/logo/abonnement.png'
 import campagne_push from '../assets/logo/campagne_push.png'
 import entreprise from '../assets/logo/entreprise.png'
@@ -40,15 +40,15 @@ const Home = ({ children }: props) => {
   ]
   return (
     <div style={{ display: "flex", fontFamily: "Roboto" }}>
-      <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top>
+      <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top style={{height:'85px'}}>
         <Nav className="bg-light">
-          <Nav.Link onClick={toggle} className="bg-light">
-            <i className="bi bi-list" style={{ fontSize: "3em", color: "#6b3b1e" }}></i>
+          <Nav.Link onClick={toggle} style={{backgroundColor:'white'}}>
+            <i className="bi bi-list" style={{ fontSize: "2.5em", color: "#6b3b1e", backgroundColor:'white' }}></i>
           </Nav.Link>
         </Nav>
         <Container fluid className="c-secondary">
           <Navbar.Brand >
-            <Image src={logo} width={100} height={100} alt="User icon" />
+            <Image src={logo} width={70} height={70} alt="User icon" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
@@ -68,7 +68,7 @@ const Home = ({ children }: props) => {
           ))
         }
       </div>
-      <Container fluid style={{ display: "flex", margin: isClose ? "130px 0px 0px 80px" : "130px 0px 0px 200px", width: isClose ? "100%" : "100%" }}>
+      <Container fluid style={{ display: "flex", margin: isClose ? "105px 0px 0px 80px" : "105px 0px 0px 215px", width: isClose ? "100%" : "100%" }}>
         <main style={{ width: "100%" }}>{children}</main>
       </Container>
     </div>

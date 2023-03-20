@@ -6,77 +6,30 @@ import { Valide } from './pop-up'
 import { Modif } from './modification'
 import { gql, useQuery } from '@apollo/client'
 import { Détails } from '../entreprise/détails'
-
-type GetOneEtp = {
-  id: string;
-  nom: string;
-  logo: string;
-  adresse: string;
-  tel: string;
-  adr_fb: string;
-  type_service: string;
-  NIF_STAT: string;
-  slogan: string;
-  description: string;
-  date_abonnement: Date;
-  type_abonnement: string;
-  mode_payement: string;
-  date_payement: Date;
-  status: number;
-  users: string
-};
-
-type GetAllEtp = {
-  nbr_page: number;
-  items: GetOneEtp[];
-};
-
-type GetAllEntrepriseResponse = {
-  getAllEntreprise: GetAllEtp;
-};
-
-
-const GET_ALL_ENTREPRISE_QUERY = gql`
-  query GetAllEntreprise($page: Int!) {
-    getAllEntreprise(page: $page) {
-      nbr_page
-      items {
-        id
-        nom
-        logo
-        adresse
-        tel
-        adr_fb
-        type_service
-        NIF_STAT
-        slogan
-        description
-        date_abonnement
-        type_abonnement
-        mode_payement
-        date_payement
-        status
-        users
-      }
-    }
-  }
-`;
-
+import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
+import { regexNum } from '../../assets/regex/regex'
 
 const détails = (eventKey: any) => {
-  const id: string = eventKey
-  localStorage.setItem("idEtp", eventKey)
-
+  const id = localStorage.getItem("idEtp")
+  if (id != null) {
+    localStorage.removeItem("idEtp")
+    localStorage.setItem("idEtp", eventKey)
+  }
+  else {
+    localStorage.setItem("idEtp", eventKey)
+  }
 }
+
 export const Liste = () => {
-  const { loading, error, data } = useQuery<GetAllEntrepriseResponse>(
+  const { loading, error, data, refetch } = useQuery<GetAllEntrepriseResponse>(
     GET_ALL_ENTREPRISE_QUERY,
     {
       variables: { page: 0 },
-    }
+      pollInterval: 200
+    },
   );
 
-  const entreprises = data?.getAllEntreprise.items;
+  const entreprises: Array<GetOneEtp> = data?.getAllEntreprise.items || [];
   const [photoTmp, setPhotoTmp] = useState('')
   const [id, setId] = useState('')
   const [num, setNum] = useState('')
@@ -90,30 +43,28 @@ export const Liste = () => {
   const [descriprion, setDescription] = useState('')
   const [abonnement, setAbonnement] = useState('')
   const [showModal, setShowModal] = useState(false)
-  const [showToast, setShowToast] = useState(false)
+  const [showToast, setShowToast] = useState(true)
   const [showModif, setShowModif] = useState(false)
   const [image, setImage] = useState('')
+
   const onChangeNom = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNom(event.target.value)
   }
 
   const onChangeNum = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const regex = /^[0-9\b]+$/;
-    if (regex.test(event.target.value)) {
+    if (regexNum.test(event.target.value)) {
       setNum(event.target.value);
     }
   }
 
   const onChangeLogo = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogo(event.target.value)
-    console.log(logo)
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setImage(reader.result as string);
-        console.log(reader.result)
       };
     }
   };
@@ -148,11 +99,13 @@ export const Liste = () => {
 
   const modif = (event: any) => {
     event.preventDefault();
+    setShowToast(true)
     setShowModif(true)
     setNom(event.target.id)
     if (entreprises) {
       entreprises.map((entreprise) => {
         if (entreprise.id == event.target.id) {
+          setLogo('')
           setPhotoTmp(entreprise.logo)
           setId(entreprise.id)
           setNum(entreprise.tel)
@@ -172,41 +125,46 @@ export const Liste = () => {
     event.preventDefault();
     setShowModal(true)
     setId(event.target.id)
+    console.log(event.target.id);
+    
   }
 
   if (loading) return (<div className="center"><Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
-  </Spinner></div>)
+  </Spinner></div>
+  )
+
   if (error) return <p>Error: {error.message}</p>;
   return (
-    <div style={{ fontFamily: "roboto" }}>
+    <div style={{ fontFamily: "roboto"}}>
       <Row xs={1} mg={2} lg={3} className='g-4'>
-        {entreprises &&(
-            entreprises.map((entreprise)=>{
-            return(
+        {entreprises && (
+          entreprises.map((entreprise) => {
+            return (
               <Col key={entreprise.id}>
-                <Card border="success" style={{ width: '22rem'}}>
-                  <Nav>
-                    <Nav.Link to='/entreprise/détails' as={NavLink} style={{width:"100%"}}>
-                      <Card.Img variant="top" src={entreprise.logo} width={250} height={250}/>
+                <Card border="success" style={{ width: '100%', height: '99%' }}>
+                  <Nav onSelect={détails}>
+                    <Nav.Link to='/entreprise/détails' as={NavLink} style={{ width: "100%" }} eventKey={entreprise.id}>
+                      <Card.Img variant="top" src={entreprise.logo} width={250} height={220} />
                     </Nav.Link>
                   </Nav>
-                    <Card.Body>
-                        <Card.Title>{entreprise.nom}</Card.Title>
-                        <Card.Text>{entreprise.description}</Card.Text>
-                            <span> <Button id={entreprise.id} variant="success" onClick={modif}>Modifier</Button> </span>
-                            <span> <Button id={entreprise.id} variant="success" onClick={suppr}>Supprimer</Button> </span>
-                    </Card.Body>
+                  <Card.Body>
+                    <Card.Title>{entreprise.nom}</Card.Title>
+                    <Card.Text style={{ width: '100%', height: '25%', overflow: 'auto' }}>
+                      {entreprise.slogan}
+                    </Card.Text>
+                    <span> <Button id={entreprise.id} variant="success" onClick={modif}>Modifier</Button> </span>
+                    <span> <Button id={entreprise.id} variant="success" onClick={suppr}>Supprimer</Button> </span>
+                  </Card.Body>
                 </Card>
               </Col>
             )
-        })
+          })
         )
-      } 
+        }
       </Row>
-  <Suppr show={showModal} onHide={() => setShowModal(false)} Nom={nom} id={id}/>
-  <Modif show={showModif} onHide={() => { setShowModif(false) } } image={image} logoTmp={photoTmp} nom={nom} id={id} logo={logo} adresse={adresse} numero_telephone={num} nom_fb={nom_fb} type_service={service} slogan={slogan} description={descriprion} type_abonnement={abonnement} onChangeNum={onChangeNum} onChangeNom={onChangeNom} onChangeLogo={onChangeLogo} onChangeAdresse={onChangeAdresse} onChangeNomfb={onChangeNomfb} onChangeService={onChangeService} onChangeNif={onChangeNif} onChangeSlogan={onChangeSlogan} onChangeDescription={onChangeDescription} onChangeAbonnement={onChangeAbonnement}/>
-
+      <Suppr show={showModal} onHide={() => setShowModal(false)} Nom={nom} id={id} />
+      <Modif showToast={showToast} show={showModif} onHideToast={() => setShowToast(false)} onHide={() => setShowModif(false)} image={image} logoTmp={photoTmp} nom={nom} id={id} logo={logo} adresse={adresse} numero_telephone={num} nom_fb={nom_fb} type_service={service} slogan={slogan} description={descriprion} type_abonnement={abonnement} onChangeNum={onChangeNum} onChangeNom={onChangeNom} onChangeLogo={onChangeLogo} onChangeAdresse={onChangeAdresse} onChangeNomfb={onChangeNomfb} onChangeService={onChangeService} onChangeNif={onChangeNif} onChangeSlogan={onChangeSlogan} onChangeDescription={onChangeDescription} onChangeAbonnement={onChangeAbonnement} />
     </div>
   )
 }

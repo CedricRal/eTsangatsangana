@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS "Users" (
     adr_fb text,
     adr_gmail text,
     id_apple text,
+    status integer,
     CONSTRAINT "Users_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE
 );
 
@@ -42,6 +43,8 @@ CREATE TABLE IF NOT EXISTS "Entreprises" (
     mode_payement text NOT NULL,
     date_payement date NOT NULL,
     status integer NOT NULL,
+    heure_ouverture time,
+    heure_fermeture time,
 );
 
 CREATE TABLE IF NOT EXISTS "Produits" (
@@ -53,6 +56,8 @@ CREATE TABLE IF NOT EXISTS "Produits" (
     livraison text,
     place_dispo integer,
     id_etp text NOT NULL,
+    status integer NOT NULL,
+    archive integer,
     CONSTRAINT "Produits_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"(id) ON DELETE CASCADE
 );
 

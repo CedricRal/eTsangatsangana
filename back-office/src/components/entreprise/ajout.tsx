@@ -1,39 +1,59 @@
 import { Form, InputGroup, Button, Container, Nav } from 'react-bootstrap'
 import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { regexNum, regexMail } from '../../assets/regex/regex'
-import {INSCRI_USER, InscriUsersData, InscriUsersVar} from '../../fetching/mutation/inscriUser'
-import {createEtpData,CREATE_ENTREPRISE,CreateEntrepriseVariables} from '../../fetching/mutation/AjoutEtp'
+import { createEtpData, CREATE_ENTREPRISE, CreateEntrepriseVariables } from '../../fetching/mutation/AjoutEtp'
+import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
+import {useNavigate} from 'react-router-dom'
 
 export const AjoutEtp = () => {
-    const [create_entreprise, { data, loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(CREATE_ENTREPRISE)
-    const [inscri_user] = useMutation<InscriUsersData, InscriUsersVar>(INSCRI_USER)
-    const entreprise = data?.create_entreprise
-    let form:any=''
+    const { refetch } = useQuery<GetAllEntrepriseResponse>(
+        GET_ALL_ENTREPRISE_QUERY,                         
+        {
+            variables: { page: 0 },
+            pollInterval: 200
+        },
+    );
+    const [create_entreprise, { loading, error }] = useMutation<createEtpData, CreateEntrepriseVariables>(
+        CREATE_ENTREPRISE,
+        {
+            refetchQueries: [{ query: GET_ALL_ENTREPRISE_QUERY, variables: { page: 0 } }],
+            onQueryUpdated(observableQuery) {
+                return observableQuery.refetch();
+            }
+        }
+    )
+    const navigate = useNavigate();
+    let form: any = ''
     const Ajout = async (event: any) => {
+        console.log('ajout');
         await (form = event.currentTarget)
         if (form.checkValidity() === false) {
+            console.log("test1");
             await event.preventDefault();
             await event.stopPropagation();
+            setValidated(true)
             return
         }
-        if (mdpAdmin != confMdp){{{
-            await event.preventDefault();
-            await event.stopPropagation();
-            return
-        }}}
+        if (mdpAdmin != confMdp) {
+            {
+                {
+                    console.log("test2");
+                    await event.preventDefault();
+                    await event.stopPropagation();
+                    return
+                }
+            }
+        }
         if (!(regexMail.test(mailAdmin))) {
+            console.log("test3");
             await event.preventDefault();
             await event.stopPropagation();
             return
         }
-        setValidated(true)
-        create_entreprise({
-            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date() }
-        })
-        inscri_user({
-            variables: { nom: nomAdmin, prenom: prenomAdmin, num_tel: numAdmin, mail: mailAdmin, adresse: adresseAdmin, mdp: mdpAdmin, id_etp: entreprise?.id }
-        })
+        await create_entreprise({
+            variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin: nomAdmin, prenomAdmin: prenomAdmin, num_telAdmin: numAdmin, mailAdmin: mailAdmin, adresseAdmin: adresseAdmin, mdpAdmin: mdpAdmin }
+        });
         setNom("")
         setNum("")
         setLogo("")
@@ -48,12 +68,13 @@ export const AjoutEtp = () => {
         setMailAdmin('')
         setAdresseAdmin('')
         setMdpAdmin('')
-        setConfMdp('')  
+        setConfMdp('')
+        navigate('/entreprise');
     }
 
-    const [voirMdp,setVoirMdp]=useState(false)
-    const [voirConfMdp,setVoirConfMdp]=useState(false)
-    const [validated,setValidated] = useState(false)
+    const [voirMdp, setVoirMdp] = useState(false)
+    const [voirConfMdp, setVoirConfMdp] = useState(false)
+    const [validated, setValidated] = useState(false)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
     const [num, setNum] = useState('')
@@ -124,7 +145,7 @@ export const AjoutEtp = () => {
     }
 
     const onChangeService = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setService(event.target.value)       
+        setService(event.target.value)
     }
 
     const onChangeAbonnement = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -154,12 +175,18 @@ export const AjoutEtp = () => {
         setConfMdp(event.target.value)
     }
     if (error) { return <p>{error.message}</p> }
-    if (loading) { return <p>Load</p> }
+    if (loading) { return <p>Load...</p> }
+    
     return (
         <div style={{ fontFamily: "Roboto", width: "80vh" }} >
             <Container fluid className="justify-content-center" style={{ width: "100%" }}>
+                <Nav.Link href="/entreprise" style={{ width: "20px" }}>
+                    <p className="fw-bolder tx-tertiary fs-3 fw-bold" >
+                        <i className="bi bi-chevron-left"></i>
+                    </p>
+                </Nav.Link>
                 <p>
-                    <div style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Ajout entreprise</b></div>
+                    <div className='text-center' style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e"}}><b>Ajout entreprise</b></div>
                 </p>
                 <Form noValidate validated={validated} onSubmit={Ajout}>
                     <Form.Group className='mb-3'>
@@ -168,11 +195,11 @@ export const AjoutEtp = () => {
                                 Nom
                             </b>
                         </Form.Label>
-                        <Form.Control id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
-                        <Form.Control.Feedback type="invalid">Nom entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control required id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
+                        <Form.Control.Feedback type="invalid">Nom de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Label>Logo</Form.Label>
+                        <Form.Label><b>Logo</b></Form.Label>
                         <Form.Control
                             required
                             type="file"
@@ -181,29 +208,29 @@ export const AjoutEtp = () => {
                             onChange={onChangeLogo}
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2" />
-                        <Form.Control.Feedback type="invalid">Logo entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Logo de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='adrEtp'>
                             <b>Adresse</b>
                         </Form.Label>
                         <Form.Control id="adrEtp" required value={adresse} type="text" onChange={onChangeAdresse} placeholder="Entrer l‘adresse de l‘entreprise" />
-                        <Form.Control.Feedback type="invalid">Adresse entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Adresse de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                    <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
+                        <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
                             <Form.Control id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
                         </InputGroup>
-                        <Form.Control.Feedback type="invalid">Téléphone entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Numero téléphone de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='fbEtp'>
                             <b>Nom sur facebook</b>
                         </Form.Label>
                         <Form.Control id='fbEtp' required type="text" value={nom_fb} onChange={onChangeNomfb} placeholder="Entrer le nom sur facebook de l‘entreprise" />
-                        <Form.Control.Feedback type="invalid">Nom facebook entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Nom facebook de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='nifEtp'>
@@ -231,7 +258,7 @@ export const AjoutEtp = () => {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label htmlFor='descEtp'><b>Description</b></Form.Label>
                         <Form.Control id='descEtp' required as="textarea" rows={3} value={description} onChange={onChangeDescription} />
-                        <Form.Control.Feedback type="invalid">Description entreprise obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Description de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='aboEtp'>
@@ -243,7 +270,7 @@ export const AjoutEtp = () => {
                             <option value="valeur 3">Valeur 3</option>
                         </Form.Select>
                     </Form.Group>
-                    <div style={{ fontSize: "20px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Admin de l‘entreprise</b></div>
+                    <div className='text-center' style={{ fontSize: "20px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Admin de l‘entreprise</b></div>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='nomAdm'>
                             <b>Nom</b>
@@ -256,58 +283,65 @@ export const AjoutEtp = () => {
                             <b>Prénom</b>
                         </Form.Label>
                         <Form.Control id='prenomAdm' required type="text" placeholder="Prénom de l‘admin" value={prenomAdmin} onChange={onChangePrenomAdmin} />
-                        <Form.Control.Feedback type="invalid">Prenom admin obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Prénom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
-                    <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
+                        <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control id="numAdm"required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
+                            <Form.Control id="numAdm" required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
                         </InputGroup>
-                        <Form.Control.Feedback type="invalid">Téléphone admin obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Téléphone de l'admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='mailAdm'>
-                            <b>Mail</b>
+                            <b>E-mail</b>
                         </Form.Label>
-                        <Form.Control id='mailAdm' required type="mail" placeholder="mail@domaine.com" value={mailAdmin} onChange={onChangeMailAdmin} />
-                        <Form.Control.Feedback type="invalid">Mail admin obligatoire</Form.Control.Feedback>
+                        <Form.Control id='mailAdm' required type="mail" placeholder="email@domaine.com" value={mailAdmin} onChange={onChangeMailAdmin} />
+                        <Form.Control.Feedback type="invalid">E-mail de l'admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='adrAdm'>
                             <b>Adresse</b>
                         </Form.Label>
                         <Form.Control id='adrAdm' required type="mail" placeholder="Adresse de l‘admin" value={adresseAdmin} onChange={onChangeAdresseAdmin} />
-                        <Form.Control.Feedback type="invalid">Adresse admin obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Adresse de l'admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Label htmlFor='mdpAdm'>
-                            <b>Mot de passe</b>
-                        </Form.Label>
+                        <b>Mot de passe</b>
+                    </Form.Label>
                     <InputGroup className='mb-3'>
-                        <Form.Control id='mdpAdm' type={(voirMdp==false) ? "password":'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
-                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirMdp(!voirMdp)}}>
-                            <i className="bi bi-eye"></i>
+                        <Form.Control required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                        <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirMdp(!voirMdp) }}>
+                        {(voirMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
                         </Button>
-                        <Form.Control.Feedback type="invalid">Mot de passe admin obligatoire</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Mot de passe de l'admin obligatoire</Form.Control.Feedback>
                     </InputGroup>
                     <Form.Label htmlFor='confMdp'>
                         <b>Confirmation mot de passe</b>
                     </Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control
+                            required
                             id='confMdp'
-                            type={(voirConfMdp==false) ? "password":'text'}
-                            placeholder="Recipient's username"
+                            type={(voirConfMdp == false) ? "password" : 'text'}
+                            placeholder="Confirmation de mot de passe"
                             aria-label="Recipient's username"
                             aria-describedby="basic-addon2"
+                            value={confMdp}
+                            onChange={onChangeConfMdpAdmin}
                         />
-                        <Button variant="outline-success" id="button-addon2" onClick={(e:any)=>{setVoirConfMdp(!voirConfMdp)}}>
-                            <i className="bi bi-eye"></i>
+                        <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirConfMdp(!voirConfMdp) }}>
+                            {(voirConfMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                            
                         </Button>
                     </InputGroup>
                     <div>
-                        <Button variant="success" className='text-center' style={{ height: "40px", color: "#ffffff" }} type="submit">Ajouter</Button>{' '}
-                        <Nav.Link href="/entreprise" style={{ display:"inline" }}>
+                        <Nav.Link href="/entreprise" style={{ display: "inline" }}>
+                            <Button variant="success" style={{ height: "40px", color: "#ffffff" }} type='submit'>Ajouter</Button>{' '}
+                        </Nav.Link>
+                        
+                        <Nav.Link href="/entreprise" style={{ display: "inline" }}>
                             <Button variant="success" style={{ height: "40px", color: "#ffffff" }}>Annuler</Button>
                         </Nav.Link>
                     </div>

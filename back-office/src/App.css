@@ -8,9 +8,22 @@ Form.Label{
 main{
   padding: 20px;
 }
+
+.button:hover{
+  width: 125px;
+}
+
+.button{
+  width: 40px;
+  height: 36px;
+  display: inline-block;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+}
+
 .sidebar{
   padding-Left:0px;
-  margin-top: 130px;
+  margin-top: 90px;
   background: #6b3b1e;
   color: #fff;
   height: 100vh;
@@ -51,7 +64,7 @@ main{
   color: rgb(255, 255, 255);
 }
 .link_text{
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .c-primary{

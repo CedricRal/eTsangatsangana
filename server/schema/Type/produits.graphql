@@ -2,27 +2,31 @@ type produits{
     id: String!
     titre: String!
     resume: String!
+    description: String
     qt: Int!
     prix: Int!
     livraison: String
     place_dispo: Int
-    id_etp: String!
+    id_etp: String
+    status: Int
 }
 
 type createProd{
-    image:String!
-    items:produits!
+    image:String
+    items:produits
 }
 type getOneProd{
     id: String!
     titre: String!
+    description: String
     resume: String!
     qt: Int!
     prix: Int!
     livraison: String
     place_dispo: Int
-    entreprise:entreprise!
-    image:[images!]
+    entreprise:String
+    image:String
+    status:Int
 }
 
 
@@ -34,7 +38,7 @@ type getAllProd{
 ######Query and Mutation########
 type Query{
     getOneProduit(id:String!):getOneProd!
-    getAllProduit(page:Int!): getAllProd!
+    getAllProduit(page:Int! id_etp:String): getAllProd!
 }
 
 type Mutation{
@@ -42,23 +46,28 @@ type Mutation{
         image:String!
         titre: String!
         resume: String!
+        description: String
         qt: Int!
         prix: Int!
         livraison: String
         place_dispo: Int
-        id_etp: String!
+        id_etp: String
+        status: Int
     ):createProd!
 
     delProduit(id: String!):produits
 
     updateProduit(
         id: String!
+        image:String
         titre: String!
         resume: String!
+        description: String
         qt: Int!
         prix: Int!
         livraison: String
         place_dispo: Int
+        status: Int
         id_etp: String!
     ):produits
 }

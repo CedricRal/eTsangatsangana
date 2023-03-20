@@ -12,17 +12,18 @@ module.exports = {
             }
             else{
                 return new Promise((resolve,reject) => {
-                    client.query('SELECT * FROM Produits WHERE (id=$1)',[args.id],function(err,result){
+                    client.query('SELECT * FROM "Produits" WHERE ("id"=$1 AND "archive"<>$2)',[args.id,1],function(err,result){
+                        console.log(result);
                         if(!(result.rows[0])){
                             reject(new GraphQLError('Id etp invalid',{
                                 extensions:{
                                     code:"Input invalide"
-                                }
+                                }   
                         }))
                         }
                         else{
                             resolve(new Promise((resolve,reject)=>{
-                                client.query('DELETE FROM "Produits" WHERE (id=$1) RETURNING *',[args.id],function(err,result){
+                                client.query('UPDATE "Produits" SET archive=$1 WHERE (id=$2) RETURNING *',[1,args.id],function(err,result){
                                     if (err){
                                         reject(new Error(err))
                                     }

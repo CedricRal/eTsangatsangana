@@ -8,7 +8,9 @@ import {Publicité} from './components/publicités/publicité'
 import {Liste} from './components/entreprise/liste'
 import {Détails} from './components/entreprise/détails'
 import {ListeProduit} from './components/produits/liste'
-
+import {Produits} from './components/produits/produits'
+import {AjoutProd} from './components/produits/ajout'
+import {DétailsProd} from './components/produits/détails'
 
 import './App.css';
 
@@ -21,7 +23,9 @@ const App:React.FC = () =>{
         <Route path='/publicité' element={<Publicité />}></Route>
         <Route path='/entreprise/ajouter' element={<AjoutEtp />}></Route>
         <Route path='/entreprise/détails' element={<Détails />}></Route>
-        <Route path='/produits' element={<ListeProduit />}></Route>
+        <Route path='/produits' element={<Produits children={ <ListeProduit />} />}></Route>
+        <Route path='/produits/ajouter' element={<AjoutProd />}></Route>
+        <Route path='/produits/détails' element={<DétailsProd />}></Route>
       </Routes>
       </Home>
     
