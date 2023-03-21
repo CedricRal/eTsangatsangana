@@ -4,6 +4,7 @@ import { UPDATE_ETP, UpdateEtpData, UpdateEtpVar } from '../../fetching/mutation
 import {UPDATE_PROD, UpdateProduitData, UpdateProduitVar} from '../../fetching/mutation/updateProd'
 import { useMutation, useQuery } from "@apollo/client";
 import {GetAllProduitsResponse, LISTE_PROD, produits} from '../../fetching/query/listeProd'
+import { LISTE_PUB, ListePubResponse } from '../../fetching/query/listePub'
 import { regexNum } from '../../assets/regex/regex'
 
 type propsEtp = {
@@ -38,10 +39,18 @@ export const Modif = (props: propsEtp) => {
             }
         }
     )
+    const {} = useQuery<ListePubResponse>(
+        LISTE_PUB,
+        {
+            variables:{
+                page:0,
+            }
+        }
+    )
     const [updateProduit, { data, loading, error }] = useMutation<UpdateProduitData, UpdateProduitVar>(
         UPDATE_PROD, 
         {
-            refetchQueries: [{ query: LISTE_PROD, variables: { page: 0, id_etp:id } }],
+            refetchQueries: [{ query: LISTE_PROD, variables: { page: 0, id_etp:id } },{ query: LISTE_PUB, variables: { page: 0} }],
             onQueryUpdated(observableQuery) {
                 return observableQuery.refetch();
             }

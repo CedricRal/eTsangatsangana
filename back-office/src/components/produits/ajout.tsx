@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import {regexNum} from '../../assets/regex/regex'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import {CREATE_PRODUIT, CreateProduitData, CreateProduitVars} from '../../fetching/mutation/AjoutProd'
+import { LISTE_PUB, ListePubResponse } from '../../fetching/query/listePub'
 import {GetAllProduitsResponse,LISTE_PROD, produits} from '../../fetching/query/listeProd'
 import {useNavigate} from 'react-router-dom'
 
@@ -18,10 +19,18 @@ export const AjoutProd = () => {
             }
         }
     )
+    const {} = useQuery<ListePubResponse>(
+        LISTE_PUB,
+        {
+            variables:{
+                page:0,
+            }
+        }
+    )
     const [createProduit,{loading,error}] = useMutation<CreateProduitData, CreateProduitVars>(
         CREATE_PRODUIT,
         {
-            refetchQueries: [{ query: LISTE_PROD, variables: { page: 0, id_etp:id } }],
+            refetchQueries: [{ query: LISTE_PROD, variables: { page: 0, id_etp:id } },{ query: LISTE_PUB, variables: { page: 0} }],
             onQueryUpdated(observableQuery) {
                 return observableQuery.refetch();
             }

@@ -28,6 +28,7 @@ module.exports = {
                                         reject(new Error(err))
                                     }
                                     else{
+                                        const res = result.rows[0]
                                         resolve(result.rows[0])
                                     }
                                 })

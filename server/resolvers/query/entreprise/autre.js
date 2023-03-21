@@ -53,6 +53,18 @@ module.exports ={
                     }
                 })
             })
+        },
+        nbr_page:(parent,args)=>{
+            return new Promise((resolve,reject) =>{
+                client.query('SELECT COUNT(*) FROM "Commandes" WHERE id_etp=$1',[parent.id_etp],function(err,result){
+                    if (err){
+                        reject(err)
+                    }
+                    else{                                    
+                        resolve(parseInt(result.rows[0]['count']/10))
+                    }
+                })
+            })
         }
     }
 }

@@ -2,7 +2,7 @@ const client = require('../../../services/connection')
 const bcrypt = require('bcryptjs')
 const { v4: uuidv4 } = require('uuid')
 const { GraphQLError } = require('graphql')
-const regexMail = require('../../../regex/mail')
+const {regexMail} = require('../../../regex/mail')
 
 module.exports = {
     inscri_user: (parent,args,context) => {
