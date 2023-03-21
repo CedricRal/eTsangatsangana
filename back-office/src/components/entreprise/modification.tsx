@@ -75,7 +75,7 @@ export const Modif = (props: propsEtp) => {
         }
         setShowToast(true);
     }
-    if (loading) { return (<div style={{position:'absolute',top:'50%',left:'50%', color:'white'}}>
+    if (loading) { return (<div style={{position:'fixed',top:'50%',left:'50%', color:'white'}}>
         <Spinner variant="light" animation="border" role="status" className='text-center'>
     <span className="visually-hidden">Loading...</span>
   </Spinner>

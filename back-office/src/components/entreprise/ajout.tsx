@@ -5,7 +5,7 @@ import { regexNum, regexMail } from '../../assets/regex/regex'
 import { createEtpData, CREATE_ENTREPRISE, CreateEntrepriseVariables } from '../../fetching/mutation/AjoutEtp'
 import { GetAllEntrepriseResponse, GET_ALL_ENTREPRISE_QUERY, GetOneEtp } from '../../fetching/query/listeEtp'
 import { useNavigate } from 'react-router-dom'
-import {PopUp} from './pop-up'
+import { PopUp } from './pop-up'
 
 export const AjoutEtp = () => {
     const { refetch } = useQuery<GetAllEntrepriseResponse>(
@@ -55,10 +55,7 @@ export const AjoutEtp = () => {
         await create_entreprise({
             variables: { nom: nom, logo: image, adresse: adresse, tel: num, adr_fb: nom_fb, type_service: service, NIF_STAT: nif, slogan: slogan, description: description, date_abonnement: new Date(), type_abonnement: abonnement, mode_payement: "test", date_payement: new Date(), nomAdmin: nomAdmin, prenomAdmin: prenomAdmin, num_telAdmin: numAdmin, mailAdmin: mailAdmin, adresseAdmin: adresseAdmin, mdpAdmin: mdpAdmin }
         });
-        
-        if (!loading){
-            navigate('/entreprise');
-            setNom("")
+        setNom("")
         setNum("")
         setLogo("")
         setAdresse("")
@@ -73,7 +70,7 @@ export const AjoutEtp = () => {
         setAdresseAdmin('')
         setMdpAdmin('')
         setConfMdp('')
-        }
+        navigate('/entreprise');
     }
 
     const [voirMdp, setVoirMdp] = useState(false)
@@ -195,32 +192,32 @@ export const AjoutEtp = () => {
         setConfMdp(event.target.value)
     }
 
-    if (loading){
+    if (loading) {
         return (<>Loading...</>)
     }
-    const onHideError = ()=>{
+    const onHideError = () => {
         setVoirError(false)
         navigate('/entreprise');
     }
     if (error) {
         return (
-        <div style={{ fontFamily: "roboto" }}>
-            <Modal
-                show={voirError}
-                onHide={onHideError}
-                size="sm"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Error
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body style={{ fontSize: "medium" }}>
-                    {error.message} <i style={{ color: '#44751e' }} className="bi bi-check-lg"></i>
-                </Modal.Body>
-            </Modal>
-        </div>)
+            <div style={{ fontFamily: "roboto" }}>
+                <Modal
+                    show={voirError}
+                    onHide={onHideError}
+                    size="sm"
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            Error
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body style={{ fontSize: "medium" }}>
+                        {error.message} <i style={{ color: '#44751e' }} className="bi bi-check-lg"></i>
+                    </Modal.Body>
+                </Modal>
+            </div>)
     }
 
 
