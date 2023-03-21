@@ -40,6 +40,7 @@ type listeCmdEtp{
     status: String!
     user: users
     produit: produits
+    nbr_page: Int
 }
 
 type listeCmdUsers{
@@ -54,12 +55,13 @@ type listeCmdUsers{
     status: String!
     entreprise: entreprise
     produit: getOneProd
+    nbr_page: Int
 }
 
 #############QUERY AND MUTATION#########
 type Query{
-    listeCommandeEtp(id_etp: String!):[listeCmdEtp]
-    listeCommandeUsers(id_users: String!):[listeCmdUsers!]
+    listeCommandeEtp(id_etp: String! page:Int):[listeCmdEtp]
+    listeCommandeUsers(id_users: String! page:Int):[listeCmdUsers!]
     getCommande(id:String!):getCmd
 }
 

@@ -28,12 +28,9 @@ export const AjoutEtp = () => {
     let form: any = ''
     const Ajout = async (event: any) => {
         console.log('ajout');
-        await (form = event.currentTarget)
-        if (form.checkValidity() === false) {
-            console.log("test1");
+        if (isValidNom || isValidNum || isValidLogo || isValidAdresse || isValidNom_fb || isValidService || isValidSlogan || isValidDescri || isValidAbonnement || isValidNomAdmin || isValidPrenomAdmin || isValidNumAdmin || isValidMdp || isValidMailAdmin || isValidAdresseAdmin || isValidConfMdp){
             await event.preventDefault();
             await event.stopPropagation();
-            setValidated(true)
             return
         }
         if (mdpAdmin != confMdp) {
@@ -77,8 +74,22 @@ export const AjoutEtp = () => {
     const [voirError, setVoirError] = useState(true)
     const [messageError, setMessageError] = useState('')
     const [voirConfMdp, setVoirConfMdp] = useState(false)
-    const [isValidMailAdmin, setIsValidMailAdmin] = useState(true);
-    const [isValidMdp, setIsValidMdp] = useState(true);
+    const [isValidNom, setIsValidNom] = useState(false);
+    const [isValidNum, setIsValidNum] = useState(false);
+    const [isValidLogo, setIsValidLogo] = useState(false);
+    const [isValidAdresse, setIsValidAdresse] = useState(false);
+    const [isValidNom_fb, setIsValidNom_fb] = useState(false);
+    const [isValidService, setIsValidService] = useState(false);
+    const [isValidSlogan, setIsValidSlogan] = useState(false);
+    const [isValidDescri, setIsValidDescri] = useState(false);
+    const [isValidAbonnement, setIsValidAbonnement] = useState(false);
+    const [isValidNomAdmin, setIsValidNomAdmin] = useState(false);
+    const [isValidPrenomAdmin, setIsValidPrenomAdmin] = useState(false);
+    const [isValidNumAdmin, setIsValidNumAdmin] = useState(false);
+    const [isValidMdp, setIsValidMdp] = useState(false);
+    const [isValidMailAdmin, setIsValidMailAdmin] = useState(false);
+    const [isValidAdresseAdmin, setIsValidAdresseAdmin] = useState(false);
+    const [isValidConfMdp, setIsValidConfMdp] = useState(false);
     const [validated, setValidated] = useState(false)
     const [image, setImage] = useState('')
     const [id, setId] = useState('')
@@ -106,6 +117,12 @@ export const AjoutEtp = () => {
     const [confMdp, setConfMdp] = useState('')
 
     const onChangeNom = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value == ""){
+            setIsValidNom(true)
+        }
+        else{
+            setIsValidNom(false)
+        }
         setNom(event.target.value)
     }
 
@@ -113,9 +130,22 @@ export const AjoutEtp = () => {
         if (regexNum.test(event.target.value)) {
             setNum(event.target.value);
         }
+        if (event.target.value == ""){
+            setIsValidNum(true)
+        }
+        else{
+            setIsValidNum(false)
+        }
+        
     }
 
     const onChangeLogo = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidLogo(true)
+        }
+        else{
+            setIsValidLogo(false)
+        }
         setLogo(event.target.value)
         console.log(logo)
         const file = event.target.files?.[0];
@@ -130,10 +160,22 @@ export const AjoutEtp = () => {
     };
 
     const onChangeAdresse = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidAdresse(true)
+        }
+        else{
+            setIsValidAdresse(false)
+        }
         setAdresse(event.target.value)
     }
 
     const onChangeNomfb = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidNom_fb(true)
+        }
+        else{
+            setIsValidNom_fb(false)
+        }
         setNom_fb(event.target.value)
     }
 
@@ -142,10 +184,22 @@ export const AjoutEtp = () => {
     }
 
     const onChangeSlogan = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value==""){
+            setIsValidSlogan(true)
+        }
+        else{
+            setIsValidSlogan(false)
+        }
         setSlogan(event.target.value)
     }
 
     const onChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidDescri(true)
+        }
+        else{
+            setIsValidDescri(false)
+        }
         setDescription(event.target.value)
     }
 
@@ -154,40 +208,103 @@ export const AjoutEtp = () => {
     }
 
     const onChangeAbonnement = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if(event.target.value == ""){
+            setIsValidAbonnement(true)
+        }
+        else{
+            setIsValidAbonnement(false)
+        }
         setAbonnement(event.target.value)
     }
+
     const onChangeNomAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidNomAdmin(true)
+        }
+        else{
+            setIsValidNomAdmin(false)
+        }
         setNomAdmin(event.target.value)
     }
+    
     const onChangePrenomAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidPrenomAdmin(true)
+        }
+        else{
+            setIsValidPrenomAdmin(false)
+        }
         setPrenomAdmin(event.target.value)
     }
+
     const onChangeNumAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidNumAdmin(true)
+        }
+        else{
+            setIsValidNumAdmin(false)
+        }
         if (regexNum.test(event.target.value)) {
             setNumAdmin(event.target.value);
         }
     }
+
     function onChangeMailAdmin(event: React.ChangeEvent<HTMLInputElement>) {
+        if(event.target.value == ""){
+            setIsValidMailAdmin(true)
+        }
+        else{
+            setIsValidMailAdmin(false)
+        }
         const value = event.target.value;
         const isValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+        if(isValid==false){
+            setIsValidMailAdmin(true)
+        }
+        else{
+            setIsValidMailAdmin(false)
+        }
         setMailAdmin(value);
-        setIsValidMailAdmin(isValid);
     }
 
     const onChangeAdresseAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidAdresseAdmin(true)
+        }
+        else{
+            setIsValidAdresseAdmin(false)
+        }
         setAdresseAdmin(event.target.value)
     }
 
     const onChangeMdpAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidMdp(true)
+        }
+        else{
+            setIsValidMdp(false)
+        }
+        if (event.target.value == confMdp) {
+            setIsValidConfMdp(false)
+        }
+        else {
+            setIsValidConfMdp(true)
+        }
         setMdpAdmin(event.target.value)
     }
 
     const onChangeConfMdpAdmin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.value == ""){
+            setIsValidConfMdp(true)
+        }
+        else{
+            setIsValidConfMdp(false)
+        }
         if (event.target.value == mdpAdmin) {
-            setIsValidMdp(false)
+            setIsValidConfMdp(false)
         }
         else {
-            setIsValidMdp(true)
+            setIsValidConfMdp(true)
         }
         setConfMdp(event.target.value)
     }
@@ -232,19 +349,20 @@ export const AjoutEtp = () => {
                 <p>
                     <div className='text-center' style={{ fontSize: "27px", fontFamily: "Roboto", color: "#6b3b1e" }}><b>Ajout entreprise</b></div>
                 </p>
-                <Form noValidate validated={validated} onSubmit={Ajout}>
+                <Form onSubmit={Ajout}>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='nomEtp'>
                             <b>
                                 Nom
                             </b>
                         </Form.Label>
-                        <Form.Control required id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
+                        <Form.Control isInvalid={isValidNom} required id="nomEtp" value={nom} type="text" placeholder="Entrer le nom de l‘entreprise" onChange={onChangeNom} />
                         <Form.Control.Feedback type="invalid">Nom de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label><b>Logo</b></Form.Label>
                         <Form.Control
+                            isInvalid={isValidLogo}
                             required
                             type="file"
                             placeholder="Url du logo"
@@ -258,14 +376,14 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='adrEtp'>
                             <b>Adresse</b>
                         </Form.Label>
-                        <Form.Control id="adrEtp" required value={adresse} type="text" onChange={onChangeAdresse} placeholder="Entrer l‘adresse de l‘entreprise" />
+                        <Form.Control isInvalid={isValidAdresse} id="adrEtp" required value={adresse} type="text" onChange={onChangeAdresse} placeholder="Entrer l‘adresse de l‘entreprise" />
                         <Form.Control.Feedback type="invalid">Adresse de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='numEtp'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
+                            <Form.Control isInvalid={isValidNum} id='numEtp' required type="text" aria-label="Num tel" placeholder='Numéro de téléphone' value={num} onChange={onChangeNum} />
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">Numero téléphone de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
@@ -273,7 +391,7 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='fbEtp'>
                             <b>Nom sur facebook</b>
                         </Form.Label>
-                        <Form.Control id='fbEtp' required type="text" value={nom_fb} onChange={onChangeNomfb} placeholder="Entrer le nom sur facebook de l‘entreprise" />
+                        <Form.Control isInvalid={isValidNom_fb} id='fbEtp' required type="text" value={nom_fb} onChange={onChangeNomfb} placeholder="Entrer le nom sur facebook de l‘entreprise" />
                         <Form.Control.Feedback type="invalid">Nom facebook de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
@@ -296,12 +414,12 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='sloEtp'>
                             <b>Slogan</b>
                         </Form.Label>
-                        <Form.Control id='sloEtp' required type="text" placeholder="Slogan de l‘entreprise" value={slogan} onChange={onChangeSlogan} />
+                        <Form.Control isInvalid={isValidSlogan} id='sloEtp' required type="text" placeholder="Slogan de l‘entreprise" value={slogan} onChange={onChangeSlogan} />
                         <Form.Control.Feedback type="invalid">Slogan entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label htmlFor='descEtp'><b>Description</b></Form.Label>
-                        <Form.Control id='descEtp' required as="textarea" rows={3} value={description} onChange={onChangeDescription} />
+                        <Form.Control isInvalid={isValidDescri} id='descEtp' required as="textarea" rows={3} value={description} onChange={onChangeDescription} />
                         <Form.Control.Feedback type="invalid">Description de l'entreprise obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
@@ -319,21 +437,21 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='nomAdm'>
                             <b>Nom</b>
                         </Form.Label>
-                        <Form.Control id='nomAdm' required type="text" placeholder="Nom de l‘admin" value={nomAdmin} onChange={onChangeNomAdmin} />
+                        <Form.Control isInvalid={isValidNomAdmin} id='nomAdm' required type="text" placeholder="Nom de l‘admin" value={nomAdmin} onChange={onChangeNomAdmin} />
                         <Form.Control.Feedback type="invalid">Nom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='prenomAdm'>
                             <b>Prénom</b>
                         </Form.Label>
-                        <Form.Control id='prenomAdm' required type="text" placeholder="Prénom de l‘admin" value={prenomAdmin} onChange={onChangePrenomAdmin} />
+                        <Form.Control isInvalid={isValidPrenomAdmin} id='prenomAdm' required type="text" placeholder="Prénom de l‘admin" value={prenomAdmin} onChange={onChangePrenomAdmin} />
                         <Form.Control.Feedback type="invalid">Prénom admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='numAdm'><b>Numéro téléphone</b></Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text>+261</InputGroup.Text>
-                            <Form.Control id="numAdm" required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
+                            <Form.Control isInvalid={isValidNumAdmin} id="numAdm" required type="text" aria-label="Num tel" placeholder='Numéro téléphone' value={numAdmin} onChange={onChangeNumAdmin} />
                         </InputGroup>
                         <Form.Control.Feedback type="invalid">Téléphone de l'admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
@@ -349,7 +467,7 @@ export const AjoutEtp = () => {
                             placeholder="email@domaine.com"
                             value={mailAdmin}
                             onChange={onChangeMailAdmin}
-                            isInvalid={!isValidMailAdmin}
+                            isInvalid={isValidMailAdmin}
                         />
                         <Form.Control.Feedback type="invalid">
                             Veuillez saisir une adresse e-mail valide
@@ -359,14 +477,14 @@ export const AjoutEtp = () => {
                         <Form.Label htmlFor='adrAdm'>
                             <b>Adresse</b>
                         </Form.Label>
-                        <Form.Control id='adrAdm' required type="mail" placeholder="Adresse de l‘admin" value={adresseAdmin} onChange={onChangeAdresseAdmin} />
+                        <Form.Control isInvalid={isValidAdresseAdmin} id='adrAdm' required type="mail" placeholder="Adresse de l‘admin" value={adresseAdmin} onChange={onChangeAdresseAdmin} />
                         <Form.Control.Feedback type="invalid">Adresse de l'admin obligatoire</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Label htmlFor='mdpAdm'>
                         <b>Mot de passe</b>
                     </Form.Label>
                     <InputGroup className='mb-3'>
-                        <Form.Control required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
+                        <Form.Control isInvalid={isValidMdp} required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe de l‘admin" value={mdpAdmin} onChange={onChangeMdpAdmin} />
                         <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirMdp(!voirMdp) }}>
                             {(voirMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
                         </Button>
@@ -377,7 +495,6 @@ export const AjoutEtp = () => {
                     </Form.Label>
                     <InputGroup className="mb-3">
                         <Form.Control
-                            required
                             id='confMdp'
                             type={(voirConfMdp == false) ? "password" : 'text'}
                             placeholder="Confirmation de mot de passe"
@@ -385,7 +502,7 @@ export const AjoutEtp = () => {
                             aria-describedby="basic-addon2"
                             value={confMdp}
                             onChange={onChangeConfMdpAdmin}
-                            isInvalid={isValidMdp}
+                            isInvalid={isValidConfMdp}
                         />
                         <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirConfMdp(!voirConfMdp) }}>
                             {(voirConfMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}

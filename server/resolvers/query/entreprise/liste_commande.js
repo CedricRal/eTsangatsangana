@@ -15,7 +15,7 @@ module.exports = {
                     }
                     else{
                         resolve(new Promise((resolve,reject)=>{
-                            client.query('SELECT * FROM "Commandes" WHERE id_etp=$1',[result.rows[0]['id']],function(err,result){
+                            client.query('SELECT * FROM "Commandes" WHERE id_etp=$1 LIMIT 10 OFFSET $2',[result.rows[0]['id'], (args.page * 10)],function(err,result){
                                 if(err){
                                     reject(err)
                                 }

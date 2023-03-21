@@ -25,6 +25,20 @@ module.exports={
                     }
                 })
             })
+        },
+        nbr_page:(parent,args)=>{
+            console.log(parent.id_users);
+            return new Promise((resolve,reject)=>{
+                client.query('SELECT COUNT(*) FROM "Commandes" WHERE id_users=$1',[parent.id_users],function(err,result){
+                    if (err){
+                        reject(err)
+                    }
+                    else{    
+                        console.log(parseInt(result.rows[0]['count']/10));                                
+                        resolve(parseInt(result.rows[0]['count']/10))
+                    }
+                })
+            })
         }
     }
 }
