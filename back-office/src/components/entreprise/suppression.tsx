@@ -37,7 +37,7 @@ export const Suppr = (props: propsEtp) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showToast, setShowToast] = useState<boolean>(false)
   if (loading) {
-    return (<div style={{position:'absolute',top:'50%',left:'50%', color:'white'}}>
+    return (<div style={{position:'fixed',top:'50%',left:'50%', color:'white'}}>
     <Spinner variant="light" animation="border" role="status" className='text-center'>
 <span className="visually-hidden">Loading...</span>
 </Spinner>

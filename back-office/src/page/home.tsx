@@ -40,15 +40,15 @@ const Home = ({ children }: props) => {
   ]
   return (
     <div style={{ display: "flex", fontFamily: "Roboto" }}>
-      <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top style={{height:'85px'}}>
-        <Nav className="bg-light">
-          <Nav.Link onClick={toggle} style={{backgroundColor:'white'}}>
+      <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top style={{height:'14%'}}>
+        <Nav className="bg-light" >
+          <Nav.Link onClick={toggle} style={{backgroundColor:'white',paddingTop:'35%'}}>
             <i className="bi bi-list" style={{ fontSize: "2.5em", color: "#6b3b1e", backgroundColor:'white' }}></i>
           </Nav.Link>
         </Nav>
         <Container fluid className="c-secondary">
-          <Navbar.Brand >
-            <Image src={logo} width={70} height={70} alt="User icon" />
+          <Navbar.Brand style={{marginBottom:'1.5%'}}>
+            <Image src={logo} width={60} height={60} alt="User icon" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
