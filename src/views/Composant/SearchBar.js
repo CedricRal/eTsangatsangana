@@ -25,9 +25,9 @@ export default FiltrePub = () => {
   }
 
   const types = [
-    {key:'hotel', value:t('home:hotellerie')},
-    {key:'restaurant', value:t('home:restauration')},
-    {key:'transport', value:t('home:transport')}
+    {key:'hotel', value:t('langues:hotellerie')},
+    {key:'restaurant', value:t('langues:restauration')},
+    {key:'transport', value:t('langues:transport')}
   ];
   const voyage = [
     {key:'classic', value:'Classic'},
@@ -56,9 +56,9 @@ export default FiltrePub = () => {
   ];
 
 
-  const hotel = JSON.stringify(type)==JSON.stringify(t('home:hotellerie'))
-  const restaurant = JSON.stringify(type)==JSON.stringify(t('home:restauration'))
-  const transport = JSON.stringify(type)==JSON.stringify(t('home:transport'))
+  const hotel = JSON.stringify(type)==JSON.stringify(t('langues:hotellerie'))
+  const restaurant = JSON.stringify(type)==JSON.stringify(t('langues:restauration'))
+  const transport = JSON.stringify(type)==JSON.stringify(t('langues:transport'))
 
   return (
     <ScrollView>
@@ -67,7 +67,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={(val) => setType(val)}
       data={types}
-      placeholder={t('home:filterPlaceholder')}
+      placeholder={t('langues:filterPlaceholder')}
       />
     </View>
 
@@ -75,7 +75,7 @@ export default FiltrePub = () => {
 
     <View style={styles.dateContainer}>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>{t('home:startDate')}</Text>
+                <Text style={styles.DebutFin}>{t('langues:startDate')}</Text>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                 <Text style={styles.textDateInput}>
                   {debut}
@@ -85,7 +85,7 @@ export default FiltrePub = () => {
                 style={styles.img}/>
             </View>
             <View style={styles.dateInput}>
-                <Text style={styles.DebutFin}>{t('home:endDate')}</Text>
+                <Text style={styles.DebutFin}>{t('langues:endDate')}</Text>
                 <TouchableOpacity onPress={() => setOpen2(true)}>
                 <Text style={styles.textDateInput}>
                   {fin}
@@ -128,7 +128,7 @@ export default FiltrePub = () => {
                   setFin(value?.toLocaleDateString());
                 }
                 else{            //condition que si user entre une date inferieur a celle du debut
-                  Alert.alert(t('home:alert'));
+                  Alert.alert(t('langues:alert'));
                   setOpen2(false);
                   setFin('dd/mm/yy');
               }}}
@@ -142,7 +142,7 @@ export default FiltrePub = () => {
 
     <View style={[{display: hotel? 'flex': 'none'}]}>
     <View >
-      <Text style={styles.headerText}>{t('home:hotelType')}</Text>
+      <Text style={styles.headerText}>{t('langues:hotelType')}</Text>
       
       <View style={styles.centerRadio}>
       <TouchableOpacity
@@ -154,7 +154,7 @@ export default FiltrePub = () => {
         status={ checked === 2 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(2)}
       />
-      <Text style={styles.labelStyle}> {t('home:twoStar')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:twoStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       </TouchableOpacity>
@@ -168,7 +168,7 @@ export default FiltrePub = () => {
         status={ checked === 3 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(3)}
       />
-      <Text style={styles.labelStyle}> {t('home:threeStar')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:threeStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
@@ -183,7 +183,7 @@ export default FiltrePub = () => {
         status={ checked === 4 ? 'checked' : 'unchecked' }
         onPress={() => setChecked(4)}
       />
-      <Text style={styles.labelStyle}> {t('home:fourStar')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:fourStar')} </Text>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
       <Image source={require('../../assets/icon/star.png')} style={styles.star}/>
@@ -196,7 +196,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={prixChambre}
-      placeholder={t('home:price')}
+      placeholder={t('langues:price')}
       />
     </View>
     </View>
@@ -243,7 +243,7 @@ export default FiltrePub = () => {
         status={ checked === 'classique' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('classique')}
       />
-      <Text style={styles.labelStyle}> {t('home:classic')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:classic')} </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.horizontalList, {backgroundColor: checked === 'premium' ? 'lightskyblue' : 'lightsteelblue'}]}
@@ -254,7 +254,7 @@ export default FiltrePub = () => {
         status={ checked === 'premium' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('premium')}
       />
-      <Text style={styles.labelStyle}> {t('home:premium')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:premium')} </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.horizontalList, {backgroundColor: checked === 'economic' ? 'lightskyblue' : 'lightsteelblue'}]}
@@ -265,7 +265,7 @@ export default FiltrePub = () => {
         status={ checked === 'economic' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('economic')}
       />
-      <Text style={styles.labelStyle}> {t('home:economic')} </Text>
+      <Text style={styles.labelStyle}> {t('langues:economic')} </Text>
       </TouchableOpacity>
     </ScrollView>
     <View style={styles.dropdown}>
@@ -273,7 +273,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={depart}
-      placeholder={t('home:departure')}
+      placeholder={t('langues:departure')}
       boxStyles={{marginHorizontal:20}}
       />
       </View>
@@ -282,7 +282,7 @@ export default FiltrePub = () => {
       save='value'
       setSelected={()=>{}}
       data={arrivee}
-      placeholder={t('home:arrival')}
+      placeholder={t('langues:arrival')}
       boxStyles={{marginHorizontal:20}}
       />
     </View>

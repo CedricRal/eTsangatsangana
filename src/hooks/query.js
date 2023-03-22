@@ -25,7 +25,7 @@ const GET_ALL_PUB = gql`
     }
 `
 export const useAllPub = () => {
-    const { error, loading, data } = useQuery(GET_ALL_PUB);
+    const { error, loading, data, fetchMore } = useQuery(GET_ALL_PUB);
 
     const allPubError = error;
     const allPubLoading = loading;
@@ -33,7 +33,8 @@ export const useAllPub = () => {
     return{
         allPubError,
         allPubLoading,
-        allPubData
+        allPubData,
+        fetchMore
     }
 }
 //----------------------------------------------------------------------------//

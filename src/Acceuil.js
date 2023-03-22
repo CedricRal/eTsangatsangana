@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useAllPub } from './hooks/query';
 
   export default function App({navigation}) {
-    const { allPubError, allPubLoading, allPubData } = useAllPub();
+    const { allPubError, allPubLoading, allPubData, fetchMore } = useAllPub();
     console.log(JSON.stringify(allPubError, null, 2))
 
     const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
@@ -106,6 +106,23 @@ import { useAllPub } from './hooks/query';
     }
     const [modalVisible, setModalVisible] = useState(false);
 
+    const fetchMoreData = () => {
+      if (allPubData && allPubData.getAllPublicites) {
+          fetchMore({
+              variables: { page: allPubData.getAllPublicites.page + 1 },
+              updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult) return prev;
+                  return {
+                      getAllPublicites: {
+                          ...fetchMoreResult.getAllPublicites,
+                          items: [...new Set([...prev.getAllPublicites.items, ...fetchMoreResult.getAllPublicites.items])]
+                      }
+                  }
+              }
+          })
+      }
+  }
+
     if(allPubLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
     if(allPubError) return(<View><Text>Connexion error when fetching data</Text></View>)
 
@@ -153,8 +170,18 @@ import { useAllPub } from './hooks/query';
           data={dataS}
           numColumns={numColumn}
           renderItem={renderItem}
+          keyExtractor={(item, index) => item.id.toString()}
           style={AppStyles.flatList}
-          ListFooterComponent={<Text style={{height:20, backgroundColor:design.Blanc}}/>}
+          onEndReached={() =>{
+            console.log('should fetch more data');
+            fetchMoreData();
+          }}
+          onEndReachedThreshold={0}
+          ListFooterComponent={
+            <>
+            <Text style={{height:20, backgroundColor:design.Blanc}}/>
+            </>
+          }
         />
       </View>
     );

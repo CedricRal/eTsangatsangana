@@ -244,6 +244,10 @@ import { useFocusEffect } from '@react-navigation/native';
         data={dataS}
         renderItem={renderItem}
         ListEmptyComponent={empty_list}
+        onEndReached={() =>
+          console.log('should fetch more data')
+        }
+        onEndReachedThreshold={0}
       />
     </View>
     );
