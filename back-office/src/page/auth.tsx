@@ -1,51 +1,105 @@
 import { useState, useEffect, SetStateAction } from 'react'
+import {useMutation} from '@apollo/client'
+import { Container, Image, Form, Button, InputGroup,Alert, Spinner } from 'react-bootstrap';
+import logo from '../assets/logo/ET_0F.png'
+import { useNavigate } from 'react-router-dom'
+import {AUTHENTIFICATION,authentificationResponse,authentificationVar} from '../fetching/mutation/authentification'
 
 export const Auth = () => {
   const [email, setEmail] = useState<string>('');
   const [motDePasse, setMotDePasse] = useState<string>('');
-
-  const handleEmailChange = (event: any) => {
+  const [isValidMail, setIsValidMail] = useState(false)
+  const [isValidMdp, setIsValidMdp] = useState(false)
+  const [auth_user,{data,error,loading}] = useMutation<authentificationResponse,authentificationVar>(
+    AUTHENTIFICATION
+  )
+  
+  const onChangeEmail = (event: any) => {
+    if (event.target.value == "") {
+      setIsValidMail(true)
+    }
+    else {
+      setIsValidMail(false)
+    }
+    const value = event.target.value;
+    const isValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
+    if (isValid == false) {
+      setIsValidMail(true)
+    }
+    else {
+      setIsValidMail(false)
+    }
     setEmail(event.target.value);
   };
 
-  const handleMotDePasseChange = (event: any) => {
+  const OnChangeMdp = (event: any) => {
+    if (event.target.value == "") {
+      setIsValidMdp(true)
+    }
+    else {
+      setIsValidMdp(false)
+    }
     setMotDePasse(event.target.value);
   };
-
-  const valider = (event: any) => {
+  const [voirMdp, setVoirMdp] = useState(false)
+  const navigate = useNavigate();
+  const valider = async (event: any) => {
     event.preventDefault();
-    console.log('Email :', email);
-    console.log('Mot de passe :', motDePasse);
+    if(email=='' || motDePasse ==''){
+      await event.preventDefault();
+      await event.stopPropagation();
+      return
+    }
+    await auth_user({
+      variables: { mail: email, mdp: motDePasse }
+    })
+    window.location.reload()
   };
+  if(localStorage.getItem('token')){
+    navigate('/')
+  }else{
+    localStorage.setItem('token', data?.auth_user.token || '')
+  }
   return (
-    <section className='vh-1000 bg-light bg-gradient gradient-custom'>
-      <div className="container py-5 h-80">
-        <div className="row d-flex justify-content-center align-items-center h-100">
-          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div className="card bg-success bg-gradent text-white">
-              <div className="card-body p-5 text-center">
-                <div className="mb-md-5 mt-md-4 pb-5">
-                  <h2 className="fw-bold mb-5 text-uppercase">Authentification</h2>
-                  <div className="form-outline form-white mb-4">
-                    <input type="email" id="typeEmailX" className="form-control form-control-lg" placeholder="Entrer votre email" value={email} onChange={handleEmailChange} />
-                    <label className="form-label" htmlFor='typeEmailX' >Email</label>
-                  </div>
-                  <div className="form-outline form-white mb-4">
-                    <input type="password" id="typePasswordX" className="form-control form-control-lg" placeholder="Entrer votre mot de passe" value={motDePasse} onChange={handleMotDePasseChange} />
-                    <label className="form-label" htmlFor="typePasswordX">Mot de passe</label>
-                  </div>
-                  <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Mot de passe oublié?</a></p>
-                  <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={valider}>Se connecter</button>
-                </div>
-                <div>
-                  <p className="mb-0"><a href="#!" className="text-white-50 fw-bold">Inscription</a>
-                  </p>
-                </div>
-              </div>
-            </div>
+    <>
+      <div className='d-flex mx-auto' style={{ width: '35%', marginTop: "7%" }}>
+        {loading && <div style={{position:'fixed',top:'50%',left:'50%'}}>
+        <Spinner variant="primary" animation="border" role="status" className='text-center'>
+    <span className="visually-hidden">Loading...</span>
+  </Spinner>
+    </div>}
+        <Container fluid>
+          <div className="my-auto">
+            <p className='mx-auto text-center'>
+              <Image src={logo} width={125} height={125}></Image>
+            </p>
+            {error && <Alert variant='danger'>{error.message}</Alert>}
+            <Form onSubmit={valider}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Adresse e-mail</Form.Label>
+                <Form.Control isInvalid={isValidMail} required type="email" placeholder="Entrer votre email" onChange={onChangeEmail} value={email} />
+                <Form.Control.Feedback type="invalid">
+                  Veuillez saisir une adresse e-mail valide
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Label htmlFor='mdpAdm'>
+                Mot de passe
+              </Form.Label>
+              <InputGroup className='mb-3'>
+                <Form.Control isInvalid={isValidMdp} required id='mdpAdm' type={(voirMdp == false) ? "password" : 'text'} placeholder="Mot de passe" onChange={OnChangeMdp} value={motDePasse} />
+                <Button variant="outline-success" id="button-addon2" onClick={(e: any) => { setVoirMdp(!voirMdp) }}>
+                  {(voirMdp == true) ? <i className="bi bi-eye"></i> : <i className="bi bi-eye-slash"></i>}
+                </Button>
+                <Form.Control.Feedback type="invalid">Mot de passe obligatoire</Form.Control.Feedback>
+              </InputGroup>
+              <Button variant="light" style={{ backgroundColor: "#6b3b1e", color: "white" }} type="submit" onClick={valider}>
+                Se connecter
+              </Button>
+            </Form>
           </div>
-        </div>
+        </Container>
       </div>
-    </section>
+
+    </>
   )
 }

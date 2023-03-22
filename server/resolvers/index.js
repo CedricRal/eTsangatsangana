@@ -1,4 +1,4 @@
-const {auth_user} = require('./query/user/authentification_user')
+const {auth_user} = require('./mutation/user/authentification_user')
 const {profil_user} = require('./query/user/profil_user')
 const {inscri_user} = require('./mutation/user/inscription_user')
 const {create_role} = require('./mutation/user/create_roles')
@@ -40,7 +40,6 @@ const {getCmd} = require('./query/commandes/autre')
 const {listeCmdUsers} = require('./query/user/autre')
 
 const Query = {
-    auth_user,
     profil_user,
     get_role,
     getAllEntreprise,
@@ -57,6 +56,7 @@ const Query = {
 }
 
 const Mutation = {
+    auth_user,
     inscri_user,
     update_user,
     create_role,

@@ -1,24 +1,3 @@
-CREATE TABLE IF NOT EXISTS "Users" (
-    id text NOT NULL PRIMARY KEY,
-    nom text NOT NULL,
-    prenom text NOT NULL,
-    num_tel text NOT NULL,
-    mail text NOT NULL,
-    adresse text NOT NULL,
-    photo text NOT NULL,
-    mdp text NOT NULL,
-    adr_fb text,
-    adr_gmail text,
-    id_apple text,
-    status integer,
-    CONSTRAINT "Users_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS "Rôles" (
-    id text NOT NULL PRIMARY KEY,
-    description text NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS "Users_Roles" (
     id text NOT NULL PRIMARY KEY,
     id_user text NOT NULL,
@@ -44,7 +23,28 @@ CREATE TABLE IF NOT EXISTS "Entreprises" (
     date_payement date NOT NULL,
     status integer NOT NULL,
     heure_ouverture time,
-    heure_fermeture time,
+    heure_fermeture time
+);
+
+CREATE TABLE IF NOT EXISTS "Users" (
+    id text NOT NULL PRIMARY KEY,
+    nom text NOT NULL,
+    prenom text NOT NULL,
+    num_tel text NOT NULL,
+    mail text NOT NULL,
+    adresse text NOT NULL,
+    photo text NOT NULL,
+    mdp text NOT NULL,
+    adr_fb text,
+    adr_gmail text,
+    id_apple text,
+    status integer,
+    CONSTRAINT "Users_id_etp_fkey" FOREIGN KEY ("id_etp") REFERENCES "Entreprises"("id") ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS "Rôles" (
+    id text NOT NULL PRIMARY KEY,
+    description text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "Produits" (
