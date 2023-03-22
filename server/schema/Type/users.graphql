@@ -33,12 +33,12 @@ type get_roles{
 }
 ######Query and Mutation##############
 type Query{
-    auth_user(mail:String! mdp: String!): connexion!
     profil_user(id: String): users
     get_role(id_user: String!): [get_roles]
 }
 
 type Mutation{
+    auth_user(mail:String! mdp: String!): connexion!
     inscri_user(
     nom: String!
     prenom: String!

@@ -6,7 +6,7 @@ import abonnement from '../assets/logo/abonnement.png'
 import campagne_push from '../assets/logo/campagne_push.png'
 import entreprise from '../assets/logo/entreprise.png'
 import produit from '../assets/logo/produit.png'
-
+import { useNavigate } from 'react-router-dom'
 
 interface props {
   children: ReactNode
@@ -38,6 +38,11 @@ const Home = ({ children }: props) => {
       icon: <Image src={abonnement} width={24} height={24}></Image>
     }
   ]
+  const navigate = useNavigate();
+  const deconnect = ()=>{
+    localStorage.removeItem('token')
+    navigate('/')
+  }
   return (
     <div style={{ display: "flex", fontFamily: "Roboto" }}>
       <Navbar className="c-secondary fixed-top shadow" expand="lg" fixed-top style={{height:'14%'}}>
@@ -53,7 +58,7 @@ const Home = ({ children }: props) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end">
             <span className="justify-content-end" style={{ fontSize: "30px" }}>
-              <Button variant="light" style={{ backgroundColor: "#6b3b1e", color: "white" }}>Déconnexion</Button>
+              <Button variant="light" style={{ backgroundColor: "#6b3b1e", color: "white" }} onClick={deconnect}>Déconnexion</Button>
             </span>
           </Navbar.Collapse>
         </Container>

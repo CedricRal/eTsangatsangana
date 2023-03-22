@@ -12,12 +12,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const token = localStorage.getItem('token') || ''
 
 const client = new ApolloClient({
   uri: 'http://192.168.1.125:4000',
   cache: new InMemoryCache(),
   headers:{
-    "authorization":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZmMDMwZDE0LTI1ZmYtNDRmZi05ZTg3LThmNmQ2YTRmMmYxMyIsImlhdCI6MTY3ODg2MDgxMH0.rjd0AoI7nUzGqNouLecH0RL5G4QRISQeR79XK2JeqQI"
+    "authorization":token.toString()
   }
 })
 

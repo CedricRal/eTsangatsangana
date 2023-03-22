@@ -16,6 +16,11 @@ type getAllPub{
     items:[getOnePub!]
 }
 
+type etp{
+    id:String
+    nom: String
+}
+
 type getOnePub{
     id: String!
     titre: String!
@@ -25,8 +30,8 @@ type getOnePub{
     date_fin: Date
     prix:Int!
     lieu: String!
-    image: String!
-    entreprise:String!
+    image: [images!]
+    entreprise:etp!
     produits:String!
 }
 

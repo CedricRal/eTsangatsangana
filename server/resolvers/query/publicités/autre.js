@@ -4,13 +4,13 @@ module.exports = {
     getOnePub: {
         entreprise: (parent, args) => {
             return (new Promise((resolve, reject) => {
-                client.query('SELECT nom FROM "Entreprises" WHERE id=$1', [parent.id_etp], function (err, result) {
+                client.query('SELECT id,nom FROM "Entreprises" WHERE id=$1', [parent.id_etp], function (err, result) {
                     if (err) {
                         reject(err)
                     }
                     else {
                         console.log(result.rows);
-                        resolve(result.rows[0]['nom'])
+                        resolve(result.rows[0])
                     }
                 })
             })
@@ -30,12 +30,12 @@ module.exports = {
         },
         image: (parent, args) => {
             return new Promise((resolve, reject) => {
-                client.query('SELECT titre FROM "Image_produits" WHERE id_produits=$1', [parent.id_produits], function (err, result) {
+                client.query('SELECT * FROM "Image_produits" WHERE id_produits=$1', [parent.id_produits], function (err, result) {
                     if (err) {
                         reject(err)
                     }
                     else {
-                        resolve(result.rows[0]['titre'])
+                        resolve(result.rows)
                     }
                 })
             })
