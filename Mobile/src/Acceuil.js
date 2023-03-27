@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useAllPub } from './hooks/query';
 
   export default function App({navigation}) {
-    const { allPubError, allPubLoading, allPubData, fetchMore } = useAllPub();
+    const { allPubError, allPubLoading, allPubData, fetchMore } = useAllPub(0);
     console.log(JSON.stringify(allPubError, null, 2))
 
     const [dataS, setDataS] = useState(allPubData? allPubData.getAllPublicites.items : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
@@ -105,28 +105,31 @@ import { useAllPub } from './hooks/query';
       return (<Text style={AppStyles.emptyList}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
     const [modalVisible, setModalVisible] = useState(false);
+    const [nbrPage, setNbrPage] = useState(1);
 
     const fetchMoreData = () => {
-      if (allPubData && allPubData.getAllPublicites) {
-          fetchMore({
-              variables: { page: allPubData.getAllPublicites.page + 1 },
+      if (allPubData && allPubData.getAllPublicites && nbrPage<=allPubData.getAllPublicites.nbr_page) {  
+        fetchMore({
+              variables: { page: nbrPage },
               updateQuery: (prev, { fetchMoreResult }) => {
+                setNbrPage(nbrPage+1);
                   if (!fetchMoreResult) return prev;
                   return {
                       getAllPublicites: {
                           ...fetchMoreResult.getAllPublicites,
-                          items: [...new Set([...prev.getAllPublicites.items, ...fetchMoreResult.getAllPublicites.items])]
+                          items: [...prev.getAllPublicites.items, ...fetchMoreResult.getAllPublicites.items]
                       }
                   }
               }
           })
       }
-  }
+    }
+    console.log(nbrPage)
 
     if(allPubLoading) return (<ActivityIndicator size={'large'} color={design.Vert} style={AppStyles.loader}/>)
     if(allPubError) return(<View><Text>Connexion error when fetching data</Text></View>)
 
-     if(allPubData)return (
+    if(allPubData)return (
       <View>
         <FlatList
           ListHeaderComponent={
@@ -170,7 +173,7 @@ import { useAllPub } from './hooks/query';
           data={dataS}
           numColumns={numColumn}
           renderItem={renderItem}
-          keyExtractor={(item, index) => item.id.toString()}
+          keyExtractor={(item, index) => String(index)}
           style={AppStyles.flatList}
           onEndReached={() =>{
             console.log('should fetch more data');
@@ -179,6 +182,7 @@ import { useAllPub } from './hooks/query';
           onEndReachedThreshold={0}
           ListFooterComponent={
             <>
+            <Text style={{marginVertical:4, textAlign:'center', display:nbrPage>allPubData.getAllPublicites.nbr_page? 'none' : 'flex'}}>Loading...</Text>
             <Text style={{height:20, backgroundColor:design.Blanc}}/>
             </>
           }

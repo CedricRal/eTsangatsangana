@@ -6,9 +6,9 @@ import Button from '../Composant/bouton';
 import design from './../Composant/couleur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
-import { GET_USER } from '../../hooks/query';
+import { GET_USER } from '../../hooks/mutation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useLazyQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 
 function LogIn({navigation}) {
@@ -30,13 +30,13 @@ function LogIn({navigation}) {
         password:''
     });
 
-    const [get_user,{ loading, data, called, error }] = useLazyQuery(GET_USER, {
+    const [get_user,{ loading, data, called, error }] = useMutation(GET_USER, {
         onCompleted: (data) => {
             console.log('onCompletedData =>',data);
             handleSave(data);
         },
         onError: (error) => {
-            console.log('on error =>', error.clientErrors);
+            console.log('on error =>', error);
             setModalVisible(!modalVisible)
             {
                 console.log('reset inputs')
@@ -47,7 +47,6 @@ function LogIn({navigation}) {
                 setInputs(updatedInputs);
             };
         },
-        fetchPolicy: 'cache-and-network',
         variables: {
             mail:user.email, mdp:user.mdp
         }

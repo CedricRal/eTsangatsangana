@@ -1,6 +1,16 @@
 
 import { gql } from '@apollo/client';
 
+
+export const GET_USER = gql`
+    mutation auth_user($mail:String!, $mdp:String!){
+        auth_user(mail:$mail, mdp:$mdp){
+            id, token
+        }
+    }
+`
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 export const CREATE_USER = gql`
 mutation inscri_user($nom:String!, $prenom:String!, $adresse:String!, $num_tel:String!, $mail:String!, $mdp:String!, $photo:String!){
     inscri_user(

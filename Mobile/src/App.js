@@ -3,12 +3,12 @@ import React, {useEffect, useLayoutEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 import Hotel from './views/Detail_produit/hotel';
-import Transport from './views/Detail_produit/transport';
+import Transport from './views/Detail_produit/hotel';
 import Restaurant from './views/Detail_produit/restauration';
 import LogIn from './views/LogSign_in/LogIn';
 import SingIn from './views/LogSign_in/SingIn';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './Acceuil';
@@ -162,7 +162,7 @@ function DrawerStackScreen(){
 
   const {t} = useTranslation();
   const httpLink = new HttpLink({
-    uri: 'http://192.168.88.14:4000' //url endpoint graphql ici
+    uri: 'http://192.168.43.239:4000' //url endpoint graphql ici
   });
   console.log(SV_ENDPOINT);
 

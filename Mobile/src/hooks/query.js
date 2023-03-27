@@ -1,17 +1,10 @@
 import { useQuery, gql } from "@apollo/client";
-
-export const GET_USER = gql`
-    query auth_user($mail:String!, $mdp:String!){
-        auth_user(mail:$mail, mdp:$mdp){
-            id, token
-        }
-    }
-`
 //-------------------------------------------------------------------------//
 
 const GET_ALL_PUB = gql`
-    query{
-        getAllPublicites(page:0){
+    query getAllPublicites($page:Int!){
+        getAllPublicites(page:$page){
+            nbr_page,
             items{
                 id,
                 titre,
@@ -24,8 +17,10 @@ const GET_ALL_PUB = gql`
         }
     }
 `
-export const useAllPub = () => {
-    const { error, loading, data, fetchMore } = useQuery(GET_ALL_PUB);
+export const useAllPub = (page) => {
+    const { error, loading, data, fetchMore } = useQuery(GET_ALL_PUB,{
+        variables : {page}
+    });
 
     const allPubError = error;
     const allPubLoading = loading;
@@ -63,15 +58,15 @@ export const useProfil = (id) => {
 //----------------------------------------------------------------------------//
 
 const GET_COMMANDE_LIST = gql`
-    query listeCommandeUsers($id_users:String!){
-        listeCommandeUsers(id_users:$id_users, page:0){
-            id, date, qt, produit{image{titre}, titre, prix}, entreprise{nom, type_service}
+    query listeCommandeUsers($id_users:String!, $page:Int!){
+        listeCommandeUsers(id_users:$id_users, page:$page){
+            id, date, qt, produit{image, titre, prix}, entreprise{nom, type_service}, nbr_page
         }
     }
 `
-export const useCommandeList = (id_users) => {
+export const useCommandeList = (id_users, page) => {
     const {data, loading, error, refetch, fetchMore} = useQuery(GET_COMMANDE_LIST, {
-        variables:{id_users}
+        variables:{id_users, page}
     });
     const commandeListData = data;
     const commandeListLoading = loading;

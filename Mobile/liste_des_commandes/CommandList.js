@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, TextInput, Modal, Dimensions, ActivityIndicator } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import MyData from './data';
 import DatePicker from 'react-native-date-picker';
 import Button from '../src/views/Composant/bouton';
@@ -12,7 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
  export default CommandList = ({navigation}) => { 
   const {t} = useTranslation();
-  const [userId, setUserId] = React.useState();
+  const [userId, setUserId] = React.useState('');
   const loadId = async() => {
       try {
           const myId = await AsyncStorage.getItem("myId");    //prendre myId dans AsyncStorage
@@ -23,13 +23,18 @@ import { useFocusEffect } from '@react-navigation/native';
           alert(error);
       }
   }
-  const {commandeListData, commandeListLoading, commandeListError, refetch, fetchMore} = useCommandeList(userId);
+  useLayoutEffect(() => {
+    loadId();
+  }, []);
+
+  const {commandeListData, commandeListLoading, commandeListError, refetch, fetchMore} = useCommandeList(userId, 0);
   useFocusEffect(
     React.useCallback(() => {
       // code pour exécuter la requête Apollo Client
       console.log('refetch data')
       refetch();
-    }, [])
+      setNbrPage(1);
+    }, [userId])
   );
   const [dataS, setDataS] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide anasiana an'ny MyData ef vo-filter @ recherche Utilisateur
   
@@ -37,7 +42,7 @@ import { useFocusEffect } from '@react-navigation/native';
   
   const [fullData, setFullData] = useState(commandeListData? commandeListData.listeCommandeUsers : []); // tableau vide ametrahana ny donnée rehetra (MyData)
   useEffect(() => {
-    loadId();//execute la fonction loadId dès que la page liste des commandes se lance
+    //loadId();//execute la fonction loadId dès que la page liste des commandes se lance
     if(commandeListData){
       setDataS(commandeListData.listeCommandeUsers);
       setFullData(commandeListData.listeCommandeUsers);}
@@ -64,7 +69,8 @@ import { useFocusEffect } from '@react-navigation/native';
   const [modalVisible, setModalVisible] = useState(false);
 
   const empty_list = () => {
-      return (<Text style={{textAlign:'center'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
+      if(!dataS[0].nbr_page)return<Text style={{textAlign:'center', backgroundColor:'white'}}> There is no order! </Text>
+      return (<Text style={{textAlign:'center', backgroundColor:'white'}}> {t('langues:notFound')} <Text style={{fontWeight: 'bold'}}>{query}</Text></Text>)
     }
   
 
@@ -86,9 +92,11 @@ import { useFocusEffect } from '@react-navigation/native';
       setQuery(textTypedByTheUser);
     }
   }
+  const [pages, setPages] = useState();
 
   const renderItem = ({item}) => {
     const dateObj = (new Date(item.date)).toLocaleDateString();
+    setPages(item.nbr_page);
     return (
     <View style={styles.bodyContainer}>
      <TouchableOpacity onPress={() => 
@@ -104,7 +112,7 @@ import { useFocusEffect } from '@react-navigation/native';
      style={styles.commande} 
       >
       <Image 
-        source={{uri:item.produit.image[0].titre}}
+        source={{uri:item.produit.image}}
         style={styles.imageStyle}
      />
      <View style={styles.nameAndDetailStyle}>
@@ -119,11 +127,31 @@ import { useFocusEffect } from '@react-navigation/native';
       
     </View>
     )
-  }
+  };
+  console.log(JSON.stringify(commandeListError, null, 2));
+  const [nbrPage, setNbrPage] = useState(1);
 
+  const fetchMoreData = () => {
+    console.log('page = ',nbrPage, pages)
+    if (commandeListData && commandeListData.listeCommandeUsers && nbrPage<=pages) {
+      console.log('fetch')  
+      fetchMore({
+            variables: { page: nbrPage },
+            updateQuery: (prev, { fetchMoreResult }) => {
+              setNbrPage(nbrPage + 1);
+                if (!fetchMoreResult) return prev;
+                return {
+                  ...prev,
+                  listeCommandeUsers: [...prev.listeCommandeUsers, ...fetchMoreResult.listeCommandeUsers],
+                }
+            }
+        })
+    }
+  }
   if((commandeListLoading || fullData==[] || dataS==[]) && !commandeListError) return (<ActivityIndicator size={'large'} color={design.Vert} style={styles.loader}/>)
+  if(commandeListError) return(<Text>something went wrong</Text>)
   if(commandeListData)return (
-    <View>
+    <View style={{backgroundColor:'white'}}>
 
                 <Modal
                     animationType="slide"
@@ -147,6 +175,7 @@ import { useFocusEffect } from '@react-navigation/native';
                 </Modal>
 
       <FlatList
+        style={{backgroundColor:'white'}}
         ListHeaderComponent={
         <View style={styles.headStyle}>
 
@@ -246,9 +275,16 @@ import { useFocusEffect } from '@react-navigation/native';
         ListEmptyComponent={empty_list}
         onEndReached={() =>{
           console.log('should fetch more data');
-          fetchMore();
+          fetchMoreData();
         }}
         onEndReachedThreshold={0}
+        keyExtractor={(item, index) => String(index)}
+        ListFooterComponent={
+          <View style={{backgroundColor:'white'}}>
+          <Text style={{marginVertical:4, textAlign:'center', display:(nbrPage>pages)? 'none' : 'flex'}}>Loading...</Text>
+          <Text style={{height:20, backgroundColor:design.Blanc}}/>
+          </View>
+        }
       />
     </View>
     );
@@ -261,7 +297,8 @@ const styles = StyleSheet.create({
     headStyle: {
       borderBottomLeftRadius: 15,
       borderBottomRightRadius: 15,
-      marginBottom: 10
+      marginBottom: 10,
+      backgroundColor:'white'
     },
 
     headerText: {
@@ -274,7 +311,7 @@ const styles = StyleSheet.create({
     },
 
     bodyContainer: {
-      backgroundColor: '#f8f8f8',
+      backgroundColor: '#ffffff',
       borderRadius: 20,
       borderColor: 'gray',
       marginBottom: '2%',
